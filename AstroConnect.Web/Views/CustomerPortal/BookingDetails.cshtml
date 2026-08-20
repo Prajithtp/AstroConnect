@@ -1,0 +1,417 @@
+﻿@model AstroConnect.Domain.Entities.Booking
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                📋 Booking Details
+            </h2>
+
+            <p class="text-muted mb-0">
+                View your appointment information.
+            </p>
+        </div>
+
+        <a asp-controller="CustomerPortal"
+           asp-action="BookingHistory"
+           class="btn btn-outline-secondary">
+
+            ← Back to History
+
+        </a>
+
+    </div>
+
+
+    <!-- Booking Status -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="fw-bold mb-1">
+                        Booking Status
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Current status of your appointment
+                    </p>
+
+                </div>
+
+                @switch (Model.Status)
+                {
+                    case AstroConnect.Domain.Enums.BookingStatus.Pending:
+
+                        <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                            Pending
+                        </span>
+
+                        break;
+
+                    case AstroConnect.Domain.Enums.BookingStatus.Confirmed:
+
+                        <span class="badge bg-success fs-6 px-3 py-2">
+                            Confirmed
+                        </span>
+
+                        break;
+
+                    case AstroConnect.Domain.Enums.BookingStatus.Completed:
+
+                        <span class="badge bg-primary fs-6 px-3 py-2">
+                            Completed
+                        </span>
+
+                        break;
+
+                    case AstroConnect.Domain.Enums.BookingStatus.Cancelled:
+
+                        <span class="badge bg-danger fs-6 px-3 py-2">
+                            Cancelled
+                        </span>
+
+                        break;
+
+                    default:
+
+                        <span class="badge bg-secondary fs-6 px-3 py-2">
+                            @Model.Status
+                        </span>
+
+                        break;
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+
+            @TempData["Error"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+
+    <div class="row g-4">
+
+
+        <!-- Appointment Information -->
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h5 class="mb-0">
+                        📅 Appointment Information
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            Service
+                        </small>
+
+                        <div class="fw-semibold">
+                            @(Model.Service?.Name ?? "N/A")
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            Astrologer
+                        </small>
+
+                        <div class="fw-semibold">
+                            @(Model.Astrologer?.FullName ?? "N/A")
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            Booking Date
+                        </small>
+
+                        <div class="fw-semibold">
+                            @Model.BookingDate.ToString("dd MMMM yyyy")
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            Time
+                        </small>
+
+                        <div class="fw-semibold">
+
+                            @Model.StartTime.ToString("hh:mm tt")
+                            -
+                            @Model.EndTime.ToString("hh:mm tt")
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Customer Information -->
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-success text-white">
+
+                    <h5 class="mb-0">
+                        👤 Customer Information
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            Name
+                        </small>
+
+                        <div class="fw-semibold">
+                            @(Model.Customer?.FullName ?? "N/A")
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            WhatsApp Number
+                        </small>
+
+                        <div class="fw-semibold">
+                            @Model.WhatsAppNumber
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            Gender
+                        </small>
+
+                        <div class="fw-semibold">
+                            @Model.Gender
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Birth Information -->
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-info text-white">
+
+                    <h5 class="mb-0">
+                        🌟 Birth Information
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            Birth Date
+                        </small>
+
+                        <div class="fw-semibold">
+                            @Model.BirthDate.ToString("dd MMMM yyyy")
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            Birth Time
+                        </small>
+
+                        <div class="fw-semibold">
+                            @Model.BirthTime.ToString("hh:mm tt")
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <small class="text-muted">
+                            Birth Place
+                        </small>
+
+                        <div class="fw-semibold">
+                            @Model.BirthPlace
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Question -->
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-warning">
+
+                    <h5 class="mb-0">
+                        ❓ Your Question
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (string.IsNullOrWhiteSpace(Model.Question))
+                    {
+                        <p class="text-muted mb-0">
+                            No question was provided.
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="mb-0">
+                            @Model.Question
+                        </p>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="mt-4">
+
+        <div class="mt-4">
+
+            <a asp-controller="CustomerPortal"
+               asp-action="BookingHistory"
+               class="btn btn-secondary">
+
+                ← Back to Booking History
+
+            </a>
+
+
+            @if (Model.Status == AstroConnect.Domain.Enums.BookingStatus.Pending)
+            {
+                <form asp-controller="CustomerPortal"
+                      asp-action="CancelBooking"
+                      asp-route-id="@Model.Id"
+                      method="post"
+                      class="d-inline ms-2"
+                      onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="btn btn-danger">
+
+                        ❌ Cancel Appointment
+
+                    </button>
+
+                </form>
+            }
+
+
+            <a asp-controller="Booking"
+               asp-action="Create"
+               class="btn btn-primary ms-2">
+
+                📅 Book Another Appointment
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

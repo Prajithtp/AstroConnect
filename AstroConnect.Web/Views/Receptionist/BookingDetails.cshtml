@@ -1,0 +1,533 @@
+﻿@model AstroConnect.Domain.Entities.Booking
+@using AstroConnect.Domain.Enums
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-calendar-check text-primary me-2"></i>
+                Booking Details
+            </h2>
+
+            <p class="text-muted mb-0">
+                View complete appointment information.
+            </p>
+        </div>
+
+        <a asp-controller="Receptionist"
+           asp-action="Bookings"
+           class="btn btn-secondary">
+
+            <i class="fa-solid fa-arrow-left me-1"></i>
+            Back to Bookings
+
+        </a>
+
+    </div>
+
+
+    <!-- BOOKING STATUS -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="fw-bold mb-1">
+                        Booking #@Model.Id
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Appointment information
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    @switch (Model.Status)
+                    {
+                        case BookingStatus.Pending:
+
+                            <span class="badge bg-warning text-dark px-3 py-2">
+                                <i class="fa-solid fa-clock me-1"></i>
+                                Pending
+                            </span>
+
+                            break;
+
+
+                        case BookingStatus.Confirmed:
+
+                            <span class="badge bg-primary px-3 py-2">
+                                <i class="fa-solid fa-circle-check me-1"></i>
+                                Confirmed
+                            </span>
+
+                            break;
+
+
+                        case BookingStatus.Completed:
+
+                            <span class="badge bg-success px-3 py-2">
+                                <i class="fa-solid fa-check-double me-1"></i>
+                                Completed
+                            </span>
+
+                            break;
+
+
+                        case BookingStatus.Cancelled:
+
+                            <span class="badge bg-danger px-3 py-2">
+                                <i class="fa-solid fa-circle-xmark me-1"></i>
+                                Cancelled
+                            </span>
+
+                            break;
+
+
+                        default:
+
+                            <span class="badge bg-secondary px-3 py-2">
+                                @Model.Status
+                            </span>
+
+                            break;
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- CUSTOMER INFORMATION -->
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+
+                        <i class="fa-solid fa-user text-primary me-2"></i>
+
+                        Customer Information
+
+                    </h5>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Full Name
+                        </span>
+
+                        <span class="detail-value">
+                            @(Model.Customer?.FullName ?? "N/A")
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Email
+                        </span>
+
+                        <span class="detail-value">
+                            @(Model.Customer?.Email ?? "N/A")
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Phone
+                        </span>
+
+                        <span class="detail-value">
+                            @(Model.Customer?.PhoneNumber ?? "N/A")
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            WhatsApp
+                        </span>
+
+                        <span class="detail-value">
+                            @(string.IsNullOrWhiteSpace(Model.WhatsAppNumber)
+                                                        ? "N/A"
+                                                        : Model.WhatsAppNumber)
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Gender
+                        </span>
+
+                        <span class="detail-value">
+                            @(string.IsNullOrWhiteSpace(Model.Gender)
+                                                        ? "N/A"
+                                                        : Model.Gender)
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- APPOINTMENT INFORMATION -->
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+
+                        <i class="fa-solid fa-calendar-day text-primary me-2"></i>
+
+                        Appointment Information
+
+                    </h5>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Service
+                        </span>
+
+                        <span class="detail-value">
+                            @(Model.Service?.Name ?? "N/A")
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Astrologer
+                        </span>
+
+                        <span class="detail-value">
+                            @(Model.Astrologer?.FullName ?? "N/A")
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Date
+                        </span>
+
+                        <span class="detail-value">
+                            @Model.BookingDate.ToString("dd MMM yyyy")
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Start Time
+                        </span>
+
+                        <span class="detail-value">
+                            @Model.StartTime.ToString("hh:mm tt")
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            End Time
+                        </span>
+
+                        <span class="detail-value">
+                            @Model.EndTime.ToString("hh:mm tt")
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BIRTH INFORMATION -->
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+
+                        <i class="fa-solid fa-star text-warning me-2"></i>
+
+                        Birth Information
+
+                    </h5>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Birth Date
+                        </span>
+
+                        <span class="detail-value">
+                            @Model.BirthDate.ToString("dd MMM yyyy")
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Birth Time
+                        </span>
+
+                        <span class="detail-value">
+                            @Model.BirthTime.ToString("hh:mm tt")
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Birth Place
+                        </span>
+
+                        <span class="detail-value">
+                            @(string.IsNullOrWhiteSpace(Model.BirthPlace)
+                                                        ? "N/A"
+                                                        : Model.BirthPlace)
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CUSTOMER QUESTION -->
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+
+                        <i class="fa-solid fa-comment-dots text-primary me-2"></i>
+
+                        Customer Question
+
+                    </h5>
+
+
+                    @if (string.IsNullOrWhiteSpace(Model.Question))
+                    {
+                        <p class="text-muted mb-0">
+                            No question was provided.
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="question-box">
+                            @Model.Question
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="card border-0 shadow-sm mt-4">
+
+        <div class="card-body p-4">
+
+            <h5 class="fw-bold mb-3">
+                <i class="fa-solid fa-bolt text-warning me-2"></i>
+                Booking Actions
+            </h5>
+
+
+            <div class="d-flex flex-wrap gap-2">
+
+                @if (Model.Status == BookingStatus.Pending)
+                {
+                    <form asp-controller="Receptionist"
+                          asp-action="ConfirmBooking"
+                          asp-route-id="@Model.Id"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-success">
+
+                            <i class="fa-solid fa-check me-1"></i>
+                            Confirm Booking
+
+                        </button>
+
+                    </form>
+                }
+
+
+                @if (Model.Status == BookingStatus.Confirmed)
+                {
+                    <form asp-controller="Receptionist"
+                          asp-action="CompleteBooking"
+                          asp-route-id="@Model.Id"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="fa-solid fa-check-double me-1"></i>
+                            Complete Booking
+
+                        </button>
+
+                    </form>
+                }
+
+
+                @if (Model.Status == BookingStatus.Pending ||
+                                Model.Status == BookingStatus.Confirmed)
+                {
+                    <form asp-controller="Receptionist"
+                          asp-action="CancelBooking"
+                          asp-route-id="@Model.Id"
+                          method="post"
+                          onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-danger">
+
+                            <i class="fa-solid fa-xmark me-1"></i>
+                            Cancel Booking
+
+                        </button>
+
+                    </form>
+                }
+
+
+                <a asp-controller="Receptionist"
+                   asp-action="Bookings"
+                   class="btn btn-outline-secondary">
+
+                    <i class="fa-solid fa-arrow-left me-1"></i>
+                    Back to Bookings
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 13px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+    .detail-label {
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .detail-value {
+        font-weight: 600;
+        text-align: right;
+    }
+
+    .question-box {
+        padding: 18px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        border-left: 4px solid #0d6efd;
+        line-height: 1.6;
+    }
+
+</style>

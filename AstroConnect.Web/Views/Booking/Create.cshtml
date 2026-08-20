@@ -1,0 +1,920 @@
+﻿@using AstroConnect.Domain.Common
+@model AstroConnect.Web.ViewModels.Booking.BookingCreateViewModel
+
+@{
+    ViewData["Title"] = "Book Appointment";
+    bool isCustomer = User.IsInRole(Roles.Customer);
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-10">
+
+            <div class="card shadow-lg border-0">
+
+                <!-- =====================================================
+                     HEADER
+                ====================================================== -->
+
+                <div class="card-header bg-primary text-white py-3">
+
+                    <h3 class="mb-0">
+
+                        <i class="fa-solid fa-calendar-plus me-2"></i>
+
+                        Book an Appointment
+
+                    </h3>
+
+                    <small>
+                        Schedule your consultation with an astrologer
+                    </small>
+
+                </div>
+
+
+                <div class="card-body p-4">
+
+                    <form asp-action="Create"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+
+                        <!-- =====================================================
+                             VALIDATION
+                        ====================================================== -->
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger">
+                        </div>
+
+
+                        <!-- =====================================================
+                             CUSTOMER INFORMATION
+                        ====================================================== -->
+
+                        <h5 class="text-primary fw-bold mb-3">
+
+                            <i class="fa-solid fa-user me-2"></i>
+
+                            Customer Information
+
+                        </h5>
+
+
+                        @if (isCustomer)
+                        {
+                            <!-- Customer ID is automatically assigned -->
+
+                            <input asp-for="CustomerId"
+                                   type="hidden" />
+
+                            <div class="alert alert-info">
+
+                                <i class="fa-solid fa-circle-info me-2"></i>
+
+                                Your customer account will be used automatically
+                                for this appointment.
+
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Admin / Receptionist -->
+
+                            <div class="mb-3">
+
+                                <label asp-for="CustomerId"
+                                       class="form-label fw-bold">
+
+                                    Customer
+
+                                </label>
+
+                                <select asp-for="CustomerId"
+                                        asp-items="Model.Customers"
+                                        class="form-select">
+
+                                    <option value="">
+                                        -- Select Customer --
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="CustomerId"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+                        }
+
+
+                        <!-- =====================================================
+                             ASTROLOGER + SERVICE
+                        ====================================================== -->
+
+                        <div class="row">
+
+                            <!-- Astrologer -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="AstrologerId"
+                                       class="form-label fw-bold">
+
+                                    Astrologer
+
+                                </label>
+
+                                <select asp-for="AstrologerId"
+                                        asp-items="Model.Astrologers"
+                                        class="form-select"
+                                        id="AstrologerId">
+
+                                    <option value="">
+                                        -- Select Astrologer --
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="AstrologerId"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Service -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="ServiceId"
+                                       class="form-label fw-bold">
+
+                                    Service
+
+                                </label>
+
+                                <select asp-for="ServiceId"
+                                        asp-items="Model.Services"
+                                        class="form-select"
+                                        id="ServiceId">
+
+                                    <option value="">
+                                        -- Select Service --
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="ServiceId"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <hr class="my-4" />
+
+
+                        <!-- =====================================================
+                             APPOINTMENT SCHEDULE
+                        ====================================================== -->
+
+                        <h5 class="text-primary fw-bold mb-3">
+
+                            <i class="fa-solid fa-clock me-2"></i>
+
+                            Appointment Schedule
+
+                        </h5>
+
+
+                        <div class="row">
+
+
+                            <!-- Appointment Date -->
+
+                            <div class="col-md-4 mb-3">
+
+                                <label asp-for="BookingDate"
+                                       class="form-label fw-bold">
+
+                                    Appointment Date
+
+                                </label>
+
+                                <input asp-for="BookingDate"
+                                       type="date"
+                                       class="form-control"
+                                       id="BookingDate"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+
+                                <span asp-validation-for="BookingDate"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Available Time -->
+
+                            <div class="col-md-4 mb-3">
+
+                                <label class="form-label fw-bold">
+
+                                    Available Time
+
+                                </label>
+
+                                <select id="availableSlots"
+                                        class="form-select"
+                                        disabled>
+
+                                    <option value="">
+                                        -- Select Available Time --
+                                    </option>
+
+                                </select>
+
+                                <small class="text-muted">
+
+                                    Available times will appear after selecting
+                                    astrologer, service and date.
+
+                                </small>
+
+                            </div>
+
+
+                            <!-- Start Time -->
+
+                            <div class="col-md-2 mb-3">
+
+                                <label asp-for="StartTime"
+                                       class="form-label fw-bold">
+
+                                    Start
+
+                                </label>
+
+                                <input asp-for="StartTime"
+                                       type="time"
+                                       id="StartTime"
+                                       class="form-control"
+                                       readonly />
+
+                                <span asp-validation-for="StartTime"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <!-- End Time -->
+
+                            <div class="col-md-2 mb-3">
+
+                                <label asp-for="EndTime"
+                                       class="form-label fw-bold">
+
+                                    End
+
+                                </label>
+
+                                <input asp-for="EndTime"
+                                       type="time"
+                                       id="EndTime"
+                                       class="form-control"
+                                       readonly />
+
+                                <span asp-validation-for="EndTime"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <hr class="my-4" />
+
+
+                        <!-- =====================================================
+                             CUSTOMER DETAILS
+                        ====================================================== -->
+
+                        <h5 class="text-primary fw-bold mb-3">
+
+                            <i class="fa-solid fa-address-card me-2"></i>
+
+                            Your Details
+
+                        </h5>
+
+
+                        <div class="row">
+
+
+                            <!-- WhatsApp Number -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="WhatsAppNumber"
+                                       class="form-label fw-bold">
+
+                                    WhatsApp Number
+
+                                </label>
+
+                                <input asp-for="WhatsAppNumber"
+                                       class="form-control"
+                                       placeholder="Enter WhatsApp number" />
+
+                                <span asp-validation-for="WhatsAppNumber"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Gender -->
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Gender"
+                                       class="form-label fw-bold">
+
+                                    Gender
+
+                                </label>
+
+                                <select asp-for="Gender"
+                                        class="form-select">
+
+                                    <option value="">
+                                        -- Select Gender --
+                                    </option>
+
+                                    <option value="Male">
+                                        Male
+                                    </option>
+
+                                    <option value="Female">
+                                        Female
+                                    </option>
+
+                                    <option value="Other">
+                                        Other
+                                    </option>
+
+                                </select>
+
+                                <span asp-validation-for="Gender"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =====================================================
+                             BIRTH DETAILS
+                        ====================================================== -->
+
+                        <div class="row">
+
+
+                            <!-- Birth Date -->
+
+                            <div class="col-md-4 mb-3">
+
+                                <label asp-for="BirthDate"
+                                       class="form-label fw-bold">
+
+                                    Birth Date
+
+                                </label>
+
+                                <input asp-for="BirthDate"
+                                       type="date"
+                                       class="form-control" />
+
+                                <span asp-validation-for="BirthDate"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Birth Time -->
+
+                            <div class="col-md-4 mb-3">
+
+                                <label asp-for="BirthTime"
+                                       class="form-label fw-bold">
+
+                                    Birth Time
+
+                                </label>
+
+                                <input asp-for="BirthTime"
+                                       type="time"
+                                       class="form-control" />
+
+                                <span asp-validation-for="BirthTime"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Birth Place -->
+
+                            <div class="col-md-4 mb-3">
+
+                                <label asp-for="BirthPlace"
+                                       class="form-label fw-bold">
+
+                                    Birth Place
+
+                                </label>
+
+                                <input asp-for="BirthPlace"
+                                       class="form-control"
+                                       placeholder="Enter birth place" />
+
+                                <span asp-validation-for="BirthPlace"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <hr class="my-4" />
+
+
+                        <!-- =====================================================
+                             QUESTION
+                        ====================================================== -->
+
+                        <h5 class="text-primary fw-bold mb-3">
+
+                            <i class="fa-solid fa-comments me-2"></i>
+
+                            Consultation Question
+
+                        </h5>
+
+
+                        <div class="mb-4">
+
+                            <label asp-for="Question"
+                                   class="form-label fw-bold">
+
+                                Your Question
+
+                            </label>
+
+                            <textarea asp-for="Question"
+                                      rows="4"
+                                      class="form-control"
+                                      placeholder="Tell the astrologer what you would like to discuss...">
+                            </textarea>
+
+                            <span asp-validation-for="Question"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- =====================================================
+                             BUTTONS
+                        ====================================================== -->
+
+                        <div class="d-flex justify-content-between">
+
+                            <a asp-controller="CustomerPortal"
+                               asp-action="Index"
+                               class="btn btn-secondary">
+
+                                <i class="fa-solid fa-arrow-left me-1"></i>
+
+                                Back
+
+                            </a>
+
+
+                            <button type="submit"
+                                    class="btn btn-primary px-4">
+
+                                <i class="fa-solid fa-calendar-check me-1"></i>
+
+                                Book Appointment
+
+                            </button>
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     JAVASCRIPT
+============================================================== -->
+@section Scripts
+{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            // =====================================================
+            // LOAD AVAILABLE SLOTS
+            // =====================================================
+
+            function loadAvailableSlots() {
+
+                let astrologerId =
+                    $("#AstrologerId").val();
+
+                let serviceId =
+                    $("#ServiceId").val();
+
+                let bookingDate =
+                    $("#BookingDate").val();
+
+                let slotDropdown =
+                    $("#availableSlots");
+
+
+                console.log(
+                    "Astrologer:",
+                    astrologerId
+                );
+
+                console.log(
+                    "Service:",
+                    serviceId
+                );
+
+                console.log(
+                    "Date:",
+                    bookingDate
+                );
+
+
+                // Clear Start and End time
+
+                $("#StartTime").val("");
+
+                $("#EndTime").val("");
+
+
+                // Reset dropdown
+
+                slotDropdown.empty();
+
+                slotDropdown.append(
+                    $("<option>", {
+                        value: "",
+                        text: "-- Select Available Time --"
+                    })
+                );
+
+
+                // Check required values
+
+                if (
+                    !astrologerId ||
+                    !serviceId ||
+                    !bookingDate
+                ) {
+
+                    slotDropdown.prop(
+                        "disabled",
+                        true
+                    );
+
+                    return;
+                }
+
+
+                // Loading message
+
+                slotDropdown.prop(
+                    "disabled",
+                    true
+                );
+
+                slotDropdown.empty();
+
+                slotDropdown.append(
+                    $("<option>", {
+                        value: "",
+                        text: "Loading available times..."
+                    })
+                );
+
+
+                // =================================================
+                // AJAX
+                // =================================================
+
+                $.ajax({
+
+                    url:
+                        '@Url.Action("GetAvailableSlots", "Booking")',
+
+                    type: "GET",
+
+                    data: {
+
+                        astrologerId:
+                            astrologerId,
+
+                        bookingDate:
+                            bookingDate,
+
+                        serviceId:
+                            serviceId
+
+                    },
+
+
+                    success: function (slots) {
+
+                        console.log(
+                            "Received slots:",
+                            slots
+                        );
+
+
+                        // Clear dropdown
+
+                        slotDropdown.empty();
+
+
+                        slotDropdown.append(
+                            $("<option>", {
+                                value: "",
+                                text:
+                                    "-- Select Available Time --"
+                            })
+                        );
+
+
+                        // No slots
+
+                        if (
+                            !slots ||
+                            slots.length === 0
+                        ) {
+
+                            slotDropdown.append(
+                                $("<option>", {
+                                    value: "",
+                                    text:
+                                        "No available time slots"
+                                })
+                            );
+
+                            slotDropdown.prop(
+                                "disabled",
+                                true
+                            );
+
+                            return;
+                        }
+
+
+                        // =================================================
+                        // ADD AVAILABLE SLOTS
+                        // =================================================
+
+                        slots.forEach(
+                            function (slot) {
+
+                                console.log(
+                                    "Slot:",
+                                    slot.startTime,
+                                    slot.endTime,
+                                    slot.display
+                                );
+
+
+                                let option =
+                                    $("<option>", {
+
+                                        value:
+                                            slot.startTime,
+
+                                        text:
+                                            slot.display
+
+                                    });
+
+
+                                option.attr(
+                                    "data-end-time",
+                                    slot.endTime
+                                );
+
+
+                                slotDropdown.append(
+                                    option
+                                );
+
+                            }
+                        );
+
+
+                        // Enable dropdown
+
+                        slotDropdown.prop(
+                            "disabled",
+                            false
+                        );
+
+                    },
+
+
+                    error: function (xhr) {
+
+                        console.error(
+                            "GetAvailableSlots Error:",
+                            xhr.status,
+                            xhr.responseText
+                        );
+
+
+                        slotDropdown.empty();
+
+
+                        slotDropdown.append(
+                            $("<option>", {
+
+                                value: "",
+
+                                text:
+                                    "Unable to load available times"
+
+                            })
+                        );
+
+
+                        slotDropdown.prop(
+                            "disabled",
+                            true
+                        );
+
+
+                    }
+
+                });
+
+            }
+
+
+            // =====================================================
+            // AVAILABLE SLOT SELECTED
+            // =====================================================
+
+            $("#availableSlots").on(
+                "change",
+                function () {
+
+                    let selectedOption =
+                        $(this).find(":selected");
+
+
+                    let startTime =
+                        selectedOption.val();
+
+
+                    let endTime =
+                        selectedOption.attr(
+                            "data-end-time"
+                        );
+
+
+                    console.log(
+                        "Selected Start Time:",
+                        startTime
+                    );
+
+                    console.log(
+                        "Selected End Time:",
+                        endTime
+                    );
+
+
+                    if (
+                        !startTime ||
+                        !endTime
+                    ) {
+
+                        $("#StartTime").val("");
+
+                        $("#EndTime").val("");
+
+                        return;
+                    }
+
+
+                    // Fill Start Time
+
+                    $("#StartTime").val(
+                        startTime
+                    );
+
+
+                    // Fill End Time
+
+                    $("#EndTime").val(
+                        endTime
+                    );
+
+                }
+            );
+
+
+            // =====================================================
+            // ASTROLOGER CHANGED
+            // =====================================================
+
+            $("#AstrologerId").on(
+                "change",
+                function () {
+
+                    console.log(
+                        "Astrologer changed"
+                    );
+
+                    loadAvailableSlots();
+
+                }
+            );
+
+
+            // =====================================================
+            // SERVICE CHANGED
+            // =====================================================
+
+            $("#ServiceId").on(
+                "change",
+                function () {
+
+                    console.log(
+                        "Service changed"
+                    );
+
+                    loadAvailableSlots();
+
+                }
+            );
+
+
+            // =====================================================
+            // DATE CHANGED
+            // =====================================================
+
+            $("#BookingDate").on(
+                "change",
+                function () {
+
+                    console.log(
+                        "Booking date changed"
+                    );
+
+                    loadAvailableSlots();
+
+                }
+            );
+
+
+        });
+
+    </script>
+}

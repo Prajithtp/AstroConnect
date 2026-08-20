@@ -1,0 +1,877 @@
+﻿@using AstroConnect.Domain.Enums
+@model AstroConnect.Web.ViewModels.Receptionist.ReceptionistBookingsViewModel
+
+@{
+    ViewData["Title"] = "Booking Management";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-calendar-days text-primary me-2"></i>
+                Booking Management
+            </h2>
+
+            <p class="text-muted mb-0">
+                View and manage customer appointments
+            </p>
+        </div>
+
+        <a asp-controller="Receptionist"
+           asp-action="Index"
+           class="btn btn-secondary">
+
+            <i class="fa-solid fa-arrow-left me-1"></i>
+            Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- SEARCH & FILTERS -->
+    <!-- ===================================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <!-- SEARCH -->
+
+                <div class="col-md-5">
+
+                    <label class="form-label fw-bold">
+                        Search
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+
+                        <input type="text"
+                               id="bookingSearch"
+                               class="form-control"
+                               placeholder="Customer, astrologer or service" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="col-md-3">
+
+                    <label class="form-label fw-bold">
+                        Status
+                    </label>
+
+                    <select id="statusFilter"
+                            class="form-select">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option value="Pending">
+                            Pending
+                        </option>
+
+                        <option value="Confirmed">
+                            Confirmed
+                        </option>
+
+                        <option value="Completed">
+                            Completed
+                        </option>
+
+                        <option value="Cancelled">
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="col-md-2">
+
+                    <label class="form-label fw-bold">
+                        Date
+                    </label>
+
+                    <input type="date"
+                           id="dateFilter"
+                           class="form-control" />
+
+                </div>
+
+
+                <!-- CLEAR -->
+
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button type="button"
+                            id="clearFilters"
+                            class="btn btn-outline-secondary w-100">
+
+                        <i class="fa-solid fa-filter-circle-xmark me-1"></i>
+                        Clear
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- BOOKINGS TABLE -->
+    <!-- ===================================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-dark text-white py-3">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0">
+
+                    <i class="fa-solid fa-calendar-check me-2"></i>
+                    All Bookings
+
+                </h5>
+
+                <span class="badge bg-light text-dark">
+
+                    @Model.Bookings.Count Booking(s)
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-body">
+
+            @if (Model.Bookings.Any())
+            {
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle"
+                           id="bookingTable">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>#</th>
+
+                                <th>Customer</th>
+
+                                <th>Astrologer</th>
+
+                                <th>Service</th>
+
+                                <th>Date</th>
+
+                                <th>Time</th>
+
+                                <th>Status</th>
+
+                                <th class="text-center">
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @{
+                                int slNo = 1;
+                            }
+
+                            @foreach (var booking in Model.Bookings)
+                            {
+
+                                <tr data-status="@booking.Status"
+                                    data-date="@booking.BookingDate.ToString("yyyy-MM-dd")">
+
+                                    <!-- ================================================= -->
+                                    <!-- SERIAL NUMBER -->
+                                    <!-- ================================================= -->
+
+                                    <td>
+                                        @slNo
+                                    </td>
+
+
+                                    <!-- ================================================= -->
+                                    <!-- CUSTOMER -->
+                                    <!-- ================================================= -->
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <div class="table-icon bg-primary-subtle text-primary">
+
+                                                <i class="fa-solid fa-user"></i>
+
+                                            </div>
+
+                                            <strong class="ms-2">
+
+                                                @(booking.Customer?.FullName ?? "N/A")
+
+                                            </strong>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- ================================================= -->
+                                    <!-- ASTROLOGER -->
+                                    <!-- ================================================= -->
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <div class="table-icon bg-warning-subtle text-warning">
+
+                                                <i class="fa-solid fa-star"></i>
+
+                                            </div>
+
+                                            <span class="ms-2">
+
+                                                @(booking.Astrologer?.FullName ?? "N/A")
+
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- ================================================= -->
+                                    <!-- SERVICE -->
+                                    <!-- ================================================= -->
+
+                                    <td>
+
+                                        <span class="fw-semibold">
+
+                                            @(booking.Service?.Name ?? "N/A")
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- ================================================= -->
+                                    <!-- DATE -->
+                                    <!-- ================================================= -->
+
+                                    <td>
+
+                                        @booking.BookingDate.ToString("dd-MMM-yyyy")
+
+                                    </td>
+
+
+                                    <!-- ================================================= -->
+                                    <!-- TIME -->
+                                    <!-- ================================================= -->
+
+                                    <td>
+
+                                        <div class="booking-time">
+
+                                            <i class="fa-solid fa-clock text-primary me-1"></i>
+
+                                            <span class="fw-semibold">
+
+                                                @booking.StartTime.ToString("hh\\:mm")
+
+                                            </span>
+
+                                            <span class="text-muted mx-1">
+                                                -
+                                            </span>
+
+                                            <span class="fw-semibold">
+
+                                                @booking.EndTime.ToString("hh\\:mm")
+
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- ================================================= -->
+                                    <!-- STATUS -->
+                                    <!-- ================================================= -->
+
+                                    <td>
+
+                                        @switch (booking.Status)
+                                        {
+
+                                            case BookingStatus.Pending:
+
+                                                <span class="badge bg-warning text-dark">
+
+                                                    <i class="fa-solid fa-clock me-1"></i>
+                                                    Pending
+
+                                                </span>
+
+                                                break;
+
+
+                                            case BookingStatus.Confirmed:
+
+                                                <span class="badge bg-primary">
+
+                                                    <i class="fa-solid fa-circle-check me-1"></i>
+                                                    Confirmed
+
+                                                </span>
+
+                                                break;
+
+
+                                            case BookingStatus.Completed:
+
+                                                <span class="badge bg-success">
+
+                                                    <i class="fa-solid fa-check-double me-1"></i>
+                                                    Completed
+
+                                                </span>
+
+                                                break;
+
+
+                                            case BookingStatus.Cancelled:
+
+                                                <span class="badge bg-danger">
+
+                                                    <i class="fa-solid fa-circle-xmark me-1"></i>
+                                                    Cancelled
+
+                                                </span>
+
+                                                break;
+
+
+                                            default:
+
+                                                <span class="badge bg-secondary">
+
+                                                    @booking.Status
+
+                                                </span>
+
+                                                break;
+
+                                        }
+
+                                    </td>
+
+
+                                    <!-- ================================================= -->
+                                    <!-- ACTIONS -->
+                                    <!-- ================================================= -->
+
+                                    <td class="text-center">
+
+                                        <div class="d-flex justify-content-center gap-1">
+                                            <a asp-controller="Receptionist"
+                                               asp-action="BookingDetails"
+                                               asp-route-id="@booking.Id"
+                                               class="btn btn-sm btn-outline-info me-1"
+                                               title="View Booking Details">
+
+                                                <i class="fa-solid fa-eye"></i>
+
+                                            </a>
+
+
+                                            <!-- ============================== -->
+                                            <!-- CONFIRM -->
+                                            <!-- ============================== -->
+                                            @if (booking.Status == BookingStatus.Pending)   
+                                            {
+
+                                                <form asp-controller="Receptionist"
+                                                      asp-action="ConfirmBooking"
+                                                      method="post"
+                                                      class="d-inline">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@booking.Id" />
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-primary"
+                                                            title="Confirm Booking">
+
+                                                        <i class="fa-solid fa-check"></i>
+
+                                                    </button>
+
+                                                </form>
+
+
+                                                <!-- ============================== -->
+                                                <!-- CANCEL PENDING -->
+                                                <!-- ============================== -->
+
+                                                <form asp-controller="Receptionist"
+                                                      asp-action="CancelBooking"
+                                                      method="post"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@booking.Id" />
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger"
+                                                            title="Cancel Booking">
+
+                                                        <i class="fa-solid fa-xmark"></i>
+
+                                                    </button>
+
+                                                </form>
+
+                                            }
+
+
+                                            <!-- ============================== -->
+                                            <!-- CONFIRMED -->
+                                            <!-- ============================== -->
+                                            @if (booking.Status == BookingStatus.Confirmed)
+                                            {
+
+                                                <!-- COMPLETE -->
+
+                                                <form asp-controller="Receptionist"
+                                                      asp-action="CompleteBooking"
+                                                      method="post"
+                                                      class="d-inline">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@booking.Id" />
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-success"
+                                                            title="Complete Booking">
+
+                                                        <i class="fa-solid fa-check-double"></i>
+
+                                                    </button>
+
+                                                </form>
+
+
+                                                <!-- CANCEL -->
+
+                                                <form asp-controller="Receptionist"
+                                                      asp-action="CancelBooking"
+                                                      method="post"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('Are you sure you want to cancel this confirmed booking?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@booking.Id" />
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger"
+                                                            title="Cancel Booking">
+
+                                                        <i class="fa-solid fa-xmark"></i>
+
+                                                    </button>
+
+                                                </form>
+
+                                            }
+
+
+                                            <!-- ============================== -->
+                                            <!-- COMPLETED -->
+                                            <!-- ============================== -->
+                                            @if (booking.Status == BookingStatus.Completed)
+                                            {
+
+                                                <span class="badge bg-success-subtle text-success px-3 py-2">
+
+                                                    <i class="fa-solid fa-circle-check me-1"></i>
+
+                                                    Completed
+
+                                                </span>
+
+                                            }
+
+
+                                            <!-- ============================== -->
+                                            <!-- CANCELLED -->
+                                            <!-- ============================== -->
+                                            @if (booking.Status == BookingStatus.Cancelled)
+                                            {
+
+                                                <span class="badge bg-danger-subtle text-danger px-3 py-2">
+
+                                                    <i class="fa-solid fa-circle-xmark me-1"></i>
+
+                                                    Cancelled
+
+                                                </span>
+
+                                            }
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                slNo++;
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            }
+
+            else
+            {
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="fa-solid fa-calendar-xmark"></i>
+
+                    </div>
+
+                    <h5 class="fw-bold mt-3">
+                        No Bookings Found
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        There are currently no bookings matching your criteria.
+                    </p>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- CSS -->
+<!-- ========================================================= -->
+
+<style>
+
+    /* ========================================================= */
+    /* TABLE */
+    /* ========================================================= */
+
+    #bookingTable tbody tr {
+        transition: all .2s ease;
+    }
+
+        #bookingTable tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+    #bookingTable th {
+        white-space: nowrap;
+    }
+
+    .badge {
+        font-size: .85rem;
+    }
+
+
+    /* ========================================================= */
+    /* TABLE ICON */
+    /* ========================================================= */
+
+    .table-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+
+    /* ========================================================= */
+    /* BOOKING TIME */
+    /* ========================================================= */
+
+    .booking-time {
+        white-space: nowrap;
+    }
+
+
+    /* ========================================================= */
+    /* EMPTY STATE */
+    /* ========================================================= */
+
+    .empty-state {
+        text-align: center;
+        padding: 50px 20px;
+    }
+
+    .empty-icon {
+        width: 65px;
+        height: 65px;
+        margin: auto;
+        border-radius: 50%;
+        background: #f1f3f5;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+    }
+
+
+    /* ========================================================= */
+    /* MOBILE */
+    /* ========================================================= */
+
+    @@media (max-width: 768px) {
+
+        #bookingTable {
+            font-size: .85rem;
+        }
+
+        .booking-time {
+            min-width: 120px;
+        }
+    }
+
+</style>
+
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================================================= -->
+@section Scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            // =================================================
+            // FILTER BOOKINGS
+            // =================================================
+
+            function filterBookings() {
+
+                let search =
+                    $("#bookingSearch")
+                        .val()
+                        .toLowerCase()
+                        .trim();
+
+
+                let status =
+                    $("#statusFilter")
+                        .val();
+
+
+                let date =
+                    $("#dateFilter")
+                        .val();
+
+
+                $("#bookingTable tbody tr").each(function () {
+
+                    let row = $(this);
+
+
+                    // Row text
+
+                    let text =
+                        row.text()
+                           .toLowerCase();
+
+
+                    // Row status
+
+                    let rowStatus =
+                        row.attr("data-status");
+
+
+                    // Row date
+
+                    let rowDate =
+                        row.attr("data-date");
+
+
+                    let show = true;
+
+
+                    // SEARCH
+
+                    if (search !== "" &&
+                        !text.includes(search)) {
+
+                        show = false;
+
+                    }
+
+
+                    // STATUS
+
+                    if (status !== "" &&
+                        rowStatus !== status) {
+
+                        show = false;
+
+                    }
+
+
+                    // DATE
+
+                    if (date !== "" &&
+                        rowDate !== date) {
+
+                        show = false;
+
+                    }
+
+
+                    // SHOW / HIDE
+
+                    if (show) {
+
+                        row.show();
+
+                    }
+                    else {
+
+                        row.hide();
+
+                    }
+
+                });
+
+            }
+
+
+            // =================================================
+            // SEARCH
+            // =================================================
+
+            $("#bookingSearch").on("keyup", function () {
+
+                filterBookings();
+
+            });
+
+
+            // =================================================
+            // STATUS FILTER
+            // =================================================
+
+            $("#statusFilter").on("change", function () {
+
+                filterBookings();
+
+            });
+
+
+            // =================================================
+            // DATE FILTER
+            // =================================================
+
+            $("#dateFilter").on("change", function () {
+
+                filterBookings();
+
+            });
+
+
+            // =================================================
+            // CLEAR FILTERS
+            // =================================================
+
+            $("#clearFilters").on("click", function () {
+
+                $("#bookingSearch").val("");
+
+                $("#statusFilter").val("");
+
+                $("#dateFilter").val("");
+
+                filterBookings();
+
+            });
+
+        });
+
+    </script>
+
+}

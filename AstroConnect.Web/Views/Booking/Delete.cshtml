@@ -1,0 +1,191 @@
+﻿@model AstroConnect.Domain.Entities.Booking
+
+@{
+    ViewData["Title"] = "Delete Booking";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-9">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-danger text-white">
+
+                <h3 class="mb-0">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Delete Booking
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="alert alert-danger">
+
+                    <h5>
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        Warning
+                    </h5>
+
+                    You are about to permanently delete this booking.
+                    This action cannot be undone.
+
+                </div>
+
+                <div class="card bg-light border-0">
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Customer
+                                </label>
+
+                                <div>@Model.Customer.FullName</div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Astrologer
+                                </label>
+
+                                <div>@Model.Astrologer.FullName</div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Service
+                                </label>
+
+                                <div>@Model.Service.Name</div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Booking Date
+                                </label>
+
+                                <div>@Model.BookingDate.ToString("dd-MMM-yyyy")</div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Appointment Time
+                                </label>
+
+                                <div>
+                                    @Model.StartTime.ToString("hh\\:mm")
+                                    -
+                                    @Model.EndTime.ToString("hh\\:mm")
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Status
+                                </label>
+
+                                <div>
+
+                                    @switch (Model.Status.ToString())
+                                    {
+                                        case "Pending":
+                                            <span class="badge bg-warning text-dark px-3 py-2">
+                                                Pending
+                                            </span>
+                                            break;
+
+                                        case "Confirmed":
+                                            <span class="badge bg-success px-3 py-2">
+                                                Confirmed
+                                            </span>
+                                            break;
+
+                                        case "Completed":
+                                            <span class="badge bg-primary px-3 py-2">
+                                                Completed
+                                            </span>
+                                            break;
+
+                                        case "Cancelled":
+                                            <span class="badge bg-danger px-3 py-2">
+                                                Cancelled
+                                            </span>
+                                            break;
+
+                                        default:
+                                            <span class="badge bg-secondary px-3 py-2">
+                                                @Model.Status
+                                            </span>
+                                            break;
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <form asp-action="Delete"
+                      asp-route-id="@Model.Id"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <div class="d-flex justify-content-end">
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary me-2">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Cancel
+
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-danger">
+
+                            <i class="fa-solid fa-trash"></i>
+                            Delete Booking
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

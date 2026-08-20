@@ -1,0 +1,116 @@
+﻿@model AstroConnect.Domain.Entities.Astrologer
+
+@{
+    ViewData["Title"] = "Delete Astrologer";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-danger text-white">
+
+                <h3 class="mb-0">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Delete Astrologer
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="alert alert-danger">
+
+                    <h5>
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        Warning
+                    </h5>
+
+                    You are about to permanently delete this astrologer.
+                    This action cannot be undone.
+
+                </div>
+
+                <div class="card bg-light border-0">
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold text-muted">Full Name</label>
+                                <div>@Model.FullName</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold text-muted">Email</label>
+                                <div>@Model.Email</div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold text-muted">Phone Number</label>
+                                <div>@Model.PhoneNumber</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold text-muted">Experience</label>
+                                <div>@Model.Experience Years</div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold text-muted">Specialization</label>
+                                <div>@Model.Specialization</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="fw-bold text-muted">Language</label>
+                                <div>@Model.Language</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <form asp-action="DeleteConfirmed" method="post">
+
+                    <input asp-for="Id" type="hidden" />
+
+                    <div class="d-flex justify-content-end">
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary me-2">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-danger">
+                            <i class="fa-solid fa-trash"></i>
+                            Delete Astrologer
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

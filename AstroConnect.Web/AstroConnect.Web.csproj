@@ -6,4 +6,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AstroConnect.Application\AstroConnect.Application.csproj" />
+    <ProjectReference Include="..\AstroConnect.Infrastructure\AstroConnect.Infrastructure.csproj" />
+    <ProjectReference Include="..\AstroConnect.Persistence\AstroConnect.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

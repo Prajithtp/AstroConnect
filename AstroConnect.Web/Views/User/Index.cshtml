@@ -1,0 +1,214 @@
+﻿@model List<AstroConnect.Web.ViewModels.User.UserListViewModel>
+
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold">
+            <i class="fa-solid fa-users text-primary"></i>
+            User Management
+        </h2>
+
+        <p class="text-muted mb-0">
+            Manage application users and roles
+        </p>
+
+    </div>
+
+    <a asp-action="Create" class="btn btn-primary">
+
+        <i class="fa-solid fa-user-plus"></i>
+
+        Create User
+
+    </a>
+
+</div>
+
+<div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-body">
+
+        <input type="text"
+               id="userSearch"
+               class="form-control"
+               placeholder="🔍 Search by name, email or role">
+
+    </div>
+
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+
+        No users found.
+
+    </div>
+}
+else
+{
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle" id="userTable">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Email Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <strong>@user.FullName</strong>
+
+                                </td>
+
+                                <td>@user.Email</td>
+
+                                <td>
+
+                                    @(string.IsNullOrWhiteSpace(user.PhoneNumber)
+                                                                ? "-"
+                                                                : user.PhoneNumber)
+
+                        </td>
+
+                                <td>
+
+                            @switch (user.Role)
+                                    {
+                                        case "Admin":
+
+                                            <span class="badge bg-danger">
+                                                Admin
+                                            </span>
+
+                                            break;
+
+                                        case "Receptionist":
+
+                                            <span class="badge bg-primary">
+                                                Receptionist
+                                            </span>
+
+                                            break;
+
+                                        case "Astrologer":
+
+                                            <span class="badge bg-success">
+                                                Astrologer
+                                            </span>
+
+                                            break;
+
+                                        default:
+
+                                            <span class="badge bg-secondary">
+                                                @user.Role
+                                            </span>
+
+                                            break;
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    @if (user.EmailConfirmed)
+                                    {
+                                        <span class="badge bg-success">
+                                            Verified
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            Pending
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@user.Id"
+                                       class="btn btn-warning btn-sm action-btn me-1"
+                                       title="Edit User">
+
+                                        <i class="fa-solid fa-pen"></i>
+
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@user.Id"
+                                       class="btn btn-danger btn-sm action-btn"
+                                       title="Delete User">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+@section Scripts {
+
+    <script>
+
+        document.getElementById("userSearch")
+        .addEventListener("keyup", function () {
+
+            let value = this.value.toLowerCase();
+
+            let rows = document.querySelectorAll("#userTable tbody tr");
+
+            rows.forEach(function (row) {
+
+                row.style.display =
+                    row.innerText.toLowerCase().includes(value)
+                    ? ""
+                    : "none";
+
+            });
+
+        });
+
+    </script>
+
+}

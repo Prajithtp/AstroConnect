@@ -1,0 +1,463 @@
+﻿@model AstroConnect.Domain.Entities.Astrologer
+
+@{
+    ViewData["Title"] = "Astrologer Profile";
+}
+
+<div class="container py-5">
+
+    <!-- BACK BUTTON -->
+
+    <div class="mb-4">
+
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
+
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Astrologers
+
+        </a>
+
+    </div>
+
+
+    <!-- PROFILE CARD -->
+
+    <div class="card border-0 shadow-sm astrologer-profile-card">
+
+        <div class="row g-0">
+
+
+            <!-- PROFILE IMAGE -->
+
+            <div class="col-lg-4">
+
+                <div class="profile-image-container">
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ProfileImageUrl))
+                    {
+                        <img src="@Model.ProfileImageUrl"
+                             class="profile-image"
+                             alt="@Model.FullName" />
+                    }
+                    else
+                    {
+                        <div class="default-profile-image">
+
+                            <i class="fa-solid fa-user-tie"></i>
+
+                        </div>
+                    }
+
+                    <!-- ACTIVE BADGE -->
+
+                    <div class="availability-badge">
+
+                        <span class="availability-dot"></span>
+
+                        Available for Booking
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE INFORMATION -->
+
+            <div class="col-lg-8">
+
+                <div class="profile-content">
+
+                    <!-- NAME -->
+
+                    <div class="mb-2">
+
+                        <span class="text-primary fw-semibold">
+                            ASTROLOGER
+                        </span>
+
+                        <h1 class="fw-bold mb-2">
+                            @Model.FullName
+                        </h1>
+
+                    </div>
+
+
+                    <!-- SPECIALIZATION -->
+
+                    <div class="specialization mb-4">
+
+                        <i class="fa-solid fa-star text-warning me-2"></i>
+
+                        @Model.Specialization
+
+                    </div>
+
+
+                    <!-- QUICK INFORMATION -->
+
+                    <div class="row g-3 mb-4">
+
+
+                        <!-- EXPERIENCE -->
+
+                        <div class="col-md-4">
+
+                            <div class="info-box">
+
+                                <i class="fa-solid fa-award text-warning"></i>
+
+                                <div>
+
+                                    <small class="text-muted">
+                                        Experience
+                                    </small>
+
+                                    <strong>
+                                        @Model.Experience Years
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- LANGUAGE -->
+
+                        <div class="col-md-4">
+
+                            <div class="info-box">
+
+                                <i class="fa-solid fa-language text-info"></i>
+
+                                <div>
+
+                                    <small class="text-muted">
+                                        Language
+                                    </small>
+
+                                    <strong>
+                                        @Model.Language
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="col-md-4">
+
+                            <div class="info-box">
+
+                                <i class="fa-solid fa-circle-check text-success"></i>
+
+                                <div>
+
+                                    <small class="text-muted">
+                                        Status
+                                    </small>
+
+                                    <strong class="text-success">
+                                        Active
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BIOGRAPHY -->
+
+                    <div class="mb-4">
+
+                        <h5 class="fw-bold">
+
+                            <i class="fa-solid fa-user-pen text-primary me-2"></i>
+
+                            About the Astrologer
+
+                        </h5>
+
+                        @if (!string.IsNullOrWhiteSpace(Model.Biography))
+                        {
+                            <p class="text-muted biography">
+
+                                @Model.Biography
+
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="text-muted">
+
+                                Biography information is currently unavailable.
+
+                            </p>
+                        }
+
+                    </div>
+
+
+                    <!-- CONTACT INFORMATION -->
+
+                    <div class="mb-4">
+
+                        <h5 class="fw-bold mb-3">
+
+                            <i class="fa-solid fa-address-card text-primary me-2"></i>
+
+                            Contact Information
+
+                        </h5>
+
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+
+                                <div class="contact-item">
+
+                                    <i class="fa-solid fa-envelope text-primary"></i>
+
+                                    <span>
+                                        @Model.Email
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div class="contact-item">
+
+                                    <i class="fa-solid fa-phone text-success"></i>
+
+                                    <span>
+                                        @Model.PhoneNumber
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOOKING -->
+
+                    <div class="booking-section">
+
+                        <div>
+
+                            <h5 class="fw-bold mb-1">
+                                Ready for a consultation?
+                            </h5>
+
+                            <p class="text-muted mb-0">
+                                Book an appointment with @Model.FullName.
+                            </p>
+
+                        </div>
+
+
+                        <a asp-controller="Booking"
+                           asp-action="Create"
+                           asp-route-astrologerId="@Model.Id"
+                           class="btn btn-primary btn-lg">
+
+                            <i class="fa-solid fa-calendar-plus me-2"></i>
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .astrologer-profile-card {
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+
+    .profile-image-container {
+        height: 100%;
+        min-height: 520px;
+        position: relative;
+        background: #f1f5f9;
+    }
+
+
+    .profile-image {
+        width: 100%;
+        height: 100%;
+        min-height: 520px;
+        object-fit: cover;
+    }
+
+
+    .default-profile-image {
+        min-height: 520px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 120px;
+        color: #6366f1;
+        background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+    }
+
+
+    .availability-badge {
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        padding: 10px 16px;
+        border-radius: 30px;
+        background: rgba(25, 135, 84, 0.95);
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+
+    .availability-dot {
+        width: 9px;
+        height: 9px;
+        display: inline-block;
+        background: #ffffff;
+        border-radius: 50%;
+        margin-right: 7px;
+    }
+
+
+    .profile-content {
+        padding: 45px;
+    }
+
+
+    .specialization {
+        font-size: 19px;
+        color: #495057;
+    }
+
+
+    .info-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 12px;
+    }
+
+
+        .info-box > i {
+            font-size: 24px;
+        }
+
+
+        .info-box small {
+            display: block;
+        }
+
+
+        .info-box strong {
+            display: block;
+            margin-top: 2px;
+        }
+
+
+    .biography {
+        line-height: 1.8;
+        white-space: pre-line;
+    }
+
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+    }
+
+
+        .contact-item i {
+            font-size: 18px;
+        }
+
+
+    .booking-section {
+        margin-top: 30px;
+        padding: 22px;
+        border-radius: 15px;
+        background: #f8f9fa;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+
+    @@media (max-width: 991px) {
+        .profile-image-container, .profile-image, .default-profile-image
+
+    {
+        min-height: 400px;
+    }
+
+    .profile-content {
+        padding: 30px;
+    }
+
+    }
+
+
+    @@media (max-width: 576px) {
+        .profile-content
+
+    {
+        padding: 22px;
+    }
+
+    .booking-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+        .booking-section .btn {
+            width: 100%;
+        }
+
+    }
+</style>

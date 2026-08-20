@@ -1,0 +1,191 @@
+﻿@model List<AstroConnect.Domain.Entities.Astrologer>
+
+@{
+    ViewData["Title"] = "Our Astrologers";
+}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="text-center mb-5">
+
+        <h2 class="fw-bold">
+            <i class="fa-solid fa-star text-warning"></i>
+            Our Astrologers
+        </h2>
+
+        <p class="text-muted">
+            Meet our experienced astrologers and choose the right one for your consultation.
+        </p>
+
+    </div>
+
+
+    <!-- ASTROLOGER LIST -->
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+
+            <i class="fa-solid fa-user-slash fa-3x text-muted mb-3"></i>
+
+            <h5>No astrologers available</h5>
+
+            <p class="text-muted">
+                Please check again later.
+            </p>
+
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var astrologer in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="card h-100 border-0 shadow-sm astrologer-card">
+
+                        <!-- PROFILE IMAGE -->
+
+                        <div class="position-relative">
+
+                            @if (!string.IsNullOrWhiteSpace(astrologer.ProfileImageUrl))
+                            {
+                                <img src="@astrologer.ProfileImageUrl"
+                                     class="card-img-top astrologer-image"
+                                     alt="@astrologer.FullName" />
+                            }
+                            else
+                            {
+                                <div class="default-profile-image">
+
+                                    <i class="fa-solid fa-user-tie"></i>
+
+                                </div>
+                            }
+
+                            <!-- ACTIVE BADGE -->
+
+                            <span class="badge bg-success position-absolute top-0 end-0 m-3">
+                                <i class="fa-solid fa-circle-check"></i>
+                                Available
+                            </span>
+
+                        </div>
+
+
+                        <!-- CARD BODY -->
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold mb-1">
+                                @astrologer.FullName
+                            </h5>
+
+                            <p class="text-primary mb-3">
+                                @astrologer.Specialization
+                            </p>
+
+
+                            <!-- EXPERIENCE -->
+
+                            <div class="mb-2">
+
+                                <i class="fa-solid fa-award text-warning me-2"></i>
+
+                                <strong>@astrologer.Experience</strong>
+                                years experience
+
+                            </div>
+
+
+                            <!-- LANGUAGE -->
+
+                            <div class="mb-3">
+
+                                <i class="fa-solid fa-language text-info me-2"></i>
+
+                                @astrologer.Language
+
+                            </div>
+
+
+                            <!-- BIOGRAPHY -->
+                            @if (!string.IsNullOrWhiteSpace(astrologer.Biography))
+                            {
+                                <p class="text-muted small">
+
+                                    @if (astrologer.Biography.Length > 120)
+                                    {
+                                        @astrologer.Biography.Substring(0, 120)
+
+                                        <text>...</text>
+                                    }
+                                    else
+                                    {
+                                        @astrologer.Biography
+                                    }
+
+                                </p>
+                            }
+
+                        </div>
+
+
+                        <!-- CARD FOOTER -->
+
+                        <div class="card-footer bg-white border-0 pb-4 px-4">
+
+                            <a asp-action="Details"
+                               asp-route-id="@astrologer.Id"
+                               class="btn btn-outline-primary w-100">
+
+                                <i class="fa-solid fa-user"></i>
+                                View Profile
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>
+
+
+<style>
+
+    .astrologer-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.25s ease;
+    }
+
+    .astrologer-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+    }
+
+    .astrologer-image {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+    }
+
+    .default-profile-image {
+        height: 260px;
+        background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 80px;
+        color: #6366f1;
+    }
+
+</style>

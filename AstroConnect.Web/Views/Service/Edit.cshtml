@@ -1,0 +1,146 @@
+﻿@model AstroConnect.Web.Models.ServiceEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Service";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-warning text-dark">
+
+                <h3 class="mb-0">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Edit Service
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <form asp-action="Edit" method="post">
+
+                    <input asp-for="Id" type="hidden" />
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger">
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="Name"
+                               class="form-label fw-bold"></label>
+
+                        <input asp-for="Name"
+                               class="form-control"
+                               placeholder="Enter Service Name" />
+
+                        <span asp-validation-for="Name"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="Description"
+                               class="form-label fw-bold"></label>
+
+                        <textarea asp-for="Description"
+                                  rows="4"
+                                  class="form-control"
+                                  placeholder="Describe this service"></textarea>
+
+                        <span asp-validation-for="Description"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="Price"
+                                   class="form-label fw-bold"></label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    ₹
+                                </span>
+
+                                <input asp-for="Price"
+                                       class="form-control"
+                                       placeholder="0.00" />
+
+                            </div>
+
+                            <span asp-validation-for="Price"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="DurationInMinutes"
+                                   class="form-label fw-bold"></label>
+
+                            <div class="input-group">
+
+                                <input asp-for="DurationInMinutes"
+                                       class="form-control"
+                                       placeholder="30" />
+
+                                <span class="input-group-text">
+                                    Minutes
+                                </span>
+
+                            </div>
+
+                            <span asp-validation-for="DurationInMinutes"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-end">
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary me-2">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Back
+
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-warning text-dark">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Update Service
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

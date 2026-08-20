@@ -1,0 +1,147 @@
+﻿@model AstroConnect.Domain.Entities.Service
+
+@{
+    ViewData["Title"] = "Delete Service";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-danger text-white">
+
+                <h3 class="mb-0">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Delete Service
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="alert alert-danger">
+
+                    <h5>
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        Warning
+                    </h5>
+
+                    You are about to permanently delete this service.
+                    This action cannot be undone.
+
+                </div>
+
+                <div class="card bg-light border-0">
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Service Name
+                                </label>
+
+                                <div>@Model.Name</div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Price
+                                </label>
+
+                                <div>₹ @Model.Price</div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Duration
+                                </label>
+
+                                <div>@Model.DurationInMinutes Minutes</div>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="fw-bold text-muted">
+                                    Status
+                                </label>
+
+                                @if (Model.IsActive)
+                                {
+                                    <span class="badge bg-success">
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">
+                                        Inactive
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="fw-bold text-muted">
+                                Description
+                            </label>
+
+                            <div>@Model.Description</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <form asp-action="DeleteConfirmed" method="post">
+
+                    <input asp-for="Id" type="hidden" />
+
+                    <div class="d-flex justify-content-end">
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary me-2">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Cancel
+
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-danger">
+
+                            <i class="fa-solid fa-trash"></i>
+                            Delete Service
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

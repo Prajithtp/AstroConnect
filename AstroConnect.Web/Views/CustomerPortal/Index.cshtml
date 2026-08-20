@@ -1,0 +1,1143 @@
+﻿@model AstroConnect.Web.ViewModels.CustomerPortal.CustomerDashboardViewModel
+
+@{
+    ViewData["Title"] = "Customer Dashboard";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- =====================================================
+         WELCOME HEADER
+         ===================================================== -->
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-hand-sparkles text-primary me-2"></i>
+                Welcome to AstroConnect
+            </h2>
+
+            <p class="text-muted mb-0">
+                Manage your astrology appointments and profile.
+            </p>
+        </div>
+
+        <div class="mt-3 mt-md-0">
+
+            <span class="badge bg-primary px-3 py-2 fs-6">
+                <i class="fa-solid fa-user me-1"></i>
+                Customer
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BOOKING STATISTICS
+         ===================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- TOTAL BOOKINGS -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Total Bookings
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.TotalBookings
+                            </h2>
+                        </div>
+
+                        <div class="stat-icon bg-primary-subtle text-primary">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+
+                    </div>
+
+                    <a asp-controller="CustomerPortal"
+                       asp-action="BookingHistory"
+                       class="small text-decoration-none">
+
+                        View Appointments →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PENDING -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Pending
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.PendingBookings
+                            </h2>
+                        </div>
+
+                        <div class="stat-icon bg-warning-subtle text-warning">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+
+                    </div>
+
+                    <span class="small text-muted">
+                        Awaiting confirmation
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONFIRMED -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Confirmed
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.ConfirmedBookings
+                            </h2>
+                        </div>
+
+                        <div class="stat-icon bg-success-subtle text-success">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                    </div>
+
+                    <span class="small text-muted">
+                        Upcoming confirmed
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Notifications
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.UnreadNotificationCount
+                            </h2>
+                        </div>
+
+                        <div class="stat-icon bg-danger-subtle text-danger">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+
+                    </div>
+
+                    <a asp-controller="Notification"
+                       asp-action="Index"
+                       class="small text-decoration-none">
+
+                        View Notifications →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         UPCOMING APPOINTMENT
+         ===================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+                    <h5 class="fw-bold mb-1">
+                        <i class="fa-solid fa-calendar-check text-primary me-2"></i>
+                        Upcoming Appointment
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Your next scheduled astrology consultation.
+                    </p>
+                </div>
+
+                <a asp-controller="Booking"
+                   asp-action="Create"
+                   class="btn btn-primary">
+
+                    <i class="fa-solid fa-plus me-1"></i>
+                    Book Appointment
+
+                </a>
+
+            </div>
+
+
+            @if (Model.UpcomingBooking != null)
+            {
+                <div class="upcoming-booking">
+
+                    <div class="row g-4 align-items-center">
+
+                        <!-- ASTROLOGER -->
+
+                        <div class="col-md-4">
+
+                            <div class="booking-info">
+
+                                <div class="booking-info-icon bg-primary-subtle text-primary">
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+
+                                <div>
+                                    <small class="text-muted d-block">
+                                        Astrologer
+                                    </small>
+
+                                    <strong>
+                                        @(Model.UpcomingBooking.Astrologer?.FullName
+                                                                            ?? "Astrologer")
+                                                                                        </strong>
+                                                                                    </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SERVICE -->
+
+                        <div class="col-md-3">
+
+                            <div class="booking-info">
+
+                                <div class="booking-info-icon bg-warning-subtle text-warning">
+                                    <i class="fa-solid fa-list-check"></i>
+                                </div>
+
+                                <div>
+                                    <small class="text-muted d-block">
+                                        Service
+                                    </small>
+
+                                    <strong>
+                                        @(Model.UpcomingBooking.Service?.Name
+                                                                            ?? "Consultation")
+                                </strong>
+                            </div>
+
+                                                                </div>
+
+                                                            </div>
+
+
+                                                            <!-- DATE -->
+
+                                                            <div class="col-md-2">
+
+                                                                <div class="booking-info">
+
+                                                                    <div class="booking-info-icon bg-success-subtle text-success">
+                                                                        <i class="fa-solid fa-calendar"></i>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <small class="text-muted d-block">
+                                                                            Date
+                                                                        </small>
+
+                                                                        <strong>
+                                                                            @Model.UpcomingBooking.BookingDate.ToString("dd MMM yyyy")
+                                                                        </strong>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+
+
+                                                            <!-- TIME -->
+
+                                                            <div class="col-md-3">
+
+                                                                <div class="booking-info">
+
+                                                                    <div class="booking-info-icon bg-info-subtle text-info">
+                                                                        <i class="fa-solid fa-clock"></i>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <small class="text-muted d-block">
+                                                                            Time
+                                                                        </small>
+
+                                                                        <strong>
+                                                                            @Model.UpcomingBooking.StartTime.ToString("hh:mm tt")
+
+                                    -
+
+                                        @Model.UpcomingBooking.EndTime.ToString("hh:mm tt")
+                                </strong>
+                            </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4 text-end">
+
+                        <a asp-controller="CustomerPortal"
+                           asp-action="BookingDetails"
+                           asp-route-id="@Model.UpcomingBooking.Id"
+                           class="btn btn-outline-primary">
+
+                            <i class="fa-solid fa-eye me-1"></i>
+                            View Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+                        }
+            else
+            {
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-calendar-xmark"></i>
+                    </div>
+
+                    <h5 class="fw-bold mt-3">
+                        No Upcoming Appointments
+                    </h5>
+
+                    <p class="text-muted mb-3">
+                        You don't have any upcoming appointments.
+                    </p>
+
+                    <a asp-controller="Booking"
+                       asp-action="Create"
+                       class="btn btn-primary">
+
+                        <i class="fa-solid fa-calendar-plus me-1"></i>
+                        Book Your Appointment
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         QUICK ACTIONS
+         ===================================================== -->
+
+    <div class="row g-4 mb-4">
+
+
+        <!-- BOOK APPOINTMENT -->
+
+        <div class="col-md-6 col-xl-4">
+
+            <div class="card customer-card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="customer-icon bg-primary">
+                        <i class="fa-solid fa-calendar-plus"></i>
+                    </div>
+
+                    <h4 class="fw-bold mt-4">
+                        Book Appointment
+                    </h4>
+
+                    <p class="text-muted">
+                        Schedule a consultation with an astrologer
+                        at a convenient date and time.
+                    </p>
+
+                    <a asp-controller="Booking"
+                       asp-action="Create"
+                       class="btn btn-primary">
+
+                        <i class="fa-solid fa-calendar-plus me-1"></i>
+                        Book Now
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MY APPOINTMENTS -->
+
+        <div class="col-md-6 col-xl-4">
+
+            <div class="card customer-card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="customer-icon bg-success">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+
+                    <h4 class="fw-bold mt-4">
+                        My Appointments
+                    </h4>
+
+                    <p class="text-muted">
+                        View your previous and upcoming
+                        astrology appointments.
+                    </p>
+
+                    <a asp-controller="CustomerPortal"
+                       asp-action="BookingHistory"
+                       class="btn btn-success">
+
+                        <i class="fa-solid fa-calendar-check me-1"></i>
+                        View Appointments
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MY PROFILE -->
+
+        <div class="col-md-6 col-xl-4">
+
+            <div class="card customer-card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="customer-icon bg-warning text-dark">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <h4 class="fw-bold mt-4">
+                        My Profile
+                    </h4>
+
+                    <p class="text-muted">
+                        Update your personal information,
+                        birth details and contact information.
+                    </p>
+
+                    <a asp-controller="CustomerPortal"
+                       asp-action="Profile"
+                       class="btn btn-warning">
+
+                        <i class="fa-solid fa-user-pen me-1"></i>
+                        Manage Profile
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RECENT BOOKINGS
+         ===================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h5 class="fw-bold mb-1">
+                        <i class="fa-solid fa-clock-rotate-left text-primary me-2"></i>
+                        Recent Bookings
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Your latest appointment activity.
+                    </p>
+
+                </div>
+
+                <a asp-controller="CustomerPortal"
+                   asp-action="BookingHistory"
+                   class="btn btn-outline-primary btn-sm">
+
+                    View All
+
+                </a>
+
+            </div>
+
+
+            @if (Model.RecentBookings != null &&
+                        Model.RecentBookings.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table align-middle mb-0">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Astrologer</th>
+
+                                <th>Service</th>
+
+                                <th>Date</th>
+
+                                <th>Time</th>
+
+                                <th>Status</th>
+
+                                <th class="text-end">Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var booking in Model.RecentBookings)
+                            {
+                                <tr>
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <div class="table-icon bg-primary-subtle text-primary">
+
+                                                <i class="fa-solid fa-star"></i>
+
+                                            </div>
+
+                                            <span class="ms-2 fw-semibold">
+
+                                                @(booking.Astrologer?.FullName
+                                                                                        ?? "Astrologer")
+
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        @(booking.Service?.Name
+                                                                        ?? "Consultation")
+                            </td>
+
+
+                                                                    <td>
+                                                                        @booking.BookingDate.ToString("dd MMM yyyy")
+                                                                    </td>
+
+
+                                    <td>
+                                        @booking.StartTime.ToString("hh:mm tt")
+                                        -
+                                        @booking.EndTime.ToString("hh:mm tt")
+                                    </td>
+
+                                    <td>
+
+                                @if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Pending)
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                Pending
+                                            </span>
+                                        }
+                                        else if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Confirmed)
+                                        {
+                                            <span class="badge bg-success">
+                                                Confirmed
+                                            </span>
+                                        }
+                                        else if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Completed)
+                                        {
+                                            <span class="badge bg-primary">
+                                                Completed
+                                            </span>
+                                        }
+                                        else if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Cancelled)
+                                        {
+                                            <span class="badge bg-danger">
+                                                Cancelled
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <td class="text-end">
+
+                                        <a asp-controller="CustomerPortal"
+                                           asp-action="BookingDetails"
+                                           asp-route-id="@booking.Id"
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            <i class="fa-solid fa-eye"></i>
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-calendar-xmark"></i>
+                    </div>
+
+                    <h5 class="fw-bold mt-3">
+                        No Bookings Yet
+                    </h5>
+
+                    <p class="text-muted">
+                        Your recent appointments will appear here.
+                    </p>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         INFORMATION SECTION
+         ===================================================== -->
+
+    <div class="row g-4 mt-2">
+
+
+        <!-- ASTROLOGY SERVICES -->
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="section-icon bg-primary">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+
+                        <div class="ms-3">
+
+                            <h5 class="fw-bold mb-1">
+                                Astrology Services
+                            </h5>
+
+                            <p class="text-muted mb-0">
+                                Explore our available consultation services.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <i class="fa-solid fa-heart text-danger"></i>
+                                <span>Marriage Consultation</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <i class="fa-solid fa-briefcase text-primary"></i>
+                                <span>Career Guidance</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <i class="fa-solid fa-moon text-warning"></i>
+                                <span>Horoscope Reading</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <i class="fa-solid fa-calendar-check text-success"></i>
+                                <span>Muhurtham</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <i class="fa-solid fa-house text-info"></i>
+                                <span>Vasthu Consultation</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK LINKS -->
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3">
+
+                        <i class="fa-solid fa-link text-primary me-2"></i>
+
+                        Quick Links
+
+                    </h5>
+
+
+                    <div class="quick-link-list">
+
+                        <a asp-controller="Booking"
+                           asp-action="Create"
+                           class="quick-link">
+
+                            <span>
+                                <i class="fa-solid fa-calendar-plus"></i>
+                                Book Appointment
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+
+                        <a asp-controller="CustomerPortal"
+                           asp-action="BookingHistory"
+                           class="quick-link">
+
+                            <span>
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                                Booking History
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+
+                        <a asp-controller="CustomerPortal"
+                           asp-action="Profile"
+                           class="quick-link">
+
+                            <span>
+                                <i class="fa-solid fa-user-pen"></i>
+                                My Profile
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Notification"
+                           asp-action="Index"
+                           class="quick-link">
+
+                            <span>
+                                <i class="fa-solid fa-bell"></i>
+                                Notifications
+
+                                @if (Model.UnreadNotificationCount > 0)
+                                {
+                                    <span class="badge bg-danger">
+                                        @Model.UnreadNotificationCount
+                                    </span>
+                                }
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Public"
+                           asp-action="Services"
+                           class="quick-link">
+
+                            <span>
+                                <i class="fa-solid fa-list-check"></i>
+                                View Services
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Public"
+                           asp-action="Astrologers"
+                           class="quick-link">
+
+                            <span>
+                                <i class="fa-solid fa-star"></i>
+                                View Astrologers
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         HELP SECTION
+         ===================================================== -->
+
+    <div class="alert alert-primary border-0 shadow-sm mt-4">
+
+        <div class="d-flex align-items-start">
+
+            <i class="fa-solid fa-circle-info fs-4 me-3"></i>
+
+            <div>
+
+                <h6 class="fw-bold mb-1">
+                    Need help?
+                </h6>
+
+                <p class="mb-0">
+                    Select an astrology service, choose an astrologer
+                    and select an available appointment time to book
+                    your consultation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    /* =====================================================
+           STATISTICS
+           ===================================================== */
+
+    .dashboard-stat-card {
+        border-radius: 16px;
+        transition: all .25s ease;
+    }
+
+        .dashboard-stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+    }
+
+
+    /* =====================================================
+           UPCOMING BOOKING
+           ===================================================== */
+
+    .upcoming-booking {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 14px;
+        padding: 22px;
+    }
+
+    .booking-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .booking-info-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+
+    /* =====================================================
+           CUSTOMER CARDS
+           ===================================================== */
+
+    .customer-card {
+        border-radius: 16px;
+        transition: all .25s ease;
+    }
+
+        .customer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,.10) !important;
+        }
+
+
+    /* =====================================================
+           ICONS
+           ===================================================== */
+
+    .customer-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 23px;
+    }
+
+    .section-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+
+    /* =====================================================
+           TABLE
+           ===================================================== */
+
+    .table-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+
+    /* =====================================================
+           EMPTY STATE
+           ===================================================== */
+
+    .empty-state {
+        text-align: center;
+        padding: 35px 20px;
+    }
+
+    .empty-icon {
+        width: 60px;
+        height: 60px;
+        margin: auto;
+        border-radius: 50%;
+        background: #f1f3f5;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+
+    /* =====================================================
+           INFORMATION ITEMS
+           ===================================================== */
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        background-color: #fafafa;
+        font-size: .9rem;
+        font-weight: 500;
+    }
+
+        .info-item i {
+            width: 22px;
+            text-align: center;
+        }
+
+
+    /* =====================================================
+           QUICK LINKS
+           ===================================================== */
+
+    .quick-link-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .quick-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 14px;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #343a40;
+        font-size: .88rem;
+        transition: all .2s ease;
+    }
+
+        .quick-link span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quick-link > i {
+            color: #0d6efd;
+        }
+
+        .quick-link:hover {
+            background-color: #f8f9fa;
+            border-color: #0d6efd;
+            transform: translateX(3px);
+            color: #0d6efd;
+        }
+
+
+    /* =====================================================
+           MOBILE
+           ===================================================== */
+
+    @@media (max-width: 768px) {
+
+        .customer-card {
+            margin-bottom: 5px;
+        }
+
+        .upcoming-booking {
+            padding: 16px;
+        }
+    }
+
+</style>

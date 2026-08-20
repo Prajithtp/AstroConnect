@@ -1,0 +1,249 @@
+﻿@model AstroConnect.Domain.Entities.Booking
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-10">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+
+                <h3 class="mb-0">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Booking Details
+                </h3>
+
+                <a asp-action="Index" class="btn btn-light">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <!-- Customer Information -->
+
+                    <div class="col-lg-6">
+
+                        <div class="card border-0 bg-light mb-4">
+
+                            <div class="card-header bg-info text-dark">
+
+                                <h5 class="mb-0">
+                                    <i class="fa-solid fa-user"></i>
+                                    Customer Information
+                                </h5>
+
+                            </div>
+
+                            <div class="card-body">
+
+                                <table class="table table-borderless mb-0">
+
+                                    <tr>
+                                        <th width="40%">Full Name</th>
+                                        <td>@Model.Customer.FullName</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>WhatsApp</th>
+                                        <td>@Model.WhatsAppNumber</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Gender</th>
+                                        <td>@Model.Gender</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Birth Date</th>
+                                        <td>@Model.BirthDate.ToString("dd-MMM-yyyy")</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Birth Time</th>
+                                        <td>@Model.BirthTime.ToString("hh\\:mm")</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Birth Place</th>
+                                        <td>@Model.BirthPlace</td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Appointment Information -->
+
+                    <div class="col-lg-6">
+
+                        <div class="card border-0 bg-light mb-4">
+
+                            <div class="card-header bg-success text-white">
+
+                                <h5 class="mb-0">
+                                    <i class="fa-solid fa-star-and-crescent"></i>
+                                    Appointment Information
+                                </h5>
+
+                            </div>
+
+                            <div class="card-body">
+
+                                <table class="table table-borderless mb-0">
+
+                                    <tr>
+                                        <th width="40%">Astrologer</th>
+                                        <td>@Model.Astrologer.FullName</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Service</th>
+                                        <td>@Model.Service.Name</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Booking Date</th>
+                                        <td>@Model.BookingDate.ToString("dd-MMM-yyyy")</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Start Time</th>
+                                        <td>@Model.StartTime.ToString("hh\\:mm")</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>End Time</th>
+                                        <td>@Model.EndTime.ToString("hh\\:mm")</td>
+                                    </tr>
+
+                                    <tr>
+
+                                        <th>Status</th>
+
+                                        <td>
+
+                                            @switch (Model.Status.ToString())
+                                            {
+                                                case "Pending":
+                                                    <span class="badge bg-warning text-dark px-3 py-2">
+                                                        Pending
+                                                    </span>
+                                                    break;
+
+                                                case "Confirmed":
+                                                    <span class="badge bg-success px-3 py-2">
+                                                        Confirmed
+                                                    </span>
+                                                    break;
+
+                                                case "Completed":
+                                                    <span class="badge bg-primary px-3 py-2">
+                                                        Completed
+                                                    </span>
+                                                    break;
+
+                                                case "Cancelled":
+                                                    <span class="badge bg-danger px-3 py-2">
+                                                        Cancelled
+                                                    </span>
+                                                    break;
+
+                                                default:
+                                                    <span class="badge bg-secondary px-3 py-2">
+                                                        @Model.Status
+                                                    </span>
+                                                    break;
+                                            }
+
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Question -->
+
+                <div class="card border-0 bg-light">
+
+                    <div class="card-header bg-secondary text-white">
+
+                        <h5 class="mb-0">
+                            <i class="fa-solid fa-comments"></i>
+                            Consultation Question
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        @if (string.IsNullOrWhiteSpace(Model.Question))
+                        {
+                            <p class="text-muted mb-0">
+                                No consultation question provided.
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="mb-0">
+                                @Model.Question
+                            </p>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+
+                <div class="d-flex justify-content-end">
+
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-warning me-2">
+
+                        <i class="fa-solid fa-pen"></i>
+                        Edit Booking
+
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-danger">
+
+                        <i class="fa-solid fa-trash"></i>
+                        Delete Booking
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

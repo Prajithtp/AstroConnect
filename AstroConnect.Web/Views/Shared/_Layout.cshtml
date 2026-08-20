@@ -1,50 +1,1083 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AstroConnect.Web</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/AstroConnect.Web.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AstroConnect.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+﻿@using AstroConnect.Domain.Common
 
-    <footer class="border-top footer text-muted">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - AstroConnect</title>
+
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap" />
+
+
+    <style>
+
+        /* =====================================================
+                   ASTROCONNECT DESIGN SYSTEM
+                   ===================================================== */
+
+        :root {
+            --astro-bg: #f8f5ec;
+            --astro-surface: #fffdf8;
+            --astro-dark: #181710;
+            --astro-dark-soft: #25231c;
+            --astro-text: #24221c;
+            --astro-muted: #777267;
+            --astro-gold: #e1bf4a;
+            --astro-gold-hover: #d3ae32;
+            --astro-gold-soft: #fff3bd;
+            --astro-border: #e9e3d5;
+            --astro-white: #ffffff;
+            --astro-danger: #b94242;
+            --astro-shadow: 0 14px 40px rgba(37, 31, 20, .08);
+        }
+
+
+        /* =====================================================
+                   BASE
+                   ===================================================== */
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Manrope', sans-serif;
+            background: var(--astro-bg);
+            color: var(--astro-text);
+            min-height: 100vh;
+        }
+
+        h1,
+        h2,
+        h3 {
+            letter-spacing: -.02em;
+        }
+
+        a {
+            transition: all .2s ease;
+        }
+
+
+        /* =====================================================
+                   NAVBAR
+                   ===================================================== */
+
+        .astro-navbar {
+            min-height: 78px;
+            background: var(--astro-dark) !important;
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+            .astro-navbar .container {
+                max-width: 1380px;
+            }
+
+
+        /* BRAND */
+
+        .astro-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--astro-white) !important;
+            font-size: 1.28rem;
+            font-weight: 800;
+            letter-spacing: -.02em;
+            margin-right: 25px;
+        }
+
+        .brand-symbol {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--astro-gold);
+            color: var(--astro-dark);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            box-shadow: 0 6px 18px rgba(225,191,74,.22);
+        }
+
+        .brand-text span {
+            color: var(--astro-gold);
+        }
+
+
+        /* NAV LINKS */
+
+        .astro-navbar .navbar-nav .nav-link {
+            position: relative;
+            color: rgba(255,255,255,.72) !important;
+            font-size: .86rem;
+            font-weight: 600;
+            padding: 10px 11px !important;
+            margin: 0 1px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+            .astro-navbar .navbar-nav .nav-link i {
+                font-size: .82rem;
+                color: var(--astro-gold);
+            }
+
+            .astro-navbar .navbar-nav .nav-link:hover {
+                color: var(--astro-white) !important;
+                background: rgba(255,255,255,.07);
+            }
+
+        .astro-navbar .dashboard-link {
+            color: var(--astro-dark) !important;
+            background: var(--astro-gold);
+        }
+
+            .astro-navbar .dashboard-link i {
+                color: var(--astro-dark);
+            }
+
+            .astro-navbar .dashboard-link:hover {
+                background: var(--astro-gold-hover);
+                color: var(--astro-dark) !important;
+            }
+
+
+        /* =====================================================
+                   DROPDOWN
+                   ===================================================== */
+
+        .dropdown-menu {
+            border: 1px solid var(--astro-border);
+            border-radius: 16px;
+            background: var(--astro-surface);
+            box-shadow: var(--astro-shadow);
+            padding: 9px;
+            min-width: 230px;
+        }
+
+        .dropdown-item {
+            border-radius: 10px;
+            padding: 10px 12px;
+            color: var(--astro-text);
+            font-size: .86rem;
+            font-weight: 600;
+        }
+
+            .dropdown-item i {
+                width: 21px;
+                color: #8b793c;
+            }
+
+            .dropdown-item:hover {
+                background: #f4efe3;
+                color: var(--astro-dark);
+            }
+
+        .dropdown-divider {
+            border-color: var(--astro-border);
+            margin: 7px 0;
+        }
+
+        .dropdown-item-text {
+            padding: 10px 12px;
+        }
+
+
+        /* =====================================================
+                   USER MENU
+                   ===================================================== */
+
+        .user-menu {
+            margin-left: 8px;
+        }
+
+            .user-menu > .nav-link {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+            }
+
+        .user-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(225,191,74,.15);
+            border: 1px solid rgba(225,191,74,.28);
+            color: var(--astro-gold);
+        }
+
+
+        /* =====================================================
+                   AUTH BUTTONS
+                   ===================================================== */
+
+        .auth-btn {
+            min-height: 40px;
+            border-radius: 999px;
+            padding: 8px 17px;
+            font-size: .84rem;
+            font-weight: 700;
+        }
+
+        .btn-astro-outline {
+            border: 1px solid rgba(255,255,255,.28);
+            color: var(--astro-white);
+            background: transparent;
+        }
+
+            .btn-astro-outline:hover {
+                color: var(--astro-white);
+                border-color: rgba(255,255,255,.5);
+                background: rgba(255,255,255,.07);
+            }
+
+        .btn-astro-primary {
+            border: 1px solid var(--astro-gold);
+            color: var(--astro-dark);
+            background: var(--astro-gold);
+        }
+
+            .btn-astro-primary:hover {
+                color: var(--astro-dark);
+                background: var(--astro-gold-hover);
+                border-color: var(--astro-gold-hover);
+                transform: translateY(-1px);
+            }
+
+
+        /* =====================================================
+                   GLOBAL BOOTSTRAP POLISH
+                   ===================================================== */
+
+        .btn {
+            border-radius: 999px;
+            font-weight: 700;
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .btn-sm {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        .btn-primary {
+            background: var(--astro-dark);
+            border-color: var(--astro-dark);
+        }
+
+            .btn-primary:hover,
+            .btn-primary:focus {
+                background: #2b2921;
+                border-color: #2b2921;
+            }
+
+        .btn-warning {
+            background: var(--astro-gold);
+            border-color: var(--astro-gold);
+            color: var(--astro-dark);
+        }
+
+            .btn-warning:hover {
+                background: var(--astro-gold-hover);
+                border-color: var(--astro-gold-hover);
+                color: var(--astro-dark);
+            }
+
+        .btn-outline-primary {
+            color: var(--astro-dark);
+            border-color: #b7aa78;
+        }
+
+            .btn-outline-primary:hover {
+                color: var(--astro-dark);
+                background: var(--astro-gold);
+                border-color: var(--astro-gold);
+            }
+
+        .card {
+            border-radius: 18px !important;
+            border-color: var(--astro-border) !important;
+        }
+
+        .shadow-sm {
+            box-shadow: 0 10px 28px rgba(36, 31, 22, .06) !important;
+        }
+
+        .form-control,
+        .form-select,
+        .input-group-text {
+            border-radius: 12px;
+            border-color: #ded7c8;
+            min-height: 44px;
+        }
+
+            .form-control:focus,
+            .form-select:focus {
+                border-color: #bea74f;
+                box-shadow: 0 0 0 .2rem rgba(225,191,74,.18);
+            }
+
+        .badge {
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .table {
+            --bs-table-bg: transparent;
+        }
+
+        .table-light {
+            --bs-table-bg: #f1ede3;
+        }
+
+        .table-dark {
+            --bs-table-bg: var(--astro-dark);
+        }
+
+        .text-primary {
+            color: #9a7b18 !important;
+        }
+
+        .bg-primary {
+            background-color: var(--astro-dark) !important;
+        }
+
+        .bg-primary-subtle {
+            background-color: var(--astro-gold-soft) !important;
+        }
+
+
+        /* =====================================================
+                   MAIN CONTENT
+                   ===================================================== */
+
+        main {
+            min-height: calc(100vh - 168px);
+        }
+
+
+        /* =====================================================
+                   FOOTER
+                   ===================================================== */
+
+        .astro-footer {
+            margin-top: 60px;
+            background: var(--astro-dark);
+            color: rgba(255,255,255,.68);
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+
+        .footer-inner {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .footer-brand {
+            color: var(--astro-white);
+            font-weight: 800;
+        }
+
+            .footer-brand span {
+                color: var(--astro-gold);
+            }
+
+        .footer-copy {
+            font-size: .8rem;
+        }
+
+
+        /* =====================================================
+                   MOBILE
+                   ===================================================== */
+
+        @@media (max-width: 1199px) {
+
+            .astro-navbar .navbar-nav .nav-link {
+                font-size: .81rem;
+                padding: 9px 8px !important;
+            }
+        }
+
+
+        @@media (max-width: 991px) {
+
+            .astro-navbar {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+                .astro-navbar .navbar-collapse {
+                    padding-top: 15px;
+                }
+
+                .astro-navbar .navbar-nav .nav-link {
+                    border-radius: 10px;
+                    padding: 11px 12px !important;
+                    margin: 2px 0;
+                }
+
+            .user-menu {
+                margin-left: 0;
+                margin-top: 8px;
+            }
+
+            .dropdown-menu {
+                box-shadow: none;
+                border-radius: 12px;
+                margin-bottom: 8px;
+            }
+
+            .auth-btn {
+                width: 100%;
+                margin-top: 6px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+                justify-content: center;
+                padding: 22px 0;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark astro-navbar sticky-top">
+
         <div class="container">
-            &copy; 2026 - AstroConnect.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+
+            <!-- BRAND -->
+
+            <a class="navbar-brand astro-brand"
+               asp-controller="Public"
+               asp-action="Home">
+
+                <span class="brand-symbol">
+                    <i class="fa-solid fa-moon"></i>
+                </span>
+
+                <span class="brand-text">
+                    Astro<span>Connect</span>
+                </span>
+
+            </a>
+
+
+            <!-- MOBILE BUTTON -->
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+            <div class="collapse navbar-collapse"
+                 id="mainNavbar">
+
+
+                <!-- LEFT SIDE -->
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                    <!-- PUBLIC NAVIGATION -->
+
+                    <li class="nav-item">
+
+                        <a class="nav-link"
+                           asp-controller="Public"
+                           asp-action="Home">
+
+                            <i class="fa-solid fa-house me-1"></i>
+                            Home
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link"
+                           asp-controller="Public"
+                           asp-action="Services">
+
+                            <i class="fa-solid fa-list-check me-1"></i>
+                            Services
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link"
+                           asp-controller="Public"
+                           asp-action="Astrologers">
+
+                            <i class="fa-solid fa-star me-1"></i>
+                            Astrologers
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link"
+                           asp-controller="Public"
+                           asp-action="About">
+
+                            <i class="fa-solid fa-circle-info me-1"></i>
+                            About
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link"
+                           asp-controller="Public"
+                           asp-action="Contact">
+
+                            <i class="fa-solid fa-envelope me-1"></i>
+                            Contact
+
+                        </a>
+
+                    </li>
+
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+
+                        <!-- =================================================
+                             ADMIN
+                             ================================================= -->
+                        @if (User.IsInRole(Roles.Admin))
+                        {
+
+                            <li class="nav-item">
+
+                                <a class="nav-link dashboard-link"
+                                   asp-controller="Dashboard"
+                                   asp-action="Index">
+
+                                    <i class="fa-solid fa-gauge-high me-1"></i>
+                                    Dashboard
+
+                                </a>
+
+                            </li>
+
+
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="managementDropdown"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+
+                                    <i class="fa-solid fa-gear me-1"></i>
+                                    Management
+
+                                </a>
+
+
+                                <ul class="dropdown-menu"
+                                    aria-labelledby="managementDropdown">
+
+
+                                    <li>
+
+                                        <a class="dropdown-item"
+                                           asp-controller="User"
+                                           asp-action="Index">
+
+                                            <i class="fa-solid fa-users-gear me-2"></i>
+                                            User Management
+
+                                        </a>
+
+                                    </li>
+
+
+                                    <li>
+
+                                        <a class="dropdown-item"
+                                           asp-controller="Customer"
+                                           asp-action="Index">
+
+                                            <i class="fa-solid fa-users me-2"></i>
+                                            Customers
+
+                                        </a>
+
+                                    </li>
+
+
+                                    <li>
+
+                                        <a class="dropdown-item"
+                                           asp-controller="Astrologer"
+                                           asp-action="Index">
+
+                                            <i class="fa-solid fa-star me-2"></i>
+                                            Astrologers
+
+                                        </a>
+
+                                    </li>
+
+
+                                    <li>
+
+                                        <a class="dropdown-item"
+                                           asp-controller="Service"
+                                           asp-action="Index">
+
+                                            <i class="fa-solid fa-list-check me-2"></i>
+                                            Services
+
+                                        </a>
+
+                                    </li>
+
+
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+
+
+                                    <li>
+
+                                        <a class="dropdown-item"
+                                           asp-controller="Booking"
+                                           asp-action="Index">
+
+                                            <i class="fa-solid fa-calendar-days me-2"></i>
+                                            Bookings
+
+                                        </a>
+
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+                        }
+
+
+                        <!-- =================================================
+                             RECEPTIONIST
+                             ================================================= -->
+                        @if (User.IsInRole(Roles.Receptionist))
+                        {
+
+                            <li class="nav-item">
+
+                                <a class="nav-link dashboard-link"
+                                   asp-controller="Receptionist"
+                                   asp-action="Index">
+
+                                    <i class="fa-solid fa-gauge-high me-1"></i>
+                                    Dashboard
+
+                                </a>
+
+                            </li>
+
+
+                            <li class="nav-item">
+
+                                <a class="nav-link"
+                                   asp-controller="Receptionist"
+                                   asp-action="Bookings">
+
+                                    <i class="fa-solid fa-calendar-days me-1"></i>
+                                    Bookings
+
+                                </a>
+
+                            </li>
+
+
+                            <li class="nav-item">
+
+                                <a class="nav-link"
+                                   asp-controller="Receptionist"
+                                   asp-action="Calendar">
+
+                                    <i class="fa-solid fa-calendar me-1"></i>
+                                    Calendar
+
+                                </a>
+
+                            </li>
+
+
+                            <li class="nav-item">
+
+                                <a class="nav-link"
+                                   asp-controller="Booking"
+                                   asp-action="Create">
+
+                                    <i class="fa-solid fa-calendar-plus me-1"></i>
+                                    Book Appointment
+
+                                </a>
+
+                            </li>
+
+                        }
+
+
+                        <!-- =================================================
+                             CUSTOMER
+                             ================================================= -->
+                        @if (User.IsInRole(Roles.Customer))
+                        {
+
+                            <li class="nav-item">
+
+                                <a class="nav-link dashboard-link"
+                                   asp-controller="CustomerPortal"
+                                   asp-action="Index">
+
+                                    <i class="fa-solid fa-gauge-high me-1"></i>
+                                    Dashboard
+
+                                </a>
+
+                            </li>
+
+
+                            <li class="nav-item">
+
+                                <a class="nav-link"
+                                   asp-controller="Booking"
+                                   asp-action="Create">
+
+                                    <i class="fa-solid fa-calendar-plus me-1"></i>
+                                    Book Appointment
+
+                                </a>
+
+                            </li>
+
+
+                            @await Component.InvokeAsync("Notification")
+
+                        }
+
+                    }
+
+                </ul>
+
+
+                <!-- =================================================
+                     RIGHT SIDE
+                     ================================================= -->
+
+                <ul class="navbar-nav align-items-lg-center">
+
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+
+                        <li class="nav-item dropdown user-menu">
+
+
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               id="userDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+
+
+                                <span class="user-icon">
+
+                                    <i class="fa-solid fa-user"></i>
+
+                                </span>
+
+
+                                @if (User.IsInRole(Roles.Admin))
+                                {
+                                    <span>Admin</span>
+                                }
+                                else if (User.IsInRole(Roles.Receptionist))
+                                {
+                                    <span>Receptionist</span>
+                                }
+                                else if (User.IsInRole(Roles.Customer))
+                                {
+                                    <span>Customer</span>
+                                }
+                                else
+                                {
+                                    <span>Account</span>
+                                }
+
+                            </a>
+
+
+                            <ul class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="userDropdown">
+
+
+                                <li>
+
+                                    <div class="dropdown-item-text">
+
+                                        <small class="text-muted">
+                                            Signed in as
+                                        </small>
+
+                                        <br />
+
+                                        <strong>
+                                            @User.Identity.Name
+                                        </strong>
+
+                                    </div>
+
+                                </li>
+
+
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+
+
+                                @if (User.IsInRole(Roles.Admin))
+                                {
+
+                                    <li>
+
+                                        <a class="dropdown-item"
+                                           asp-controller="Dashboard"
+                                           asp-action="Index">
+
+                                            <i class="fa-solid fa-gauge-high me-2"></i>
+                                            Dashboard
+
+                                        </a>
+
+                                    </li>
+
+                                }
+                                else if (User.IsInRole(Roles.Receptionist))
+                                {
+
+                                    <li>
+
+                                        <a class="dropdown-item"
+                                           asp-controller="Receptionist"
+                                           asp-action="Index">
+
+                                            <i class="fa-solid fa-gauge-high me-2"></i>
+                                            Dashboard
+
+                                        </a>
+
+                                    </li>
+
+                                }
+                                else if (User.IsInRole(Roles.Customer))
+                                {
+
+                                    <li>
+
+                                        <a class="dropdown-item"
+                                           asp-controller="CustomerPortal"
+                                           asp-action="Index">
+
+                                            <i class="fa-solid fa-gauge-high me-2"></i>
+                                            Dashboard
+
+                                        </a>
+
+                                    </li>
+
+                                }
+
+
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+
+
+                                <li>
+
+                                    <form asp-controller="Account"
+                                          asp-action="Logout"
+                                          method="post">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit"
+                                                class="dropdown-item text-danger">
+
+                                            <i class="fa-solid fa-right-from-bracket me-2"></i>
+                                            Logout
+
+                                        </button>
+
+                                    </form>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    }
+                    else
+                    {
+
+                        <li class="nav-item me-lg-2">
+
+                            <a class="btn auth-btn btn-astro-outline"
+                               asp-controller="Account"
+                               asp-action="Register">
+
+                                <i class="fa-solid fa-user-plus me-1"></i>
+                                Register
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="btn auth-btn btn-astro-primary"
+                               asp-controller="Account"
+                               asp-action="Login">
+
+                                <i class="fa-solid fa-right-to-bracket me-1"></i>
+                                Login
+
+                            </a>
+
+                        </li>
+
+                    }
+
+                </ul>
+
+            </div>
+
         </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main>
+
+        @RenderBody()
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="astro-footer">
+
+        <div class="container">
+
+            <div class="footer-inner">
+
+                <div class="footer-brand">
+
+                    Astro<span>Connect</span>
+
+                </div>
+
+                <div class="footer-copy">
+
+                    © @DateTime.Now.Year AstroConnect.
+                    Guidance for life's important moments.
+
+                </div>
+
+            </div>
+
+        </div>
+
     </footer>
+
+
+    <!-- =====================================================
+         SCRIPTS
+         ===================================================== -->
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
+
 </html>

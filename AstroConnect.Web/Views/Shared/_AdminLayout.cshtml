@@ -1,0 +1,370 @@
+﻿@using AstroConnect.Domain.Common
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>@ViewData["Title"] - AstroConnect</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+    <!-- Google Font -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Site CSS -->
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+</head>
+<body class="bg-light">
+
+    <div class="d-flex" id="wrapper">
+
+        <!-- Sidebar -->
+
+        <div class="bg-dark text-white shadow" id="sidebar-wrapper">
+
+            <div class="sidebar-heading text-center py-4">
+
+                <h3 class="fw-bold mb-0">
+                    <i class="fa-solid fa-star-and-crescent"></i>
+                    AstroConnect
+                </h3>
+
+                <small class="text-light">
+                    Astrology Management
+                </small>
+
+            </div>
+
+            <div class="list-group list-group-flush">
+
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="list-group-item list-group-item-action bg-dark text-white">
+                        <i class="fa-solid fa-house me-2"></i>
+                        Dashboard
+                    </a>
+
+                    @if (User.IsInRole(Roles.Admin))
+                    {
+                        <a asp-controller="User"
+                           asp-action="Index"
+                           class="list-group-item list-group-item-action bg-dark text-white">
+                            <i class="fa-solid fa-user-shield me-2"></i>
+                            Users
+                        </a>
+
+                        <a asp-controller="Astrologer"
+                           asp-action="Index"
+                           class="list-group-item list-group-item-action bg-dark text-white">
+                            <i class="fa-solid fa-user-astronaut me-2"></i>
+                            Astrologers
+                        </a>
+
+                        <a asp-controller="Service"
+                           asp-action="Index"
+                           class="list-group-item list-group-item-action bg-dark text-white">
+                            <i class="fa-solid fa-briefcase me-2"></i>
+                            Services
+                        </a>
+                    }
+
+                    @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Receptionist))
+                    {
+                        <a asp-controller="Customer"
+                           asp-action="Index"
+                           class="list-group-item list-group-item-action bg-dark text-white">
+                            <i class="fa-solid fa-users me-2"></i>
+                            Customers
+                        </a>
+
+                        <a asp-controller="Booking"
+                           asp-action="Index"
+                           class="list-group-item list-group-item-action bg-dark text-white">
+                            <i class="fa-solid fa-calendar-days me-2"></i>
+                            Bookings
+                        </a>
+                    }
+
+                    @if (User.IsInRole(Roles.Receptionist))
+                    {
+                        <a asp-controller="Receptionist"
+                           asp-action="Index"
+                           class="list-group-item list-group-item-action bg-dark text-white">
+                            <i class="fa-solid fa-user-tie me-2"></i>
+                            Receptionist
+                        </a>
+                    }
+                }
+
+            </div>
+
+        </div>
+
+        <!-- Page Content -->
+
+        <div id="page-content-wrapper" class="w-100">
+
+            <!-- Top Navbar -->
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
+
+                <button class="btn btn-outline-primary"
+                        id="menu-toggle">
+
+                    <i class="fa-solid fa-bars"></i>
+
+                </button>
+
+                <div class="ms-auto d-flex align-items-center">
+
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <span class="me-3 fw-semibold">
+
+                            <i class="fa-solid fa-circle-user text-primary"></i>
+
+                            @User.Identity.Name
+
+                        </span>
+
+                        <form asp-controller="Account"
+                              asp-action="Logout"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit"
+                                    class="btn btn-danger">
+
+                                <i class="fa-solid fa-right-from-bracket"></i>
+
+                                Logout
+
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+
+            </nav>
+
+            <!-- Main -->
+
+            <div class="container-fluid p-4">
+
+                @RenderBody()
+
+            </div>
+
+            <!-- Footer -->
+
+            <footer class="text-center py-4 text-muted border-top">
+
+                © @DateTime.Now.Year AstroConnect • Astrology Booking Management System
+
+            </footer>
+
+        </div>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+
+        :root {
+            --sidebar-width: 260px;
+            --primary: #2563eb;
+            --sidebar: #111827;
+            --sidebar-hover: #1f2937;
+            --background: #f5f7fb;
+        }
+
+        body {
+            font-family: 'Poppins',sans-serif;
+            background: var(--background);
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR */
+
+        #sidebar-wrapper {
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--sidebar);
+            transition: .3s;
+            z-index: 1050;
+        }
+
+        .sidebar-heading {
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        #sidebar-wrapper .list-group-item {
+            background: transparent;
+            border: none;
+            color: #d1d5db;
+            padding: 15px 24px;
+            font-weight: 500;
+            transition: .25s;
+        }
+
+            #sidebar-wrapper .list-group-item:hover {
+                background: var(--sidebar-hover);
+                color: white;
+                padding-left: 32px;
+            }
+
+            #sidebar-wrapper .list-group-item i {
+                width: 24px;
+            }
+
+        /* CONTENT */
+
+        #page-content-wrapper {
+            margin-left: var(--sidebar-width);
+            transition: .3s;
+            min-height: 100vh;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: -260px;
+        }
+
+        #wrapper.toggled #page-content-wrapper {
+            margin-left: 0;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: white !important;
+        }
+
+            .navbar .btn {
+                border-radius: 10px;
+            }
+
+        /* CARD */
+
+        .card {
+            border: none;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,.08);
+            transition: .25s;
+        }
+
+            .card:hover {
+                transform: translateY(-4px);
+            }
+
+        /* TABLE */
+
+        .table {
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+            .table thead {
+                background: #1f2937;
+                color: white;
+            }
+
+            .table tbody tr:hover {
+                background: #f8f9ff;
+            }
+
+        /* BUTTON */
+
+        .btn {
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        /* FORM */
+
+        .form-control,
+        .form-select {
+            border-radius: 10px;
+            min-height: 45px;
+        }
+
+            .form-control:focus,
+            .form-select:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 .2rem rgba(37,99,235,.15);
+            }
+
+        /* BADGE */
+
+        .badge {
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: white;
+        }
+
+        /* MOBILE */
+
+        @@media (max-width:991px) {
+            #sidebar-wrapper
+
+        {
+            margin-left: -260px;
+        }
+
+        #page-content-wrapper {
+            margin-left: 0;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        }
+    </style>
+    <script>
+
+        document.getElementById("menu-toggle")
+        .addEventListener("click", function () {
+
+            document.getElementById("wrapper")
+                    .classList.toggle("toggled");
+
+        });
+
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

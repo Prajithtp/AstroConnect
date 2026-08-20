@@ -1,0 +1,394 @@
+﻿@model AstroConnect.Web.ViewModels.Booking.BookingCreateViewModel
+
+@{
+    ViewData["Title"] = "Edit Booking";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-10">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-warning text-dark">
+
+                <h3 class="mb-0">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Edit Booking
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <form asp-action="Edit"
+                      asp-route-id="@Context.Request.RouteValues["id"]"
+                      method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger">
+                    </div>
+
+                    <h5 class="text-primary mb-3">
+                        <i class="fa-solid fa-user"></i>
+                        Booking Information
+                    </h5>
+
+                    <div class="row">
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="CustomerId"
+                                   class="form-label fw-bold"></label>
+
+                            <select asp-for="CustomerId"
+                                    asp-items="Model.Customers"
+                                    class="form-select">
+
+                                <option value="">Select Customer</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="AstrologerId"
+                                   class="form-label fw-bold"></label>
+
+                            <select asp-for="AstrologerId"
+                                    asp-items="Model.Astrologers"
+                                    class="form-select">
+
+                                <option value="">Select Astrologer</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="ServiceId"
+                                   class="form-label fw-bold"></label>
+
+                            <select asp-for="ServiceId"
+                                    asp-items="Model.Services"
+                                    class="form-select">
+
+                                <option value="">Select Service</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <h5 class="text-primary mb-3">
+                        <i class="fa-solid fa-clock"></i>
+                        Appointment Schedule
+                    </h5>
+
+                    <div class="row">
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="BookingDate"
+                                   class="form-label fw-bold"></label>
+
+                            <input asp-for="BookingDate"
+                                   type="date"
+                                   class="form-control" />
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="StartTime"
+                                   class="form-label fw-bold"></label>
+
+                            <input asp-for="StartTime"
+                                   type="time"
+                                   class="form-control" />
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="EndTime"
+                                   class="form-label fw-bold"></label>
+
+                            <input asp-for="EndTime"
+                                   type="time"
+                                   class="form-control"
+                                   readonly />
+
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <h5 class="text-primary mb-3">
+                        <i class="fa-solid fa-address-card"></i>
+                        Customer Details
+                    </h5>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="WhatsAppNumber"
+                                   class="form-label fw-bold"></label>
+
+                            <input asp-for="WhatsAppNumber"
+                                   class="form-control"
+                                   placeholder="WhatsApp Number" />
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="Gender"
+                                   class="form-label fw-bold"></label>
+
+                            <input asp-for="Gender"
+                                   class="form-control"
+                                   readonly />
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="BirthDate"
+                                   class="form-label fw-bold"></label>
+
+                            <input asp-for="BirthDate"
+                                   type="date"
+                                   class="form-control" />
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="BirthTime"
+                                   class="form-label fw-bold"></label>
+
+                            <input asp-for="BirthTime"
+                                   type="time"
+                                   class="form-control" />
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="BirthPlace"
+                                   class="form-label fw-bold"></label>
+
+                            <input asp-for="BirthPlace"
+                                   class="form-control" />
+
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <h5 class="text-primary mb-3">
+                        <i class="fa-solid fa-comments"></i>
+                        Consultation Question
+                    </h5>
+
+                    <div class="mb-4">
+
+                        <label asp-for="Question"
+                               class="form-label fw-bold"></label>
+
+                        <textarea asp-for="Question"
+                                  rows="4"
+                                  class="form-control"></textarea>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary me-2">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Cancel
+
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-warning">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Update Booking
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        let selectedServiceDuration = 0;
+
+        // ==========================
+        // Customer Selection
+        // ==========================
+
+        $("#CustomerId").change(function () {
+
+            let customerId = $(this).val();
+
+            if (!customerId)
+                return;
+
+            $.ajax({
+
+                url: "/Customer/GetCustomer/" + customerId,
+                type: "GET",
+
+                success: function (data) {
+
+                    console.log(data);
+
+                    $("#WhatsAppNumber").val(data.phoneNumber);
+
+                    $("#Gender").val(data.gender);
+
+                    $("#BirthDate").val(data.dateOfBirth.split("T")[0]);
+
+                    $("#BirthPlace").val(data.birthPlace);
+
+                },
+
+                error: function () {
+
+                    alert("Unable to load customer details.");
+
+                }
+
+            });
+
+        });
+
+        // ==========================
+        // Service Selection
+        // ==========================
+
+        $("#ServiceId").change(function () {
+
+            let serviceId = $(this).val();
+
+            if (!serviceId)
+                return;
+
+            $.ajax({
+
+                url: "/Service/GetService?id=" + serviceId,
+                type: "GET",
+
+                success: function (data) {
+
+                    console.log(data);
+
+                    selectedServiceDuration = data.durationInMinutes;
+
+                    calculateEndTime();
+
+                },
+
+                error: function () {
+
+                    alert("Unable to load service.");
+
+                }
+
+            });
+
+        });
+
+        // ==========================
+        // Start Time Changed
+        // ==========================
+
+        $("#StartTime").change(function () {
+
+            calculateEndTime();
+
+        });
+
+        // ==========================
+        // Calculate End Time
+        // ==========================
+
+        function calculateEndTime() {
+
+            if (selectedServiceDuration <= 0)
+                return;
+
+            let start = $("#StartTime").val();
+
+            if (!start)
+                return;
+
+            let parts = start.split(":");
+
+            let hours = parseInt(parts[0]);
+
+            let minutes = parseInt(parts[1]);
+
+            let totalMinutes = (hours * 60) + minutes + selectedServiceDuration;
+
+            let endHour = Math.floor(totalMinutes / 60);
+
+            let endMinute = totalMinutes % 60;
+
+            if (endHour < 10)
+                endHour = "0" + endHour;
+
+            if (endMinute < 10)
+                endMinute = "0" + endMinute;
+
+            $("#EndTime").val(endHour + ":" + endMinute);
+
+        }
+
+        // ==========================
+        // Initial Load
+        // ==========================
+
+        $(document).ready(function () {
+
+            if ($("#ServiceId").val()) {
+
+                $("#ServiceId").trigger("change");
+
+            }
+
+        });
+
+    </script>
+}

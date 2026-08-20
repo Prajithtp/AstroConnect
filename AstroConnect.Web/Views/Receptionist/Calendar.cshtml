@@ -1,0 +1,497 @@
+﻿@using AstroConnect.Domain.Enums
+@model AstroConnect.Web.ViewModels.Receptionist.ReceptionistBookingCalendarViewModel
+
+@{
+    ViewData["Title"] = "Booking Calendar";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-calendar-days text-primary me-2"></i>
+                Booking Calendar
+            </h2>
+
+            <p class="text-muted mb-0">
+                View appointments scheduled for a selected date.
+            </p>
+        </div>
+
+        <div class="mt-3 mt-md-0">
+
+            <a asp-controller="Receptionist"
+               asp-action="Index"
+               class="btn btn-secondary me-2">
+
+                <i class="fa-solid fa-arrow-left me-1"></i>
+                Dashboard
+
+            </a>
+
+            <a asp-controller="Receptionist"
+               asp-action="Bookings"
+               class="btn btn-primary">
+
+                <i class="fa-solid fa-list me-1"></i>
+                All Bookings
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- DATE SELECTOR -->
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form asp-controller="Receptionist"
+                  asp-action="Calendar"
+                  method="get">
+
+                <div class="row align-items-end g-3">
+
+                    <div class="col-md-5 col-lg-4">
+
+                        <label class="form-label fw-bold">
+                            Select Date
+                        </label>
+
+                        <input type="date"
+                               name="date"
+                               value="@Model.SelectedDate.ToString("yyyy-MM-dd")"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+
+                            <i class="fa-solid fa-magnifying-glass me-1"></i>
+                            View Schedule
+
+                        </button>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <a asp-controller="Receptionist"
+                           asp-action="Calendar"
+                           class="btn btn-outline-secondary w-100">
+
+                            <i class="fa-solid fa-calendar-day me-1"></i>
+                            Today
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- SELECTED DATE -->
+    <div class="selected-date-card shadow-sm mb-4">
+
+        <div class="selected-date-icon">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+        </div>
+
+        <div>
+
+            <div class="small text-muted">
+                Appointment Schedule
+            </div>
+
+            <h4 class="fw-bold mb-0">
+
+                @Model.SelectedDate.ToString("dddd, dd MMMM yyyy")
+
+            </h4>
+
+        </div>
+
+        <div class="ms-auto">
+
+            <span class="badge bg-primary px-3 py-2">
+
+                @Model.Bookings.Count Appointment(s)
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOOKINGS -->
+    @if (Model.Bookings.Any())
+    {
+
+        <div class="row g-4">
+
+            @foreach (var booking in Model.Bookings)
+            {
+
+                <div class="col-12">
+
+                    <div class="card border-0 shadow-sm booking-card">
+
+                        <div class="card-body p-4">
+
+                            <div class="row align-items-center g-3">
+
+                                <!-- TIME -->
+                                <div class="col-md-2">
+
+                                    <div class="appointment-time">
+
+                                        <div class="start-time">
+                                            @booking.StartTime.ToString("hh:mm tt")
+                                        </div>
+
+                                        <div class="time-divider">
+                                            to
+                                        </div>
+
+                                        <div class="end-time">
+                                            @booking.EndTime.ToString("hh:mm tt")
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- CUSTOMER -->
+                                <div class="col-md-3">
+
+                                    <div class="appointment-info">
+
+                                        <div class="info-label">
+                                            <i class="fa-solid fa-user text-primary me-1"></i>
+                                            Customer
+                                        </div>
+
+                                        <div class="info-value">
+                                            @booking.CustomerName
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- ASTROLOGER -->
+                                <div class="col-md-2">
+
+                                    <div class="appointment-info">
+
+                                        <div class="info-label">
+                                            <i class="fa-solid fa-star text-warning me-1"></i>
+                                            Astrologer
+                                        </div>
+
+                                        <div class="info-value">
+                                            @booking.AstrologerName
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- SERVICE -->
+                                <div class="col-md-3">
+
+                                    <div class="appointment-info">
+
+                                        <div class="info-label">
+                                            <i class="fa-solid fa-list-check text-success me-1"></i>
+                                            Service
+                                        </div>
+
+                                        <div class="info-value">
+                                            @booking.ServiceName
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- STATUS -->
+
+                                <div class="col-md-2 text-end">
+
+                                    @if (booking.Status == BookingStatus.Pending.ToString())
+                                    {
+                                        <span class="badge bg-warning text-dark status-badge">
+                                            <i class="fa-solid fa-clock me-1"></i>
+                                            Pending
+                                        </span>
+                                    }
+                                    else if (booking.Status == BookingStatus.Confirmed.ToString())
+                                    {
+                                        <span class="badge bg-success status-badge">
+                                            <i class="fa-solid fa-circle-check me-1"></i>
+                                            Confirmed
+                                        </span>
+                                    }
+                                    else if (booking.Status == BookingStatus.Completed.ToString())
+                                    {
+                                        <span class="badge bg-primary status-badge">
+                                            <i class="fa-solid fa-check-double me-1"></i>
+                                            Completed
+                                        </span>
+                                    }
+                                    else if (booking.Status == BookingStatus.Cancelled.ToString())
+                                    {
+                                        <span class="badge bg-danger status-badge">
+                                            <i class="fa-solid fa-circle-xmark me-1"></i>
+                                            Cancelled
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary status-badge">
+                                            @booking.Status
+                                        </span>
+                                    }
+
+                                </div>
+
+                                    <div class="mt-2">
+
+                                        <a asp-controller="Receptionist"
+                                           asp-action="BookingDetails"
+                                           asp-route-id="@booking.Id"
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            <i class="fa-solid fa-eye me-1"></i>
+                                            Details
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+            }
+
+        </div>
+
+    }
+    else
+    {
+
+        <!-- EMPTY STATE -->
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body">
+
+                <div class="empty-calendar">
+
+                    <div class="empty-calendar-icon">
+
+                        <i class="fa-solid fa-calendar-xmark"></i>
+
+                    </div>
+
+                    <h4 class="fw-bold mt-4">
+                        No Appointments
+                    </h4>
+
+                    <p class="text-muted mb-4">
+
+                        There are no appointments scheduled for
+                        @Model.SelectedDate.ToString("dd MMMM yyyy").
+
+                    </p>
+
+                    <a asp-controller="Booking"
+                       asp-action="Create"
+                       class="btn btn-primary">
+
+                        <i class="fa-solid fa-calendar-plus me-1"></i>
+                        Create New Booking
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>
+
+
+<style>
+
+    /* =====================================================
+           SELECTED DATE
+           ===================================================== */
+
+    .selected-date-card {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 18px 22px;
+        background: white;
+        border-radius: 14px;
+    }
+
+    .selected-date-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        background: #e7f1ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+
+    /* =====================================================
+           BOOKING CARD
+           ===================================================== */
+
+    .booking-card {
+        border-radius: 15px;
+        transition: all .2s ease;
+    }
+
+        .booking-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,.10) !important;
+        }
+
+
+    /* =====================================================
+           TIME
+           ===================================================== */
+
+    .appointment-time {
+        padding: 12px;
+        border-radius: 12px;
+        background: #f8f9fa;
+        text-align: center;
+    }
+
+    .start-time {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #0d6efd;
+    }
+
+    .end-time {
+        font-size: .95rem;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .time-divider {
+        font-size: .75rem;
+        color: #6c757d;
+        margin: 2px 0;
+    }
+
+
+    /* =====================================================
+           INFORMATION
+           ===================================================== */
+
+    .info-label {
+        font-size: .78rem;
+        color: #6c757d;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        font-weight: 600;
+        font-size: .95rem;
+    }
+
+
+    /* =====================================================
+           STATUS
+           ===================================================== */
+
+    .status-badge {
+        font-size: .82rem;
+        padding: 8px 12px;
+    }
+
+
+    /* =====================================================
+           EMPTY STATE
+           ===================================================== */
+
+    .empty-calendar {
+        text-align: center;
+        padding: 70px 20px;
+    }
+
+    .empty-calendar-icon {
+        width: 75px;
+        height: 75px;
+        margin: auto;
+        border-radius: 50%;
+        background: #f1f3f5;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+    }
+
+
+    /* =====================================================
+           MOBILE
+           ===================================================== */
+
+    @@media (max-width: 768px) {
+
+        .selected-date-card {
+            flex-wrap: wrap;
+        }
+
+            .selected-date-card .ms-auto {
+                margin-left: 0 !important;
+                width: 100%;
+            }
+
+        .appointment-time {
+            text-align: left;
+        }
+    }
+
+</style>

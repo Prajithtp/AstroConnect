@@ -1,0 +1,561 @@
+﻿@model List<AstroConnect.Domain.Entities.Service>
+
+@{
+    ViewData["Title"] = "Our Services";
+}
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+
+<section class="services-hero">
+
+    <div class="container">
+
+        <div class="services-hero-content">
+
+            <span class="section-label">
+                ASTROLOGY SERVICES
+            </span>
+
+            <h1>
+                Guidance designed for
+                <span>life's important decisions.</span>
+            </h1>
+
+            <p>
+                Explore our consultation services and choose the guidance
+                that best matches your needs.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SERVICES
+     ========================================================= -->
+
+<section class="services-list-section">
+
+    <div class="container">
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="row g-4">
+
+                @{
+                    int serviceNumber = 1;
+                }
+
+                @foreach (var service in Model)
+                {
+                    <div class="col-md-6 col-lg-4">
+
+                        <div class="service-card h-100">
+
+                            <!-- NUMBER -->
+
+                            <div class="service-number">
+
+                                @serviceNumber.ToString("00")
+
+                            </div>
+
+
+                            <!-- ICON -->
+
+                            <div class="service-icon">
+
+                                @if (service.Name.Contains("Marriage", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <i class="fa-solid fa-heart"></i>
+                                }
+                                else if (service.Name.Contains("Career", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <i class="fa-solid fa-briefcase"></i>
+                                }
+                                else if (service.Name.Contains("Horoscope", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <i class="fa-solid fa-star"></i>
+                                }
+                                else if (service.Name.Contains("Muhurtham", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                }
+                                else if (service.Name.Contains("Vasthu", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <i class="fa-solid fa-house"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-moon"></i>
+                                }
+
+                        </div>
+
+
+                        <!-- NAME -->
+
+                        <h3>
+                            @service.Name
+                        </h3>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <p class="service-description">
+
+                            @(string.IsNullOrWhiteSpace(service.Description)
+                                                    ? "Personalized astrology consultation tailored to your needs."
+                                                    : service.Description)
+
+                    </p>
+
+
+                            <!-- META -->
+
+                            <div class="service-meta">
+
+                                <div>
+
+                                    <span>
+                                        Duration
+                                    </span>
+
+                                    <strong>
+                                        @service.DurationInMinutes Minutes
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        Consultation Fee
+                                    </span>
+
+                                    <strong class="service-price">
+                                        ₹@service.Price.ToString("0.##")
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- CTA -->
+                    @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <a asp-controller="Booking"
+                                   asp-action="Create"
+                                   class="btn service-btn">
+
+                                    Book Appointment
+
+                                    <i class="fa-solid fa-arrow-right ms-2"></i>
+
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account"
+                                   asp-action="Register"
+                                   class="btn service-btn">
+
+                                    Book Appointment
+
+                                    <i class="fa-solid fa-arrow-right ms-2"></i>
+
+                                </a>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    serviceNumber++;
+                }
+
+            </div>
+        }
+        else
+        {
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                </div>
+
+                <h4>
+                    No Services Available
+                </h4>
+
+                <p>
+                    Please check again later.
+                </p>
+
+            </div>
+
+        }
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HOW TO CHOOSE
+     ========================================================= -->
+
+<section class="service-help-section">
+
+    <div class="container">
+
+        <div class="service-help-card">
+
+            <div class="row align-items-center g-4">
+
+                <div class="col-lg-8">
+
+                    <span class="section-label light-label">
+                        NEED HELP CHOOSING?
+                    </span>
+
+                    <h2>
+                        Not sure which consultation is right for you?
+                    </h2>
+
+                    <p>
+                        Explore our astrologers and choose a service based on
+                        the guidance you are looking for.
+                    </p>
+
+                </div>
+
+
+                <div class="col-lg-4 text-lg-end">
+
+                    <a asp-controller="Public"
+                       asp-action="Astrologers"
+                       class="btn help-btn">
+
+                        Meet Our Astrologers
+
+                        <i class="fa-solid fa-arrow-right ms-2"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<style>
+
+    /* =====================================================
+           HERO
+           ===================================================== */
+
+    .services-hero {
+        padding: 100px 0 90px;
+        background: #181710;
+        color: white;
+    }
+
+    .services-hero-content {
+        max-width: 800px;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 14px;
+        color: #c39d25;
+        font-size: .7rem;
+        font-weight: 800;
+        letter-spacing: .18em;
+    }
+
+    .services-hero h1 {
+        margin: 0;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(3rem, 6vw, 5.4rem);
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: -.035em;
+    }
+
+        .services-hero h1 span {
+            display: block;
+            color: #e1bf4a;
+        }
+
+    .services-hero p {
+        max-width: 650px;
+        margin-top: 25px;
+        margin-bottom: 0;
+        color: rgba(255,255,255,.62);
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+
+
+    /* =====================================================
+           SERVICES
+           ===================================================== */
+
+    .services-list-section {
+        padding: 100px 0;
+        background: #f8f5ec;
+    }
+
+    .service-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 32px;
+        border: 1px solid #e5dece;
+        border-radius: 22px;
+        background: #fffdf8;
+        transition: all .3s ease;
+    }
+
+        .service-card:hover {
+            transform: translateY(-7px);
+            border-color: #d3bc61;
+            box-shadow: 0 20px 45px rgba(40,34,22,.09);
+        }
+
+    .service-number {
+        position: absolute;
+        right: 26px;
+        top: 23px;
+        color: #ded7c8;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.7rem;
+    }
+
+    .service-icon {
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        border-radius: 50%;
+        background: #fff0ad;
+        color: #5f4b0c;
+        font-size: 1.2rem;
+    }
+
+    .service-card h3 {
+        margin-bottom: 14px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.65rem;
+        font-weight: 400;
+    }
+
+    .service-description {
+        flex-grow: 1;
+        min-height: 90px;
+        margin-bottom: 25px;
+        color: #777267;
+        font-size: .86rem;
+        line-height: 1.75;
+    }
+
+
+    /* =====================================================
+           META
+           ===================================================== */
+
+    .service-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        padding: 18px 0;
+        margin-bottom: 22px;
+        border-top: 1px solid #ece6d9;
+        border-bottom: 1px solid #ece6d9;
+    }
+
+        .service-meta span {
+            display: block;
+            margin-bottom: 4px;
+            color: #8b8579;
+            font-size: .68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .service-meta strong {
+            display: block;
+            color: #24221c;
+            font-size: .88rem;
+        }
+
+    .service-price {
+        color: #987918 !important;
+        font-size: 1rem !important;
+    }
+
+
+    /* =====================================================
+           BUTTON
+           ===================================================== */
+
+    .service-btn {
+        width: 100%;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: auto;
+        background: #181710;
+        border: 1px solid #181710;
+        color: white;
+        font-size: .82rem;
+    }
+
+        .service-btn:hover {
+            background: #e1bf4a;
+            border-color: #e1bf4a;
+            color: #181710;
+            transform: translateY(-1px);
+        }
+
+
+    /* =====================================================
+           HELP
+           ===================================================== */
+
+    .service-help-section {
+        padding: 10px 0 100px;
+        background: #f8f5ec;
+    }
+
+    .service-help-card {
+        padding: 55px 60px;
+        border-radius: 24px;
+        background: radial-gradient( circle at 90% 20%, rgba(225,191,74,.14), transparent 28% ), #24221c;
+        color: white;
+    }
+
+    .light-label {
+        color: #e1bf4a;
+    }
+
+    .service-help-card h2 {
+        max-width: 690px;
+        margin-bottom: 14px;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2rem, 4vw, 3.3rem);
+        font-weight: 400;
+        line-height: 1.05;
+    }
+
+    .service-help-card p {
+        max-width: 620px;
+        margin: 0;
+        color: rgba(255,255,255,.55);
+        font-size: .86rem;
+        line-height: 1.7;
+    }
+
+    .help-btn {
+        min-height: 49px;
+        display: inline-flex;
+        align-items: center;
+        background: #e1bf4a;
+        border: none;
+        color: #181710;
+    }
+
+        .help-btn:hover {
+            background: #d3ae32;
+            color: #181710;
+            transform: translateY(-2px);
+        }
+
+
+    /* =====================================================
+           EMPTY
+           ===================================================== */
+
+    .empty-state {
+        text-align: center;
+        padding: 70px 20px;
+    }
+
+    .empty-icon {
+        width: 72px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: #eee8db;
+        color: #817868;
+        font-size: 25px;
+    }
+
+    .empty-state h4 {
+        font-family: 'DM Serif Display', serif;
+    }
+
+    .empty-state p {
+        color: #777267;
+    }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 991px) {
+
+        .service-help-card {
+            padding: 45px 35px;
+        }
+    }
+
+    @@media (max-width: 575px) {
+
+        .services-hero {
+            padding: 75px 0;
+        }
+
+        .services-list-section {
+            padding: 75px 0;
+        }
+
+        .service-description {
+            min-height: auto;
+        }
+
+        .service-meta {
+            grid-template-columns: 1fr;
+        }
+
+        .service-help-card {
+            padding: 38px 25px;
+        }
+    }
+
+</style>

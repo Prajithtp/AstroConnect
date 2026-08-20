@@ -1,0 +1,193 @@
+﻿@model AstroConnect.Web.Models.ViewModels.AstrologerEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Astrologer";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-10">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-warning text-dark">
+
+                <h3 class="mb-0">
+                    <i class="fa-solid fa-user-pen"></i>
+                    Edit Astrologer
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <form asp-action="Edit" method="post">
+
+                    <input asp-for="Id" type="hidden" />
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger">
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="FullName" class="form-label fw-bold"></label>
+
+                            <input asp-for="FullName"
+                                   class="form-control"
+                                   placeholder="Enter Full Name" />
+
+                            <span asp-validation-for="FullName"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="Email" class="form-label fw-bold"></label>
+
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   placeholder="Enter Email Address" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="PhoneNumber" class="form-label fw-bold"></label>
+
+                            <input asp-for="PhoneNumber"
+                                   class="form-control"
+                                   placeholder="Phone Number" />
+
+                            <span asp-validation-for="PhoneNumber"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="Experience" class="form-label fw-bold"></label>
+
+                            <input asp-for="Experience"
+                                   class="form-control"
+                                   placeholder="Years of Experience" />
+
+                            <span asp-validation-for="Experience"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="Specialization" class="form-label fw-bold"></label>
+
+                            <input asp-for="Specialization"
+                                   class="form-control"
+                                   placeholder="Specialization" />
+
+                            <span asp-validation-for="Specialization"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="Language" class="form-label fw-bold"></label>
+
+                            <input asp-for="Language"
+                                   class="form-control"
+                                   placeholder="Languages Known" />
+
+                            <span asp-validation-for="Language"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="Biography"
+                               class="form-label fw-bold"></label>
+
+                        <textarea asp-for="Biography"
+                                  rows="5"
+                                  class="form-control"
+                                  placeholder="Write a short biography..."></textarea>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label asp-for="ProfileImageUrl"
+                               class="form-label fw-bold"></label>
+
+                        <input asp-for="ProfileImageUrl"
+                               class="form-control"
+                               placeholder="Profile Image URL" />
+
+                    </div>
+
+                    <div class="form-check form-switch mb-4">
+
+                        <input asp-for="IsActive"
+                               class="form-check-input" />
+
+                        <label asp-for="IsActive"
+                               class="form-check-label fw-bold">
+                        </label>
+
+                    </div>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-end">
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary me-2">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Back
+
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-warning text-dark">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Update Astrologer
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

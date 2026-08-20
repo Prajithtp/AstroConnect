@@ -1,0 +1,1077 @@
+﻿@model AstroConnect.Web.ViewModels.Receptionist.ReceptionistDashboardViewModel
+
+@{
+    ViewData["Title"] = "Receptionist Dashboard";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                <i class="fa-solid fa-headset text-primary me-2"></i>
+                Receptionist Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Manage today's appointments and customer bookings.
+            </p>
+        </div>
+
+        <div class="mt-3 mt-md-0">
+
+            <span class="badge bg-primary px-3 py-2 fs-6">
+                <i class="fa-solid fa-user-tie me-1"></i>
+                Receptionist
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+         ===================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- TODAY -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Today's Appointments
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.TodayBookings
+                            </h2>
+
+                        </div>
+
+                        <div class="stat-icon bg-primary-subtle text-primary">
+
+                            <i class="fa-solid fa-calendar-day"></i>
+
+                        </div>
+
+                    </div>
+
+                    <span class="small text-muted">
+                        Appointments scheduled today
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PENDING -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Pending
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.PendingBookings
+                            </h2>
+
+                        </div>
+
+                        <div class="stat-icon bg-warning-subtle text-warning">
+
+                            <i class="fa-solid fa-clock"></i>
+
+                        </div>
+
+                    </div>
+
+                    <span class="small text-muted">
+                        Awaiting confirmation
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONFIRMED -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Confirmed
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.ConfirmedBookings
+                            </h2>
+
+                        </div>
+
+                        <div class="stat-icon bg-success-subtle text-success">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                        </div>
+
+                    </div>
+
+                    <span class="small text-muted">
+                        Confirmed appointments
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- COMPLETED -->
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Completed
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                @Model.CompletedBookings
+                            </h2>
+
+                        </div>
+
+                        <div class="stat-icon bg-info-subtle text-info">
+
+                            <i class="fa-solid fa-check-double"></i>
+
+                        </div>
+
+                    </div>
+
+                    <span class="small text-muted">
+                        Completed appointments
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         QUICK ACTIONS
+         ===================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-4">
+
+            <a asp-controller="Receptionist"
+               asp-action="Bookings"
+               class="text-decoration-none">
+
+                <div class="quick-action-card shadow-sm">
+
+                    <div class="quick-action-icon bg-primary">
+
+                        <i class="fa-solid fa-calendar-days"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5 class="fw-bold mb-1">
+                            Manage Bookings
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            View and filter all customer appointments.
+                        </p>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right ms-auto text-primary"></i>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <a asp-controller="Booking"
+               asp-action="Create"
+               class="text-decoration-none">
+
+                <div class="quick-action-card shadow-sm">
+
+                    <div class="quick-action-icon bg-success">
+
+                        <i class="fa-solid fa-calendar-plus"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5 class="fw-bold mb-1">
+                            New Booking
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Create an appointment for a customer.
+                        </p>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right ms-auto text-success"></i>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <a asp-controller="Customer"
+               asp-action="Index"
+               class="text-decoration-none">
+
+                <div class="quick-action-card shadow-sm">
+
+                    <div class="quick-action-icon bg-warning text-dark">
+
+                        <i class="fa-solid fa-users"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5 class="fw-bold mb-1">
+                            Customers
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            View and manage customer information.
+                        </p>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right ms-auto text-warning"></i>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         TODAY'S APPOINTMENTS
+         ===================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h5 class="fw-bold mb-1">
+
+                        <i class="fa-solid fa-calendar-day text-primary me-2"></i>
+
+                        Today's Appointments
+
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        Appointments scheduled for today.
+
+                    </p>
+
+                </div>
+
+                <div class="mt-2 mt-md-0">
+
+                    <span class="badge bg-primary px-3 py-2">
+
+                        @Model.TodayBookings appointment(s)
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            @if (Model.TodayAppointmentList != null &&
+                        Model.TodayAppointmentList.Any())
+            {
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>Customer</th>
+
+                                <th>Astrologer</th>
+
+                                <th>Service</th>
+
+                                <th>Date</th>
+
+                                <th>Time</th>
+
+                                <th>Status</th>
+
+                                <th class="text-end">
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var booking in Model.TodayAppointmentList)
+                            {
+
+                                <tr>
+
+                                    <!-- CUSTOMER -->
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <div class="table-icon bg-primary-subtle text-primary">
+
+                                                <i class="fa-solid fa-user"></i>
+
+                                            </div>
+
+                                            <span class="ms-2 fw-semibold">
+
+                                                @(booking.Customer?.FullName
+                                                                                        ?? "Customer")
+
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- ASTROLOGER -->
+
+                                    <td>
+
+                                        <span>
+
+                                            @(booking.Astrologer?.FullName
+                                                                                ?? "Astrologer")
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- SERVICE -->
+
+                                    <td>
+
+                                        @(booking.Service?.Name
+                                                                        ?? "Consultation")
+
+                            </td>
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+
+                                        @booking.BookingDate.ToString("dd MMM yyyy")
+
+                                    </td>
+
+
+                                    <!-- TIME -->
+
+                                    <td>
+
+                                        <span class="fw-semibold">
+
+                                            @booking.StartTime.ToString("hh:mm tt")
+
+                                        </span>
+
+                                        <span class="text-muted">
+
+                                            -
+                                            @booking.EndTime.ToString("hh:mm tt")
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                @if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Pending)
+                                        {
+
+                                            <span class="badge bg-warning text-dark">
+
+                                                <i class="fa-solid fa-clock me-1"></i>
+                                                Pending
+
+                                            </span>
+
+                                        }
+                                        else if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Confirmed)
+                                        {
+
+                                            <span class="badge bg-success">
+
+                                                <i class="fa-solid fa-circle-check me-1"></i>
+                                                Confirmed
+
+                                            </span>
+
+                                        }
+                                        else if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Completed)
+                                        {
+
+                                            <span class="badge bg-primary">
+
+                                                <i class="fa-solid fa-check-double me-1"></i>
+                                                Completed
+
+                                            </span>
+
+                                        }
+                                        else if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Cancelled)
+                                        {
+
+                                            <span class="badge bg-danger">
+
+                                                <i class="fa-solid fa-circle-xmark me-1"></i>
+                                                Cancelled
+
+                                            </span>
+
+                                        }
+
+                                    </td>
+
+
+                                    <!-- ACTIONS -->
+
+                                    <td class="text-end">
+
+                                        <div class="d-flex justify-content-end gap-1">
+
+                                            <!-- CONFIRM -->
+                                            @if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Pending)
+                                            {
+
+                                                <form asp-controller="Receptionist"
+                                                      asp-action="ConfirmBooking"
+                                                      asp-route-id="@booking.Id"
+                                                      method="post">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-success"
+                                                            title="Confirm Booking">
+
+                                                        <i class="fa-solid fa-check"></i>
+
+                                                    </button>
+
+                                                </form>
+
+                                            }
+
+
+                                            <!-- COMPLETE -->
+                                            @if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Confirmed)
+                                            {
+
+                                                <form asp-controller="Receptionist"
+                                                      asp-action="CompleteBooking"
+                                                      asp-route-id="@booking.Id"
+                                                      method="post">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-primary"
+                                                            title="Complete Booking">
+
+                                                        <i class="fa-solid fa-check-double"></i>
+
+                                                    </button>
+
+                                                </form>
+
+                                            }
+
+
+                                            <!-- CANCEL -->
+                                            @if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Pending ||
+                                                                                booking.Status == AstroConnect.Domain.Enums.BookingStatus.Confirmed)
+                                            {
+
+                                                <form asp-controller="Receptionist"
+                                                      asp-action="CancelBooking"
+                                                      asp-route-id="@booking.Id"
+                                                      method="post"
+                                                      onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger"
+                                                            title="Cancel Booking">
+
+                                                        <i class="fa-solid fa-xmark"></i>
+
+                                                    </button>
+
+                                                </form>
+
+                                            }
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            }
+            else
+            {
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="fa-solid fa-calendar-xmark"></i>
+
+                    </div>
+
+                    <h5 class="fw-bold mt-3">
+                        No Appointments Today
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        There are no appointments scheduled for today.
+
+                    </p>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RECEPTIONIST INFORMATION
+         ===================================================== -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="section-icon bg-primary">
+
+                            <i class="fa-solid fa-headset"></i>
+
+                        </div>
+
+                        <div class="ms-3">
+
+                            <h5 class="fw-bold mb-1">
+                                Receptionist Tasks
+                            </h5>
+
+                            <p class="text-muted mb-0">
+                                Manage customer appointments efficiently.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <div class="info-item">
+
+                                <i class="fa-solid fa-calendar-check text-primary"></i>
+
+                                <span>
+                                    Check today's appointments
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="info-item">
+
+                                <i class="fa-solid fa-clock text-warning"></i>
+
+                                <span>
+                                    Review pending bookings
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="info-item">
+
+                                <i class="fa-solid fa-circle-check text-success"></i>
+
+                                <span>
+                                    Confirm customer bookings
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="info-item">
+
+                                <i class="fa-solid fa-check-double text-primary"></i>
+
+                                <span>
+                                    Mark appointments completed
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK LINKS -->
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3">
+
+                        <i class="fa-solid fa-link text-primary me-2"></i>
+
+                        Quick Links
+
+                    </h5>
+
+
+                    <div class="quick-link-list">
+
+                        <a asp-controller="Receptionist"
+                           asp-action="Bookings"
+                           class="quick-link">
+
+                            <span>
+
+                                <i class="fa-solid fa-calendar-days"></i>
+
+                                All Bookings
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+                        <a asp-controller="Receptionist"
+                           asp-action="Calendar"
+                           class="quick-link">
+
+                            <span>
+                                <i class="fa-solid fa-calendar-days"></i>
+                                Booking Calendar
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+                        <a asp-controller="Booking"
+                           asp-action="Create"
+                           class="quick-link">
+
+                            <span>
+
+                                <i class="fa-solid fa-calendar-plus"></i>
+
+                                New Booking
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Customer"
+                           asp-action="Index"
+                           class="quick-link">
+
+                            <span>
+
+                                <i class="fa-solid fa-users"></i>
+
+                                Customers
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Astrologer"
+                           asp-action="Index"
+                           class="quick-link">
+
+                            <span>
+
+                                <i class="fa-solid fa-star"></i>
+
+                                Astrologers
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Service"
+                           asp-action="Index"
+                           class="quick-link">
+
+                            <span>
+
+                                <i class="fa-solid fa-list-check"></i>
+
+                                Services
+
+                            </span>
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    /* =====================================================
+           DASHBOARD STATISTICS
+           ===================================================== */
+
+    .dashboard-stat-card {
+        border-radius: 16px;
+        transition: all .25s ease;
+    }
+
+        .dashboard-stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+    }
+
+
+    /* =====================================================
+           QUICK ACTION CARDS
+           ===================================================== */
+
+    .quick-action-card {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 20px;
+        border-radius: 14px;
+        background: white;
+        color: #212529;
+        transition: all .25s ease;
+    }
+
+        .quick-action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,.10) !important;
+        }
+
+    .quick-action-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+
+    /* =====================================================
+           TABLE
+           ===================================================== */
+
+    .table-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .table th {
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+           EMPTY STATE
+           ===================================================== */
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .empty-icon {
+        width: 64px;
+        height: 64px;
+        margin: auto;
+        border-radius: 50%;
+        background: #f1f3f5;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+    }
+
+
+    /* =====================================================
+           INFORMATION SECTION
+           ===================================================== */
+
+    .section-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        background-color: #fafafa;
+        font-size: .9rem;
+        font-weight: 500;
+    }
+
+        .info-item i {
+            width: 22px;
+            text-align: center;
+        }
+
+
+    /* =====================================================
+           QUICK LINKS
+           ===================================================== */
+
+    .quick-link-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .quick-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 14px;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #343a40;
+        font-size: .88rem;
+        transition: all .2s ease;
+    }
+
+        .quick-link span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quick-link > i {
+            color: #0d6efd;
+        }
+
+        .quick-link:hover {
+            background-color: #f8f9fa;
+            border-color: #0d6efd;
+            transform: translateX(3px);
+            color: #0d6efd;
+        }
+
+
+    /* =====================================================
+           MOBILE
+           ===================================================== */
+
+    @@media (max-width: 768px) {
+
+        .quick-action-card {
+            padding: 16px;
+        }
+
+        .table {
+            font-size: .85rem;
+        }
+    }
+
+</style>

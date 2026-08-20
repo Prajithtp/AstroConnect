@@ -1,0 +1,637 @@
+﻿@model List<AstroConnect.Domain.Entities.Booking>
+
+@{
+    ViewData["Title"] = "Bookings";
+    int slNo = 1;
+}
+
+<div class="container-fluid py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">
+                <i class="fa-solid fa-calendar-days text-primary"></i>
+                Bookings
+            </h2>
+
+            <p class="text-muted mb-0">
+                Manage astrology appointments
+            </p>
+        </div>
+
+        <a asp-action="Create"
+           class="btn btn-primary">
+
+            <i class="fa-solid fa-plus"></i>
+            New Booking
+
+        </a>
+
+    </div>
+
+
+    <!-- SUCCESS MESSAGE -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            @TempData["Success"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+
+    <!-- FILTERS -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-5">
+
+                    <input type="text"
+                           id="bookingSearch"
+                           class="form-control"
+                           placeholder="🔍 Search customer, astrologer or service">
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <select id="statusFilter"
+                            class="form-select">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option value="Pending">
+                            Pending
+                        </option>
+
+                        <option value="Confirmed">
+                            Confirmed
+                        </option>
+
+                        <option value="Completed">
+                            Completed
+                        </option>
+
+                        <option value="Cancelled">
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-2">
+
+                    <input type="date"
+                           id="dateFilter"
+                           class="form-control">
+
+                </div>
+
+
+                <div class="col-md-2 d-grid">
+
+                    <button id="clearFilters"
+                            class="btn btn-outline-secondary">
+
+                        <i class="fa-solid fa-filter-circle-xmark"></i>
+                        Clear
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOOKINGS -->
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            No bookings found.
+
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle"
+                           id="bookingTable">
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>#</th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Astrologer
+                                </th>
+
+                                <th>
+                                    Service
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Time
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th class="text-center">
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var booking in Model)
+                            {
+                                <tr>
+
+                                    <!-- SL NO -->
+
+                                    <td>
+                                        @slNo
+                                    </td>
+
+
+                                    <!-- CUSTOMER -->
+
+                                    <td>
+
+                                        <strong>
+                                            @(booking.Customer?.FullName ?? "N/A")
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- ASTROLOGER -->
+
+                                    <td>
+                                        @(booking.Astrologer?.FullName ?? "N/A")
+                                    </td>
+
+
+                                    <!-- SERVICE -->
+
+                                    <td>
+                                        @(booking.Service?.Name ?? "N/A")
+                                    </td>
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+                                        @booking.BookingDate.ToString("dd-MMM-yyyy")
+                                    </td>
+
+
+                                    <!-- TIME -->
+
+                                    <td>
+
+                                        @booking.StartTime.ToString("hh\\:mm")
+
+                                        -
+
+                                        @booking.EndTime.ToString("hh\\:mm")
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                        @switch (booking.Status)
+                                        {
+                                            case AstroConnect.Domain.Enums.BookingStatus.Pending:
+
+                                                <span class="badge bg-warning text-dark">
+                                                    Pending
+                                                </span>
+
+                                                break;
+
+
+                                            case AstroConnect.Domain.Enums.BookingStatus.Confirmed:
+
+                                                <span class="badge bg-success">
+                                                    Confirmed
+                                                </span>
+
+                                                break;
+
+
+                                            case AstroConnect.Domain.Enums.BookingStatus.Completed:
+
+                                                <span class="badge bg-primary">
+                                                    Completed
+                                                </span>
+
+                                                break;
+
+
+                                            case AstroConnect.Domain.Enums.BookingStatus.Cancelled:
+
+                                                <span class="badge bg-danger">
+                                                    Cancelled
+                                                </span>
+
+                                                break;
+
+
+                                            default:
+
+                                                <span class="badge bg-secondary">
+                                                    @booking.Status
+                                                </span>
+
+                                                break;
+                                        }
+
+                                    </td>
+
+
+                                    <!-- ACTIONS -->
+
+                                    <td class="text-center">
+
+                                        <!-- VIEW -->
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@booking.Id"
+                                           class="btn btn-sm btn-info action-btn me-1"
+                                           title="View Details">
+
+                                            <i class="fa-solid fa-eye"></i>
+
+                                        </a>
+
+
+                                        <!-- EDIT -->
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@booking.Id"
+                                           class="btn btn-sm btn-warning action-btn me-1"
+                                           title="Edit Booking">
+
+                                            <i class="fa-solid fa-pen"></i>
+
+                                        </a>
+
+
+                                        <!-- CHANGE STATUS -->
+
+                                        <div class="dropdown d-inline-block me-1">
+
+                                            <button class="btn btn-sm btn-success action-btn dropdown-toggle"
+                                                    type="button"
+                                                    data-bs-toggle="dropdown"
+                                                    title="Change Status">
+
+                                                <i class="fa-solid fa-rotate"></i>
+
+                                            </button>
+
+
+                                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                                @if (booking.Status != AstroConnect.Domain.Enums.BookingStatus.Confirmed)
+                                                {
+                                                    <li>
+
+                                                        <form asp-action="ChangeStatus"
+                                                              method="post">
+
+                                                            @Html.AntiForgeryToken()
+
+                                                            <input type="hidden"
+                                                                   name="id"
+                                                                   value="@booking.Id" />
+
+                                                            <input type="hidden"
+                                                                   name="status"
+                                                                   value="2" />
+
+                                                            <button type="submit"
+                                                                    class="dropdown-item">
+
+                                                                🟢 Confirm
+
+                                                            </button>
+
+                                                        </form>
+
+                                                    </li>
+                                                }
+
+
+                                                @if (booking.Status != AstroConnect.Domain.Enums.BookingStatus.Completed)
+                                                {
+                                                    <li>
+
+                                                        <form asp-action="ChangeStatus"
+                                                              method="post">
+
+                                                            @Html.AntiForgeryToken()
+
+                                                            <input type="hidden"
+                                                                   name="id"
+                                                                   value="@booking.Id" />
+
+                                                            <input type="hidden"
+                                                                   name="status"
+                                                                   value="3" />
+
+                                                            <button type="submit"
+                                                                    class="dropdown-item">
+
+                                                                🔵 Complete
+
+                                                            </button>
+
+                                                        </form>
+
+                                                    </li>
+                                                }
+
+
+                                                @if (booking.Status != AstroConnect.Domain.Enums.BookingStatus.Cancelled)
+                                                {
+                                                    <li>
+
+                                                        <form asp-action="ChangeStatus"
+                                                              method="post">
+
+                                                            @Html.AntiForgeryToken()
+
+                                                            <input type="hidden"
+                                                                   name="id"
+                                                                   value="@booking.Id" />
+
+                                                            <input type="hidden"
+                                                                   name="status"
+                                                                   value="4" />
+
+                                                            <button type="submit"
+                                                                    class="dropdown-item text-danger">
+
+                                                                🔴 Cancel
+
+                                                            </button>
+
+                                                        </form>
+
+                                                    </li>
+                                                }
+
+                                            </ul>
+
+                                        </div>
+
+
+                                        <!-- DELETE -->
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@booking.Id"
+                                           class="btn btn-sm btn-danger action-btn"
+                                           title="Delete Booking">
+
+                                            <i class="fa-solid fa-trash"></i>
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                slNo++;
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+
+<style>
+
+    .action-btn {
+        width: 38px;
+        height: 38px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        transition: .25s;
+    }
+
+        .action-btn:hover {
+            transform: scale(1.12);
+        }
+
+</style>
+
+
+@section Scripts {
+
+    <script>
+
+        function filterBookings() {
+
+            let search =
+                document.getElementById("bookingSearch")
+                    .value
+                    .toLowerCase();
+
+            let status =
+                document.getElementById("statusFilter")
+                    .value
+                    .toLowerCase();
+
+            let date =
+                document.getElementById("dateFilter")
+                    .value;
+
+            let rows =
+                document.querySelectorAll(
+                    "#bookingTable tbody tr"
+                );
+
+
+            rows.forEach(function (row) {
+
+                let text =
+                    row.innerText.toLowerCase();
+
+                let statusCell =
+                    row.cells[6]
+                        .innerText
+                        .toLowerCase();
+
+                let dateCell =
+                    row.cells[4].innerText;
+
+
+                let show = true;
+
+
+                // SEARCH
+
+                if (search !== "" &&
+                    !text.includes(search)) {
+
+                    show = false;
+
+                }
+
+
+                // STATUS
+
+                if (status !== "" &&
+                    !statusCell.includes(status)) {
+
+                    show = false;
+
+                }
+
+
+                // DATE
+
+                if (date !== "") {
+
+                    let d = new Date(date);
+
+                    let formatted =
+                        d.toLocaleDateString(
+                            "en-GB",
+                            {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric"
+                            }
+                        )
+                        .replace(/ /g, "-");
+
+
+                    if (dateCell !== formatted) {
+
+                        show = false;
+
+                    }
+
+                }
+
+
+                row.style.display =
+                    show ? "" : "none";
+
+            });
+
+        }
+
+
+        document
+            .getElementById("bookingSearch")
+            .addEventListener(
+                "keyup",
+                filterBookings
+            );
+
+
+        document
+            .getElementById("statusFilter")
+            .addEventListener(
+                "change",
+                filterBookings
+            );
+
+
+        document
+            .getElementById("dateFilter")
+            .addEventListener(
+                "change",
+                filterBookings
+            );
+
+
+        document
+            .getElementById("clearFilters")
+            .addEventListener(
+                "click",
+                function () {
+
+                    document
+                        .getElementById("bookingSearch")
+                        .value = "";
+
+                    document
+                        .getElementById("statusFilter")
+                        .value = "";
+
+                    document
+                        .getElementById("dateFilter")
+                        .value = "";
+
+                    filterBookings();
+
+                });
+
+    </script>
+
+}
