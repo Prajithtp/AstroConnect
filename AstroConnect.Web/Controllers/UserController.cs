@@ -101,9 +101,25 @@ public class UserController : Controller
 
         if (result.Succeeded)
         {
-            await _userManager.AddToRoleAsync(
+            var roleResult = await _userManager.AddToRoleAsync(
                 user,
                 model.Role);
+
+            if (!roleResult.Succeeded)
+            {
+                // Roll back the newly-created user so we don't leave
+                // an account in the database without the intended role.
+                await _userManager.DeleteAsync(user);
+
+                foreach (var error in roleResult.Errors)
+                {
+                    ModelState.AddModelError(
+                        string.Empty,
+                        error.Description);
+                }
+
+                return View(model);
+            }
 
             return RedirectToAction(nameof(Index));
         }

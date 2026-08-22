@@ -23,10 +23,13 @@ public class AstrologerController : Controller
         var astrologers = await _astrologerRepository.GetAllAsync();
         return View(astrologers);
     }
+    [Authorize(Roles = Roles.Admin)]
+    [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(AstrologerCreateViewModel model)
@@ -53,6 +56,8 @@ public class AstrologerController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = Roles.Admin)]
+    [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
         var astrologer = await _astrologerRepository.GetByIdAsync(id);
@@ -78,6 +83,7 @@ public class AstrologerController : Controller
 
         return View(model);
     }
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(AstrologerEditViewModel model)
@@ -108,6 +114,8 @@ public class AstrologerController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = Roles.Admin)]
+    [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
         var astrologer = await _astrologerRepository.GetByIdAsync(id);
@@ -119,6 +127,7 @@ public class AstrologerController : Controller
 
         return View(astrologer);
     }
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)

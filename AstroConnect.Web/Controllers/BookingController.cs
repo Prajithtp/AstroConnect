@@ -61,7 +61,7 @@ public class BookingController : Controller
     // =========================================================
     // INDEX
     // =========================================================
-
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Index()
     {
         var bookings = await _bookingRepository.GetAllAsync();
@@ -581,7 +581,7 @@ public class BookingController : Controller
     // =========================================================
     // DETAILS
     // =========================================================
-
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Details(int id)
     {
         var booking =
@@ -599,7 +599,7 @@ public class BookingController : Controller
     // =========================================================
     // EDIT - GET
     // =========================================================
-
+    [Authorize(Roles = Roles.Admin)]
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
@@ -651,7 +651,7 @@ public class BookingController : Controller
     // =========================================================
     // EDIT - POST
     // =========================================================
-
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
@@ -939,7 +939,7 @@ public class BookingController : Controller
     // =========================================================
     // DELETE - GET
     // =========================================================
-
+    [Authorize(Roles = Roles.Admin)]
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
@@ -958,7 +958,7 @@ public class BookingController : Controller
     // =========================================================
     // DELETE - POST
     // =========================================================
-
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(
@@ -973,7 +973,7 @@ public class BookingController : Controller
     // =========================================================
     // CHANGE BOOKING STATUS
     // =========================================================
-
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangeStatus(

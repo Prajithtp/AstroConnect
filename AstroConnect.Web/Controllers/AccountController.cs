@@ -41,14 +41,25 @@ public class AccountController : Controller
             model.Email,
             model.Password,
             model.RememberMe,
-            lockoutOnFailure: false);
+            lockoutOnFailure: true);
 
-        if (!result.Succeeded)
+        if (result.IsLockedOut)
         {
-            ModelState.AddModelError("", "Invalid email or password.");
+            ModelState.AddModelError(
+                "",
+                "Your account has been temporarily locked due to multiple failed login attempts. Please try again later.");
+
             return View(model);
         }
 
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(
+                "",
+                "Invalid email or password.");
+
+            return View(model);
+        }
         var user = await _userManager.FindByEmailAsync(model.Email);
 
         if (user == null)
@@ -134,7 +145,29 @@ public class AccountController : Controller
         if (result.Succeeded)
         {
             // Assign Customer role
-            await _userManager.AddToRoleAsync(user, Roles.Customer);
+            // Assign Customer role
+            var roleResult =
+                await _userManager.AddToRoleAsync(
+                    user,
+                    Roles.Customer);
+
+            if (!roleResult.Succeeded)
+            {
+                // Remove the newly-created account so we don't leave
+                // a user without the required Customer role.
+                await _userManager.DeleteAsync(user);
+
+                foreach (var error in roleResult.Errors)
+                {
+                    ModelState.AddModelError(
+                        string.Empty,
+                        error.Description);
+                }
+
+                return View(model);
+            }
+
+            // Create Customer record
 
             // Create Customer record
             var customer = new Customer

@@ -17,12 +17,13 @@ namespace AstroConnect.Web.Controllers
         {
             _serviceRepository = serviceRepository;
         }
-
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var services = await _serviceRepository.GetAllAsync();
             return View(services);
         }
+        [HttpGet]
         public IActionResult Create()
         {
             var model = new ServiceCreateViewModel();
@@ -51,6 +52,7 @@ namespace AstroConnect.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var service = await _serviceRepository.GetByIdAsync(id);
@@ -96,6 +98,7 @@ namespace AstroConnect.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var service = await _serviceRepository.GetByIdAsync(id);
