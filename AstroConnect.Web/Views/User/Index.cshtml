@@ -2,213 +2,1897 @@
 
 @{
     ViewData["Title"] = "User Management";
+
+    var totalUsers = Model?.Count ?? 0;
+    var verifiedUsers = Model?.Count(x => x.EmailConfirmed) ?? 0;
+    var pendingUsers = totalUsers - verifiedUsers;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<section class="user-management-page">
 
-    <div>
+    <div class="container">
 
-        <h2 class="fw-bold">
-            <i class="fa-solid fa-users text-primary"></i>
-            User Management
-        </h2>
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
 
-        <p class="text-muted mb-0">
-            Manage application users and roles
-        </p>
+        <div class="page-header">
 
-    </div>
+            <div>
 
-    <a asp-action="Create" class="btn btn-primary">
+                <span class="section-label">
+                    ADMINISTRATION
+                </span>
 
-        <i class="fa-solid fa-user-plus"></i>
+                <h1>
+                    User Management
+                </h1>
 
-        Create User
+                <p>
+                    Manage application accounts, assigned roles
+                    and user access information.
+                </p>
 
-    </a>
+            </div>
 
-</div>
 
-<div class="card shadow-sm border-0 mb-4">
+            <div class="header-actions">
 
-    <div class="card-body">
+                <a asp-controller="Admin"
+                   asp-action="Index"
+                   class="back-btn">
 
-        <input type="text"
-               id="userSearch"
-               class="form-control"
-               placeholder="🔍 Search by name, email or role">
+                    <i class="fa-solid fa-arrow-left"></i>
 
-    </div>
+                    Dashboard
 
-</div>
+                </a>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
 
-        No users found.
+                <a asp-action="Create"
+                   class="create-user-btn">
 
-    </div>
-}
-else
-{
-    <div class="card shadow-sm border-0">
+                    <i class="fa-solid fa-user-plus"></i>
 
-        <div class="card-body">
+                    Create User
 
-            <div class="table-responsive">
-
-                <table class="table table-hover align-middle" id="userTable">
-
-                    <thead class="table-dark">
-
-                        <tr>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Role</th>
-                            <th>Email Status</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @foreach (var user in Model)
-                        {
-                            <tr>
-
-                                <td>
-
-                                    <strong>@user.FullName</strong>
-
-                                </td>
-
-                                <td>@user.Email</td>
-
-                                <td>
-
-                                    @(string.IsNullOrWhiteSpace(user.PhoneNumber)
-                                                                ? "-"
-                                                                : user.PhoneNumber)
-
-                        </td>
-
-                                <td>
-
-                            @switch (user.Role)
-                                    {
-                                        case "Admin":
-
-                                            <span class="badge bg-danger">
-                                                Admin
-                                            </span>
-
-                                            break;
-
-                                        case "Receptionist":
-
-                                            <span class="badge bg-primary">
-                                                Receptionist
-                                            </span>
-
-                                            break;
-
-                                        case "Astrologer":
-
-                                            <span class="badge bg-success">
-                                                Astrologer
-                                            </span>
-
-                                            break;
-
-                                        default:
-
-                                            <span class="badge bg-secondary">
-                                                @user.Role
-                                            </span>
-
-                                            break;
-                                    }
-
-                                </td>
-
-                                <td>
-
-                                    @if (user.EmailConfirmed)
-                                    {
-                                        <span class="badge bg-success">
-                                            Verified
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-warning text-dark">
-                                            Pending
-                                        </span>
-                                    }
-
-                                </td>
-
-                                <td class="text-center">
-
-                                    <a asp-action="Edit"
-                                       asp-route-id="@user.Id"
-                                       class="btn btn-warning btn-sm action-btn me-1"
-                                       title="Edit User">
-
-                                        <i class="fa-solid fa-pen"></i>
-
-                                    </a>
-
-                                    <a asp-action="Delete"
-                                       asp-route-id="@user.Id"
-                                       class="btn btn-danger btn-sm action-btn"
-                                       title="Delete User">
-
-                                        <i class="fa-solid fa-trash"></i>
-
-                                    </a>
-
-                                </td>
-
-                            </tr>
-                        }
-
-                    </tbody>
-
-                </table>
+                </a>
 
             </div>
 
         </div>
 
+
+        <!-- =====================================================
+             SUMMARY
+             ===================================================== -->
+
+        <section class="user-summary">
+
+            <div class="summary-main">
+
+                <div class="summary-icon">
+
+                    <i class="fa-solid fa-users-gear"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        ACCOUNT OVERVIEW
+                    </span>
+
+                    <h2>
+                        Application Users
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-stats">
+
+                <div>
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong>
+                        @totalUsers
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        VERIFIED
+                    </span>
+
+                    <strong>
+                        @verifiedUsers
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        PENDING
+                    </span>
+
+                    <strong>
+                        @pendingUsers
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SEARCH
+             ===================================================== -->
+
+        <section class="search-card">
+
+            <div class="search-heading">
+
+                <div>
+
+                    <span>
+                        FIND USERS
+                    </span>
+
+                    <h2>
+                        Search Accounts
+                    </h2>
+
+                </div>
+
+
+                <div class="search-heading-icon">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="search-wrapper">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text"
+                       id="userSearch"
+                       class="form-control"
+                       placeholder="Search by name, email or role" />
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             USER LIST
+             ===================================================== -->
+        @if (Model == null || !Model.Any())
+        {
+            <section class="empty-state">
+
+                <div class="empty-icon">
+
+                    <i class="fa-solid fa-users-slash"></i>
+
+                </div>
+
+                <span>
+                    USER ACCOUNTS
+                </span>
+
+                <h2>
+                    No users found.
+                </h2>
+
+                <p>
+                    Create the first application user to begin managing accounts.
+                </p>
+
+
+                <a asp-action="Create"
+                   class="empty-create-btn">
+
+                    <i class="fa-solid fa-user-plus"></i>
+
+                    Create User
+
+                </a>
+
+            </section>
+        }
+        else
+        {
+            <section class="users-card">
+
+                <div class="users-card-header">
+
+                    <div class="users-heading">
+
+                        <div class="users-icon">
+
+                            <i class="fa-solid fa-users"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                ACCOUNT RECORDS
+                            </span>
+
+                            <h2>
+                                Registered Users
+                            </h2>
+
+                            <p>
+                                Review account information and assigned roles.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="record-count">
+
+                        <strong id="visibleUserCount">
+                            @totalUsers
+                        </strong>
+
+                        <span>
+                            users
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     DESKTOP TABLE
+                     ================================================= -->
+
+                <div class="desktop-users">
+
+                    <div class="table-responsive">
+
+                        <table class="table user-table align-middle"
+                               id="userTable">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        User
+                                    </th>
+
+                                    <th>
+                                        Email
+                                    </th>
+
+                                    <th>
+                                        Phone
+                                    </th>
+
+                                    <th>
+                                        Role
+                                    </th>
+
+                                    <th>
+                                        Email Status
+                                    </th>
+
+                                    <th class="text-end">
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+
+                                        <!-- USER -->
+
+                                        <td>
+
+                                            <div class="user-cell">
+
+                                                <div class="user-avatar">
+
+                                                    <i class="fa-solid fa-user"></i>
+
+                                                </div>
+
+                                                <div>
+
+                                                    <span>
+                                                        USER
+                                                    </span>
+
+                                                    <strong>
+                                                        @user.FullName
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- EMAIL -->
+
+                                        <td>
+
+                                            <div class="email-cell">
+
+                                                <i class="fa-regular fa-envelope"></i>
+
+                                                <span>
+                                                    @user.Email
+                                                </span>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- PHONE -->
+
+                                        <td>
+
+                                            <div class="phone-cell">
+
+                                                <i class="fa-solid fa-phone"></i>
+
+                                                <span>
+
+                                                    @(string.IsNullOrWhiteSpace(user.PhoneNumber)
+                                                                                                ? "Not provided"
+                                                                                                : user.PhoneNumber)
+
+                                        </span>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- ROLE -->
+
+                                        <td>
+
+                                    @switch (user.Role)
+                                            {
+                                                case "Admin":
+
+                                                    <span class="role-badge role-admin">
+
+                                                        <span class="role-dot"></span>
+
+                                                        Admin
+
+                                                    </span>
+
+                                                    break;
+
+
+                                                case "Receptionist":
+
+                                                    <span class="role-badge role-receptionist">
+
+                                                        <span class="role-dot"></span>
+
+                                                        Receptionist
+
+                                                    </span>
+
+                                                    break;
+
+
+                                                case "Astrologer":
+
+                                                    <span class="role-badge role-astrologer">
+
+                                                        <span class="role-dot"></span>
+
+                                                        Astrologer
+
+                                                    </span>
+
+                                                    break;
+
+
+                                                default:
+
+                                                    <span class="role-badge role-default">
+
+                                                        <span class="role-dot"></span>
+
+                                                        @user.Role
+
+                                                    </span>
+
+                                                    break;
+                                            }
+
+                                        </td>
+
+
+                                        <!-- EMAIL STATUS -->
+
+                                        <td>
+
+                                            @if (user.EmailConfirmed)
+                                            {
+                                                <span class="verification-badge verified">
+
+                                                    <i class="fa-solid fa-circle-check"></i>
+
+                                                    Verified
+
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="verification-badge pending">
+
+                                                    <i class="fa-regular fa-clock"></i>
+
+                                                    Pending
+
+                                                </span>
+                                            }
+
+                                        </td>
+
+
+                                        <!-- ACTIONS -->
+
+                                        <td class="text-end">
+
+                                            <div class="user-actions">
+
+                                                <a asp-action="Edit"
+                                                   asp-route-id="@user.Id"
+                                                   class="action-btn edit-btn"
+                                                   title="Edit User">
+
+                                                    <i class="fa-solid fa-pen"></i>
+
+                                                </a>
+
+
+                                                <a asp-action="Delete"
+                                                   asp-route-id="@user.Id"
+                                                   class="action-btn delete-btn"
+                                                   title="Delete User">
+
+                                                    <i class="fa-solid fa-trash"></i>
+
+                                                </a>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     MOBILE CARDS
+                     ================================================= -->
+
+                <div class="mobile-users"
+                     id="mobileUserList">
+
+                    @foreach (var user in Model)
+                    {
+                        <article class="mobile-user-card">
+
+                            <div class="mobile-user-top">
+
+                                <div class="mobile-user-identity">
+
+                                    <div class="mobile-avatar">
+
+                                        <i class="fa-solid fa-user"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <span>
+                                            USER ACCOUNT
+                                        </span>
+
+                                        <h3>
+                                            @user.FullName
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+
+                                @switch (user.Role)
+                                {
+                                    case "Admin":
+
+                                        <span class="role-badge role-admin">
+
+                                            <span class="role-dot"></span>
+
+                                            Admin
+
+                                        </span>
+
+                                        break;
+
+
+                                    case "Receptionist":
+
+                                        <span class="role-badge role-receptionist">
+
+                                            <span class="role-dot"></span>
+
+                                            Receptionist
+
+                                        </span>
+
+                                        break;
+
+
+                                    case "Astrologer":
+
+                                        <span class="role-badge role-astrologer">
+
+                                            <span class="role-dot"></span>
+
+                                            Astrologer
+
+                                        </span>
+
+                                        break;
+
+
+                                    default:
+
+                                        <span class="role-badge role-default">
+
+                                            <span class="role-dot"></span>
+
+                                            @user.Role
+
+                                        </span>
+
+                                        break;
+                                }
+
+                        </div>
+
+
+                        <div class="mobile-user-details">
+
+                            <div>
+
+                                <i class="fa-regular fa-envelope"></i>
+
+                                <div>
+
+                                    <span>
+                                        Email
+                                    </span>
+
+                                    <strong>
+                                        @user.Email
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <i class="fa-solid fa-phone"></i>
+
+                                <div>
+
+                                    <span>
+                                        Phone
+                                    </span>
+
+                                    <strong>
+
+                                        @(string.IsNullOrWhiteSpace(user.PhoneNumber)
+                                                                            ? "Not provided"
+                                                                            : user.PhoneNumber)
+
+                                </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <i class="fa-solid fa-shield-halved"></i>
+
+                                    <div>
+
+                                        <span>
+                                            Email Status
+                                        </span>
+
+                                @if (user.EmailConfirmed)
+                                        {
+                                            <strong class="mobile-verified">
+                                                Verified
+                                            </strong>
+                                        }
+                                        else
+                                        {
+                                            <strong class="mobile-pending">
+                                                Pending
+                                            </strong>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="mobile-actions">
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@user.Id"
+                                   class="mobile-edit-btn">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                    Edit User
+
+                                </a>
+
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@user.Id"
+                                   class="mobile-delete-btn">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                    Delete
+
+                                </a>
+
+                            </div>
+
+                        </article>
+                    }
+
+                </div>
+
+
+                <!-- FILTER EMPTY -->
+
+                <div id="userFilterEmpty"
+                     class="filter-empty"
+                     style="display:none;">
+
+                    <div class="empty-icon">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                    </div>
+
+                    <span>
+                        NO MATCHES
+                    </span>
+
+                    <h3>
+                        No matching users.
+                    </h3>
+
+                    <p>
+                        Try searching with a different name, email or role.
+                    </p>
+
+                </div>
+
+            </section>
+        }
+
+
+        <!-- =====================================================
+             FOOTER CTA
+             ===================================================== -->
+        @if (Model != null && Model.Any())
+        {
+            <section class="user-footer">
+
+                <div>
+
+                    <div class="footer-icon">
+
+                        <i class="fa-solid fa-user-shield"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            ADMINISTRATION
+                        </span>
+
+                        <h3>
+                            Manage AstroConnect account access.
+                        </h3>
+
+                        <p>
+                            Create users and maintain correct application roles.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a asp-action="Create"
+                   class="footer-create-btn">
+
+                    Create User
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </section>
+        }
+
     </div>
-}
 
-@section Scripts {
+</section>
 
+
+<style>
+
+    /* =====================================================
+           PAGE
+           ===================================================== */
+
+    .user-management-page {
+        min-height: 100vh;
+        padding: 45px 0 80px;
+        background: #f8f5ec;
+    }
+
+
+    /* =====================================================
+           HEADER
+           ===================================================== */
+
+    .page-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 28px;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #987918;
+        font-size: .63rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
+
+    .page-header h1 {
+        margin-bottom: 8px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.5rem, 4vw, 3.8rem);
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .page-header p {
+        max-width: 620px;
+        margin: 0;
+        color: #817b70;
+        font-size: .8rem;
+        line-height: 1.7;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 9px;
+        flex-shrink: 0;
+    }
+
+    .back-btn,
+    .create-user-btn {
+        min-height: 43px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 16px;
+        border-radius: 9px;
+        font-size: .67rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+    .back-btn {
+        border: 1px solid #ccc2af;
+        background: transparent;
+        color: #181710;
+    }
+
+        .back-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: white;
+        }
+
+    .create-user-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .create-user-btn:hover {
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+        }
+
+
+    /* =====================================================
+           SUMMARY
+           ===================================================== */
+
+    .user-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 18px;
+        padding: 23px 27px;
+        border-radius: 18px;
+        background: #181710;
+        color: white;
+    }
+
+    .summary-main {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .summary-icon {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .75rem;
+    }
+
+    .summary-main span {
+        display: block;
+        margin-bottom: 2px;
+        color: #e1bf4a;
+        font-size: .49rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .summary-main h2 {
+        margin: 0;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    .summary-stats {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+    }
+
+        .summary-stats > div:not(.summary-divider) {
+            min-width: 58px;
+            text-align: center;
+        }
+
+        .summary-stats span,
+        .summary-stats strong {
+            display: block;
+        }
+
+        .summary-stats span {
+            margin-bottom: 2px;
+            color: rgba(255,255,255,.37);
+            font-size: .47rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+        }
+
+        .summary-stats strong {
+            color: #e1bf4a;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.55rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+    .summary-divider {
+        width: 1px;
+        height: 31px;
+        background: rgba(255,255,255,.12);
+    }
+
+
+    /* =====================================================
+           SEARCH
+           ===================================================== */
+
+    .search-card {
+        margin-bottom: 18px;
+        padding: 22px 24px;
+        border: 1px solid #e1d9ca;
+        border-radius: 17px;
+        background: #fffdf8;
+    }
+
+    .search-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+
+        .search-heading span {
+            display: block;
+            margin-bottom: 2px;
+            color: #987918;
+            font-size: .49rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+        }
+
+        .search-heading h2 {
+            margin: 0;
+            color: #29251f;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+        }
+
+    .search-heading-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f1eadc;
+        color: #8d7626;
+        font-size: .61rem;
+    }
+
+    .search-wrapper {
+        position: relative;
+    }
+
+        .search-wrapper > i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            z-index: 2;
+            transform: translateY(-50%);
+            color: #9c9487;
+            font-size: .62rem;
+            pointer-events: none;
+        }
+
+        .search-wrapper .form-control {
+            min-height: 44px;
+            padding-left: 40px;
+            border: 1px solid #ddd5c6;
+            border-radius: 10px;
+            background: #faf7ef;
+            color: #39342c;
+            font-size: .69rem;
+        }
+
+            .search-wrapper .form-control:focus {
+                border-color: #c5a943;
+                background: white;
+                box-shadow: 0 0 0 .18rem rgba(225,191,74,.11);
+            }
+
+
+    /* =====================================================
+           USERS CARD
+           ===================================================== */
+
+    .users-card {
+        overflow: hidden;
+        border: 1px solid #e1d9ca;
+        border-radius: 19px;
+        background: #fffdf8;
+    }
+
+    .users-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        padding: 26px 27px 21px;
+    }
+
+    .users-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .users-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .68rem;
+    }
+
+    .users-heading span {
+        display: block;
+        margin-bottom: 2px;
+        color: #987918;
+        font-size: .49rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+    }
+
+    .users-heading h2 {
+        margin-bottom: 2px;
+        color: #29251f;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.45rem;
+        font-weight: 400;
+    }
+
+    .users-heading p {
+        margin: 0;
+        color: #958d80;
+        font-size: .59rem;
+    }
+
+    .record-count {
+        text-align: center;
+        flex-shrink: 0;
+    }
+
+        .record-count strong,
+        .record-count span {
+            display: block;
+        }
+
+        .record-count strong {
+            color: #181710;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.65rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .record-count span {
+            margin-top: 2px;
+            color: #958d80;
+            font-size: .48rem;
+            font-weight: 700;
+        }
+
+
+    /* =====================================================
+           TABLE
+           ===================================================== */
+
+    .user-table {
+        margin: 0;
+    }
+
+        .user-table thead th {
+            padding: 12px 15px;
+            border-top: 1px solid #e7dfd2;
+            border-bottom: 1px solid #ded5c6;
+            background: #faf7ef;
+            color: #8d8578;
+            font-size: .52rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .user-table tbody td {
+            padding: 15px;
+            border-bottom: 1px solid #eee7dc;
+            color: #554f46;
+            font-size: .65rem;
+        }
+
+        .user-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .user-table tbody tr:hover {
+            background: #fbf8f1;
+        }
+
+
+    /* USER */
+
+    .user-cell {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .user-avatar {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .57rem;
+    }
+
+    .user-cell span,
+    .user-cell strong {
+        display: block;
+    }
+
+    .user-cell span {
+        margin-bottom: 1px;
+        color: #a0998d;
+        font-size: .43rem;
+        font-weight: 800;
+        letter-spacing: .06em;
+    }
+
+    .user-cell strong {
+        color: #373229;
+        font-size: .65rem;
+    }
+
+
+    /* EMAIL / PHONE */
+
+    .email-cell,
+    .phone-cell {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+        .email-cell i,
+        .phone-cell i {
+            width: 14px;
+            color: #9a8129;
+            text-align: center;
+            font-size: .56rem;
+        }
+
+        .email-cell span,
+        .phone-cell span {
+            overflow-wrap: anywhere;
+        }
+
+
+    /* =====================================================
+           ROLE BADGES
+           ===================================================== */
+
+    .role-badge,
+    .verification-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: .52rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .role-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+    }
+
+    .role-admin {
+        background: #f3dddd;
+        color: #8d4d47;
+    }
+
+        .role-admin .role-dot {
+            background: #b76159;
+        }
+
+    .role-receptionist {
+        background: #e1e9ed;
+        color: #4c6671;
+    }
+
+        .role-receptionist .role-dot {
+            background: #688996;
+        }
+
+    .role-astrologer {
+        background: #dfeddf;
+        color: #45694b;
+    }
+
+        .role-astrologer .role-dot {
+            background: #5a9765;
+        }
+
+    .role-default {
+        background: #ece8e0;
+        color: #655f55;
+    }
+
+        .role-default .role-dot {
+            background: #827a6d;
+        }
+
+
+    /* =====================================================
+           VERIFICATION
+           ===================================================== */
+
+    .verified {
+        background: #dfeddf;
+        color: #45694b;
+    }
+
+    .pending {
+        background: #fff1c8;
+        color: #745d12;
+    }
+
+
+    /* =====================================================
+           ACTIONS
+           ===================================================== */
+
+    .user-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+
+    .action-btn {
+        width: 31px;
+        height: 31px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: .55rem;
+        text-decoration: none;
+        transition: all .18s ease;
+    }
+
+    .edit-btn {
+        border: 1px solid #c9bc87;
+        color: #826d22;
+    }
+
+        .edit-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: #e1bf4a;
+        }
+
+    .delete-btn {
+        border: 1px solid #dfc1bd;
+        color: #a45c54;
+    }
+
+        .delete-btn:hover {
+            border-color: #a45c54;
+            background: #a45c54;
+            color: white;
+        }
+
+
+    /* =====================================================
+           MOBILE
+           ===================================================== */
+
+    .mobile-users {
+        display: none;
+        padding: 0 20px 20px;
+    }
+
+    .mobile-user-card {
+        margin-bottom: 12px;
+        padding: 19px;
+        border: 1px solid #e4dccf;
+        border-radius: 15px;
+        background: #faf7ef;
+    }
+
+        .mobile-user-card:last-child {
+            margin-bottom: 0;
+        }
+
+    .mobile-user-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .mobile-user-identity {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .mobile-avatar {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .58rem;
+    }
+
+    .mobile-user-identity span {
+        display: block;
+        margin-bottom: 2px;
+        color: #987918;
+        font-size: .45rem;
+        font-weight: 800;
+        letter-spacing: .08em;
+    }
+
+    .mobile-user-identity h3 {
+        margin: 0;
+        color: #29251f;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.2rem;
+        font-weight: 400;
+    }
+
+    .mobile-user-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+
+        .mobile-user-details > div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #e7dfd2;
+            border-radius: 9px;
+            background: #fffdf8;
+        }
+
+            .mobile-user-details > div > i {
+                width: 16px;
+                color: #967e29;
+                text-align: center;
+                font-size: .56rem;
+            }
+
+        .mobile-user-details span,
+        .mobile-user-details strong {
+            display: block;
+        }
+
+        .mobile-user-details span {
+            margin-bottom: 1px;
+            color: #9b9386;
+            font-size: .45rem;
+            text-transform: uppercase;
+        }
+
+        .mobile-user-details strong {
+            color: #39342c;
+            font-size: .59rem;
+            overflow-wrap: anywhere;
+        }
+
+    .mobile-verified {
+        color: #527259 !important;
+    }
+
+    .mobile-pending {
+        color: #8a6d15 !important;
+    }
+
+    .mobile-actions {
+        display: flex;
+        gap: 7px;
+    }
+
+    .mobile-edit-btn,
+    .mobile-delete-btn {
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex: 1;
+        border-radius: 8px;
+        font-size: .57rem;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .mobile-edit-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .mobile-edit-btn:hover {
+            background: #e1bf4a;
+            border-color: #e1bf4a;
+            color: #181710;
+        }
+
+    .mobile-delete-btn {
+        border: 1px solid #d8b6b1;
+        color: #9d554e;
+    }
+
+        .mobile-delete-btn:hover {
+            background: #a45c54;
+            border-color: #a45c54;
+            color: white;
+        }
+
+
+    /* =====================================================
+           EMPTY STATES
+           ===================================================== */
+
+    .empty-state,
+    .filter-empty {
+        text-align: center;
+    }
+
+    .empty-state {
+        padding: 65px 20px;
+        border-radius: 20px;
+        background: #181710;
+        color: white;
+    }
+
+    .filter-empty {
+        padding: 50px 20px;
+        border-top: 1px solid #e7dfd2;
+    }
+
+    .empty-icon {
+        width: 59px;
+        height: 59px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .95rem;
+    }
+
+    .empty-state > span,
+    .filter-empty > span {
+        display: block;
+        margin-bottom: 5px;
+        color: #987918;
+        font-size: .5rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .empty-state > span {
+        color: #e1bf4a;
+    }
+
+    .empty-state h2,
+    .filter-empty h3 {
+        margin-bottom: 7px;
+        font-family: 'DM Serif Display', serif;
+        font-weight: 400;
+    }
+
+    .empty-state h2 {
+        font-size: 2rem;
+    }
+
+    .filter-empty h3 {
+        color: #29251f;
+        font-size: 1.4rem;
+    }
+
+    .empty-state p,
+    .filter-empty p {
+        margin-bottom: 17px;
+        font-size: .63rem;
+    }
+
+    .empty-state p {
+        color: rgba(255,255,255,.45);
+    }
+
+    .filter-empty p {
+        color: #91897c;
+    }
+
+    .empty-create-btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1px solid #e1bf4a;
+        border-radius: 9px;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .6rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+
+    /* =====================================================
+           FOOTER
+           ===================================================== */
+
+    .user-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        margin-top: 18px;
+        padding: 24px 27px;
+        border-radius: 17px;
+        background: #24221c;
+        color: white;
+    }
+
+        .user-footer > div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+    .footer-icon {
+        width: 41px;
+        height: 41px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .7rem;
+    }
+
+    .user-footer span {
+        display: block;
+        margin-bottom: 2px;
+        color: #e1bf4a;
+        font-size: .48rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+    }
+
+    .user-footer h3 {
+        margin-bottom: 2px;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.15rem;
+        font-weight: 400;
+    }
+
+    .user-footer p {
+        margin: 0;
+        color: rgba(255,255,255,.42);
+        font-size: .58rem;
+    }
+
+    .footer-create-btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex-shrink: 0;
+        padding: 8px 13px;
+        border: 1px solid #e1bf4a;
+        border-radius: 9px;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .6rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 991px) {
+
+        .page-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .user-summary {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .summary-stats {
+            width: 100%;
+            justify-content: space-around;
+        }
+
+        .desktop-users {
+            display: none;
+        }
+
+        .mobile-users {
+            display: block;
+        }
+
+        .user-footer {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+
+    @@media (max-width: 767px) {
+
+        .user-management-page {
+            padding-top: 30px;
+        }
+
+        .header-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .back-btn,
+        .create-user-btn {
+            width: 100%;
+        }
+
+        .users-card-header {
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 22px 20px 18px;
+        }
+
+        .record-count {
+            text-align: left;
+        }
+
+        .mobile-user-details {
+            grid-template-columns: 1fr;
+        }
+
+        .user-footer {
+            padding: 22px 20px;
+        }
+
+        .footer-create-btn {
+            width: 100%;
+        }
+    }
+
+
+    @@media (max-width: 480px) {
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .summary-divider {
+            display: none;
+        }
+
+        .mobile-user-top {
+            flex-direction: column;
+        }
+
+        .mobile-actions {
+            flex-direction: column;
+        }
+
+        .mobile-edit-btn,
+        .mobile-delete-btn {
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+@section Scripts
+{
     <script>
 
-        document.getElementById("userSearch")
-        .addEventListener("keyup", function () {
+        document.addEventListener("DOMContentLoaded", function () {
 
-            let value = this.value.toLowerCase();
+            const searchInput =
+                document.getElementById("userSearch");
 
-            let rows = document.querySelectorAll("#userTable tbody tr");
+            const desktopRows =
+                document.querySelectorAll("#userTable tbody tr");
 
-            rows.forEach(function (row) {
+            const mobileCards =
+                document.querySelectorAll("#mobileUserList .mobile-user-card");
 
-                row.style.display =
-                    row.innerText.toLowerCase().includes(value)
-                    ? ""
-                    : "none";
+            const countElement =
+                document.getElementById("visibleUserCount");
 
-            });
+            const filterEmpty =
+                document.getElementById("userFilterEmpty");
+
+
+            function filterUsers() {
+
+                const value =
+                    searchInput.value
+                        .toLowerCase()
+                        .trim();
+
+                let visibleCount = 0;
+
+
+                desktopRows.forEach(function (row) {
+
+                    const matches =
+                        row.innerText
+                           .toLowerCase()
+                           .includes(value);
+
+                    row.style.display =
+                        matches ? "" : "none";
+
+                    if (matches) {
+                        visibleCount++;
+                    }
+
+                });
+
+
+                mobileCards.forEach(function (card) {
+
+                    const matches =
+                        card.innerText
+                            .toLowerCase()
+                            .includes(value);
+
+                    card.style.display =
+                        matches ? "" : "none";
+
+                });
+
+
+                if (countElement) {
+                    countElement.textContent = visibleCount;
+                }
+
+
+                if (filterEmpty) {
+
+                    filterEmpty.style.display =
+                        visibleCount === 0
+                            ? "block"
+                            : "none";
+
+                }
+
+            }
+
+
+            if (searchInput) {
+
+                searchInput.addEventListener(
+                    "keyup",
+                    filterUsers
+                );
+
+            }
 
         });
 
     </script>
-
 }

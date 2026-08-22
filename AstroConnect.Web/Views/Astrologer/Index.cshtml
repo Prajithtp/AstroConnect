@@ -2,180 +2,1920 @@
 
 @{
     ViewData["Title"] = "Astrologers";
+
+    var totalAstrologers = Model?.Count ?? 0;
+    var activeAstrologers = Model?.Count(x => x.IsActive) ?? 0;
+    var inactiveAstrologers = totalAstrologers - activeAstrologers;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<section class="astrologer-management-page">
 
-    <div>
+    <div class="container">
 
-        <h2 class="fw-bold">
-            <i class="fa-solid fa-user-astronaut text-primary"></i>
-            Astrologers
-        </h2>
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
 
-        <p class="text-muted mb-0">
-            Manage all registered astrologers
-        </p>
+        <div class="page-header">
 
-    </div>
+            <div>
 
-    <a asp-action="Create" class="btn btn-primary">
+                <span class="section-label">
+                    ADMINISTRATION
+                </span>
 
-        <i class="fa-solid fa-user-plus"></i>
+                <h1>
+                    Astrologers
+                </h1>
 
-        Add Astrologer
+                <p>
+                    Manage astrologer profiles, professional experience,
+                    specializations and account availability.
+                </p>
 
-    </a>
+            </div>
 
-</div>
 
-<div class="card shadow-sm border-0 mb-4">
+            <div class="header-actions">
 
-    <div class="card-body">
+                <a asp-controller="Admin"
+                   asp-action="Index"
+                   class="back-btn">
 
-        <input type="text"
-               id="astrologerSearch"
-               class="form-control"
-               placeholder="🔍 Search by name, specialization, language or email">
+                    <i class="fa-solid fa-arrow-left"></i>
 
-    </div>
+                    Dashboard
 
-</div>
+                </a>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
-        No astrologers found.
-    </div>
-}
-else
-{
-    <div class="card shadow-sm border-0">
 
-        <div class="card-body">
+                <a asp-action="Create"
+                   class="add-astrologer-btn">
 
-            <div class="table-responsive">
+                    <i class="fa-solid fa-user-plus"></i>
 
-                <table class="table table-hover align-middle" id="astrologerTable">
+                    Add Astrologer
 
-                    <thead class="table-dark">
-
-                        <tr>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Experience</th>
-                            <th>Specialization</th>
-                            <th>Language</th>
-                            <th>Status</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @foreach (var astrologer in Model)
-                        {
-                            <tr>
-
-                                <td>
-                                    <strong>@astrologer.FullName</strong>
-                                </td>
-
-                                <td>@astrologer.Email</td>
-
-                                <td>@astrologer.PhoneNumber</td>
-
-                                <td>
-                                    @(astrologer.Experience + " Years")
-                                </td>
-
-                                <td>
-
-                                    <span class="badge bg-primary">
-                                        @astrologer.Specialization
-                                    </span>
-
-                                </td>
-
-                                <td>@astrologer.Language</td>
-
-                                <td>
-
-                                    @if (astrologer.IsActive)
-                                    {
-                                        <span class="badge bg-success">
-                                            Active
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger">
-                                            Inactive
-                                        </span>
-                                    }
-
-                                </td>
-
-                                <td class="text-center">
-
-                                    <a asp-action="Edit"
-                                       asp-route-id="@astrologer.Id"
-                                       class="btn btn-warning btn-sm action-btn me-1"
-                                       title="Edit Astrologer">
-
-                                        <i class="fa-solid fa-pen"></i>
-
-                                    </a>
-
-                                    <a asp-action="Delete"
-                                       asp-route-id="@astrologer.Id"
-                                       class="btn btn-danger btn-sm action-btn"
-                                       title="Delete Astrologer">
-
-                                        <i class="fa-solid fa-trash"></i>
-
-                                    </a>
-
-                                </td>
-
-                            </tr>
-                        }
-
-                    </tbody>
-
-                </table>
+                </a>
 
             </div>
 
         </div>
 
+
+        <!-- =====================================================
+             SUMMARY
+             ===================================================== -->
+
+        <section class="astrologer-summary">
+
+            <div class="summary-main">
+
+                <div class="summary-icon">
+
+                    <i class="fa-solid fa-star"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        ASTROLOGER OVERVIEW
+                    </span>
+
+                    <h2>
+                        Consultation Team
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-stats">
+
+                <div>
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong>
+                        @totalAstrologers
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        ACTIVE
+                    </span>
+
+                    <strong>
+                        @activeAstrologers
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        INACTIVE
+                    </span>
+
+                    <strong>
+                        @inactiveAstrologers
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SEARCH
+             ===================================================== -->
+
+        <section class="search-card">
+
+            <div class="search-heading">
+
+                <div>
+
+                    <span>
+                        FIND ASTROLOGERS
+                    </span>
+
+                    <h2>
+                        Search Profiles
+                    </h2>
+
+                </div>
+
+
+                <div class="search-heading-icon">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="search-wrapper">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text"
+                       id="astrologerSearch"
+                       class="form-control"
+                       placeholder="Search by name, specialization, language or email" />
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             EMPTY STATE
+             ===================================================== -->
+        @if (Model == null || !Model.Any())
+        {
+            <section class="empty-state">
+
+                <div class="empty-icon">
+
+                    <i class="fa-solid fa-star"></i>
+
+                </div>
+
+                <span>
+                    ASTROLOGER DIRECTORY
+                </span>
+
+                <h2>
+                    No astrologers found.
+                </h2>
+
+                <p>
+                    Add your first astrologer profile to begin
+                    assigning consultations.
+                </p>
+
+
+                <a asp-action="Create"
+                   class="empty-add-btn">
+
+                    <i class="fa-solid fa-user-plus"></i>
+
+                    Add Astrologer
+
+                </a>
+
+            </section>
+        }
+        else
+        {
+            <!-- =================================================
+                 LIST
+                 ================================================= -->
+
+            <section class="astrologers-card">
+
+                <div class="astrologers-card-header">
+
+                    <div class="astrologers-heading">
+
+                        <div class="astrologers-heading-icon">
+
+                            <i class="fa-solid fa-user-astronaut"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                ASTROLOGER DIRECTORY
+                            </span>
+
+                            <h2>
+                                Registered Astrologers
+                            </h2>
+
+                            <p>
+                                Review professional and consultation information.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="record-count">
+
+                        <strong id="visibleAstrologerCount">
+                            @totalAstrologers
+                        </strong>
+
+                        <span>
+                            astrologers
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     DESKTOP TABLE
+                     ================================================= -->
+
+                <div class="desktop-astrologers">
+
+                    <div class="table-responsive">
+
+                        <table class="table astrologer-table align-middle"
+                               id="astrologerTable">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Astrologer
+                                    </th>
+
+                                    <th>
+                                        Contact
+                                    </th>
+
+                                    <th>
+                                        Experience
+                                    </th>
+
+                                    <th>
+                                        Specialization
+                                    </th>
+
+                                    <th>
+                                        Language
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th class="text-end">
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @foreach (var astrologer in Model)
+                                {
+                                    <tr>
+
+                                        <!-- ASTROLOGER -->
+
+                                        <td>
+
+                                            <div class="astrologer-cell">
+
+                                                <div class="astrologer-avatar">
+
+                                                    <i class="fa-solid fa-star"></i>
+
+                                                </div>
+
+                                                <div>
+
+                                                    <span>
+                                                        ASTROLOGER
+                                                    </span>
+
+                                                    <strong>
+                                                        @astrologer.FullName
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- CONTACT -->
+
+                                        <td>
+
+                                            <div class="contact-cell">
+
+                                                <div>
+
+                                                    <i class="fa-regular fa-envelope"></i>
+
+                                                    <span>
+                                                        @astrologer.Email
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <i class="fa-solid fa-phone"></i>
+
+                                                    <span>
+
+                                                        @(string.IsNullOrWhiteSpace(astrologer.PhoneNumber)
+                                                                                                        ? "Not provided"
+                                                                                                        : astrologer.PhoneNumber)
+
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- EXPERIENCE -->
+
+                                        <td>
+
+                                            <span class="experience-badge">
+
+                                                <i class="fa-solid fa-award"></i>
+
+                                                @astrologer.Experience Years
+
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- SPECIALIZATION -->
+
+                                        <td>
+
+                                            <span class="specialization-badge">
+
+                                                <i class="fa-solid fa-moon"></i>
+
+                                                @(string.IsNullOrWhiteSpace(astrologer.Specialization)
+                                                                                        ? "Not specified"
+                                                                                        : astrologer.Specialization)
+
+                                    </span>
+
+                                        </td>
+
+
+                                        <!-- LANGUAGE -->
+
+                                        <td>
+
+                                            <div class="language-cell">
+
+                                                <i class="fa-solid fa-language"></i>
+
+                                                <span>
+                                                    @astrologer.Language
+                                                </span>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- STATUS -->
+
+                                        <td>
+
+                                    @if (astrologer.IsActive)
+                                            {
+                                                <span class="status-badge status-active">
+
+                                                    <span class="status-dot"></span>
+
+                                                    Active
+
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status-badge status-inactive">
+
+                                                    <span class="status-dot"></span>
+
+                                                    Inactive
+
+                                                </span>
+                                            }
+
+                                        </td>
+
+
+                                        <!-- ACTIONS -->
+
+                                        <td class="text-end">
+
+                                            <div class="astrologer-actions">
+
+                                                <a asp-action="Edit"
+                                                   asp-route-id="@astrologer.Id"
+                                                   class="action-btn edit-btn"
+                                                   title="Edit Astrologer">
+
+                                                    <i class="fa-solid fa-pen"></i>
+
+                                                </a>
+
+
+                                                <a asp-action="Delete"
+                                                   asp-route-id="@astrologer.Id"
+                                                   class="action-btn delete-btn"
+                                                   title="Delete Astrologer">
+
+                                                    <i class="fa-solid fa-trash"></i>
+
+                                                </a>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     MOBILE CARDS
+                     ================================================= -->
+
+                <div class="mobile-astrologers"
+                     id="mobileAstrologerList">
+
+                    @foreach (var astrologer in Model)
+                    {
+                        <article class="mobile-astrologer-card">
+
+                            <div class="mobile-card-top">
+
+                                <div class="mobile-profile">
+
+                                    <div class="mobile-avatar">
+
+                                        <i class="fa-solid fa-star"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <span>
+                                            ASTROLOGER
+                                        </span>
+
+                                        <h3>
+                                            @astrologer.FullName
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+
+                                @if (astrologer.IsActive)
+                                {
+                                    <span class="status-badge status-active">
+
+                                        <span class="status-dot"></span>
+
+                                        Active
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-inactive">
+
+                                        <span class="status-dot"></span>
+
+                                        Inactive
+
+                                    </span>
+                                }
+
+                        </div>
+
+
+                        <div class="mobile-info-grid">
+
+                            <!-- EMAIL -->
+
+                            <div>
+
+                                <i class="fa-regular fa-envelope"></i>
+
+                                <div>
+
+                                    <span>
+                                        Email
+                                    </span>
+
+                                    <strong>
+                                        @astrologer.Email
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PHONE -->
+
+                            <div>
+
+                                <i class="fa-solid fa-phone"></i>
+
+                                <div>
+
+                                    <span>
+                                        Phone
+                                    </span>
+
+                                    <strong>
+
+                                        @(string.IsNullOrWhiteSpace(astrologer.PhoneNumber)
+                                                                            ? "Not provided"
+                                                                            : astrologer.PhoneNumber)
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- EXPERIENCE -->
+
+                            <div>
+
+                                <i class="fa-solid fa-award"></i>
+
+                                <div>
+
+                                    <span>
+                                        Experience
+                                    </span>
+
+                                    <strong>
+                                        @astrologer.Experience Years
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- LANGUAGE -->
+
+                            <div>
+
+                                <i class="fa-solid fa-language"></i>
+
+                                <div>
+
+                                    <span>
+                                        Language
+                                    </span>
+
+                                    <strong>
+                                        @astrologer.Language
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="mobile-specialization">
+
+                            <span>
+                                SPECIALIZATION
+                            </span>
+
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(astrologer.Specialization)
+                                                            ? "Not specified"
+                                                            : astrologer.Specialization)
+                        </strong>
+
+                            </div>
+
+
+                            <div class="mobile-actions">
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@astrologer.Id"
+                                   class="mobile-edit-btn">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                    Edit Astrologer
+
+                                </a>
+
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@astrologer.Id"
+                                   class="mobile-delete-btn">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                    Delete
+
+                                </a>
+
+                            </div>
+
+                        </article>
+                                }
+
+                </div>
+
+
+                <!-- =================================================
+                     FILTER EMPTY
+                     ================================================= -->
+
+                <div id="astrologerFilterEmpty"
+                     class="filter-empty"
+                     style="display:none;">
+
+                    <div class="filter-empty-icon">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                    </div>
+
+                    <span>
+                        NO MATCHES
+                    </span>
+
+                    <h3>
+                        No matching astrologers.
+                    </h3>
+
+                    <p>
+                        Try another name, email, specialization or language.
+                    </p>
+
+                </div>
+
+            </section>
+        }
+
+
+        <!-- =====================================================
+             FOOTER
+             ===================================================== -->
+        @if (Model != null && Model.Any())
+        {
+            <section class="astrologer-footer">
+
+                <div>
+
+                    <div class="footer-icon">
+
+                        <i class="fa-solid fa-star"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            ASTROLOGER MANAGEMENT
+                        </span>
+
+                        <h3>
+                            Maintain your consultation team.
+                        </h3>
+
+                        <p>
+                            Keep experience, specialization and availability
+                            information accurate.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a asp-action="Create"
+                   class="footer-add-btn">
+
+                    Add Astrologer
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </section>
+        }
+
     </div>
-}
 
-@section Scripts {
+</section>
 
+
+<style>
+
+    /* =====================================================
+           PAGE
+           ===================================================== */
+
+    .astrologer-management-page {
+        min-height: 100vh;
+        padding: 45px 0 80px;
+        background: #f8f5ec;
+    }
+
+
+    /* =====================================================
+           HEADER
+           ===================================================== */
+
+    .page-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 28px;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #987918;
+        font-size: .63rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
+
+    .page-header h1 {
+        margin-bottom: 8px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.5rem, 4vw, 3.8rem);
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .page-header p {
+        max-width: 640px;
+        margin: 0;
+        color: #817b70;
+        font-size: .8rem;
+        line-height: 1.7;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 9px;
+        flex-shrink: 0;
+    }
+
+    .back-btn,
+    .add-astrologer-btn {
+        min-height: 43px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 16px;
+        border-radius: 9px;
+        font-size: .67rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+    .back-btn {
+        border: 1px solid #ccc2af;
+        background: transparent;
+        color: #181710;
+    }
+
+        .back-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: white;
+        }
+
+    .add-astrologer-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .add-astrologer-btn:hover {
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+        }
+
+
+    /* =====================================================
+           SUMMARY
+           ===================================================== */
+
+    .astrologer-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 18px;
+        padding: 23px 27px;
+        border-radius: 18px;
+        background: #181710;
+        color: white;
+    }
+
+    .summary-main {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .summary-icon {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .75rem;
+    }
+
+    .summary-main span {
+        display: block;
+        margin-bottom: 2px;
+        color: #e1bf4a;
+        font-size: .49rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .summary-main h2 {
+        margin: 0;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    .summary-stats {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+    }
+
+        .summary-stats > div:not(.summary-divider) {
+            min-width: 58px;
+            text-align: center;
+        }
+
+        .summary-stats span,
+        .summary-stats strong {
+            display: block;
+        }
+
+        .summary-stats span {
+            margin-bottom: 2px;
+            color: rgba(255,255,255,.37);
+            font-size: .47rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+        }
+
+        .summary-stats strong {
+            color: #e1bf4a;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.55rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+    .summary-divider {
+        width: 1px;
+        height: 31px;
+        background: rgba(255,255,255,.12);
+    }
+
+
+    /* =====================================================
+           SEARCH
+           ===================================================== */
+
+    .search-card {
+        margin-bottom: 18px;
+        padding: 22px 24px;
+        border: 1px solid #e1d9ca;
+        border-radius: 17px;
+        background: #fffdf8;
+    }
+
+    .search-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+
+        .search-heading span {
+            display: block;
+            margin-bottom: 2px;
+            color: #987918;
+            font-size: .49rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+        }
+
+        .search-heading h2 {
+            margin: 0;
+            color: #29251f;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+        }
+
+    .search-heading-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f1eadc;
+        color: #8d7626;
+        font-size: .61rem;
+    }
+
+    .search-wrapper {
+        position: relative;
+    }
+
+        .search-wrapper > i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            z-index: 2;
+            transform: translateY(-50%);
+            color: #9c9487;
+            font-size: .62rem;
+            pointer-events: none;
+        }
+
+        .search-wrapper .form-control {
+            min-height: 44px;
+            padding-left: 40px;
+            border: 1px solid #ddd5c6;
+            border-radius: 10px;
+            background: #faf7ef;
+            color: #39342c;
+            font-size: .69rem;
+        }
+
+            .search-wrapper .form-control:focus {
+                border-color: #c5a943;
+                background: white;
+                box-shadow: 0 0 0 .18rem rgba(225,191,74,.11);
+            }
+
+
+    /* =====================================================
+           MAIN CARD
+           ===================================================== */
+
+    .astrologers-card {
+        overflow: hidden;
+        border: 1px solid #e1d9ca;
+        border-radius: 19px;
+        background: #fffdf8;
+    }
+
+    .astrologers-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        padding: 26px 27px 21px;
+    }
+
+    .astrologers-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .astrologers-heading-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .68rem;
+    }
+
+    .astrologers-heading span {
+        display: block;
+        margin-bottom: 2px;
+        color: #987918;
+        font-size: .49rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+    }
+
+    .astrologers-heading h2 {
+        margin-bottom: 2px;
+        color: #29251f;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.45rem;
+        font-weight: 400;
+    }
+
+    .astrologers-heading p {
+        margin: 0;
+        color: #958d80;
+        font-size: .59rem;
+    }
+
+    .record-count {
+        text-align: center;
+        flex-shrink: 0;
+    }
+
+        .record-count strong,
+        .record-count span {
+            display: block;
+        }
+
+        .record-count strong {
+            color: #181710;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.65rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .record-count span {
+            margin-top: 2px;
+            color: #958d80;
+            font-size: .48rem;
+            font-weight: 700;
+        }
+
+
+    /* =====================================================
+           TABLE
+           ===================================================== */
+
+    .astrologer-table {
+        margin: 0;
+    }
+
+        .astrologer-table thead th {
+            padding: 12px 14px;
+            border-top: 1px solid #e7dfd2;
+            border-bottom: 1px solid #ded5c6;
+            background: #faf7ef;
+            color: #8d8578;
+            font-size: .51rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .astrologer-table tbody td {
+            padding: 15px 14px;
+            border-bottom: 1px solid #eee7dc;
+            color: #554f46;
+            font-size: .64rem;
+        }
+
+        .astrologer-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .astrologer-table tbody tr:hover {
+            background: #fbf8f1;
+        }
+
+
+    /* ASTROLOGER */
+
+    .astrologer-cell {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .astrologer-avatar {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .57rem;
+    }
+
+    .astrologer-cell span,
+    .astrologer-cell strong {
+        display: block;
+    }
+
+    .astrologer-cell span {
+        margin-bottom: 1px;
+        color: #a0998d;
+        font-size: .43rem;
+        font-weight: 800;
+        letter-spacing: .06em;
+    }
+
+    .astrologer-cell strong {
+        color: #373229;
+        font-size: .65rem;
+        white-space: nowrap;
+    }
+
+
+    /* CONTACT */
+
+    .contact-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+        .contact-cell > div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .contact-cell i {
+            width: 13px;
+            color: #9a8129;
+            text-align: center;
+            font-size: .54rem;
+        }
+
+
+    /* EXPERIENCE */
+
+    .experience-badge,
+    .specialization-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: .53rem;
+        font-weight: 800;
+    }
+
+    .experience-badge {
+        background: #f1eadc;
+        color: #786723;
+        white-space: nowrap;
+    }
+
+    .specialization-badge {
+        background: #fff0ad;
+        color: #6d5811;
+    }
+
+    .language-cell {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+        .language-cell i {
+            color: #927923;
+            font-size: .56rem;
+        }
+
+
+    /* =====================================================
+           STATUS
+           ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: .52rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .status-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+    }
+
+    .status-active {
+        background: #dfeddf;
+        color: #45694b;
+    }
+
+        .status-active .status-dot {
+            background: #5a9765;
+        }
+
+    .status-inactive {
+        background: #ece8e0;
+        color: #655f55;
+    }
+
+        .status-inactive .status-dot {
+            background: #827a6d;
+        }
+
+
+    /* =====================================================
+           ACTIONS
+           ===================================================== */
+
+    .astrologer-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+
+    .action-btn {
+        width: 31px;
+        height: 31px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: .55rem;
+        text-decoration: none;
+        transition: all .18s ease;
+    }
+
+    .edit-btn {
+        border: 1px solid #c9bc87;
+        color: #826d22;
+    }
+
+        .edit-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: #e1bf4a;
+        }
+
+    .delete-btn {
+        border: 1px solid #dfc1bd;
+        color: #a45c54;
+    }
+
+        .delete-btn:hover {
+            border-color: #a45c54;
+            background: #a45c54;
+            color: white;
+        }
+
+
+    /* =====================================================
+           MOBILE
+           ===================================================== */
+
+    .mobile-astrologers {
+        display: none;
+        padding: 0 20px 20px;
+    }
+
+    .mobile-astrologer-card {
+        margin-bottom: 12px;
+        padding: 19px;
+        border: 1px solid #e4dccf;
+        border-radius: 15px;
+        background: #faf7ef;
+    }
+
+        .mobile-astrologer-card:last-child {
+            margin-bottom: 0;
+        }
+
+    .mobile-card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    .mobile-profile {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .mobile-avatar {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .6rem;
+    }
+
+    .mobile-profile span {
+        display: block;
+        margin-bottom: 2px;
+        color: #987918;
+        font-size: .45rem;
+        font-weight: 800;
+        letter-spacing: .08em;
+    }
+
+    .mobile-profile h3 {
+        margin: 0;
+        color: #29251f;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.25rem;
+        font-weight: 400;
+    }
+
+    .mobile-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+        .mobile-info-grid > div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #e7dfd2;
+            border-radius: 9px;
+            background: #fffdf8;
+        }
+
+            .mobile-info-grid > div > i {
+                width: 16px;
+                color: #967e29;
+                text-align: center;
+                font-size: .55rem;
+            }
+
+        .mobile-info-grid span,
+        .mobile-info-grid strong {
+            display: block;
+        }
+
+        .mobile-info-grid span {
+            margin-bottom: 1px;
+            color: #9b9386;
+            font-size: .45rem;
+            text-transform: uppercase;
+        }
+
+        .mobile-info-grid strong {
+            color: #39342c;
+            font-size: .58rem;
+            overflow-wrap: anywhere;
+        }
+
+    .mobile-specialization {
+        margin-bottom: 14px;
+        padding: 11px;
+        border: 1px solid #e7dfd2;
+        border-radius: 9px;
+        background: #fffdf8;
+    }
+
+        .mobile-specialization span,
+        .mobile-specialization strong {
+            display: block;
+        }
+
+        .mobile-specialization span {
+            margin-bottom: 2px;
+            color: #987918;
+            font-size: .44rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+        }
+
+        .mobile-specialization strong {
+            color: #39342c;
+            font-size: .61rem;
+        }
+
+    .mobile-actions {
+        display: flex;
+        gap: 7px;
+    }
+
+    .mobile-edit-btn,
+    .mobile-delete-btn {
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex: 1;
+        border-radius: 8px;
+        font-size: .57rem;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .mobile-edit-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .mobile-edit-btn:hover {
+            background: #e1bf4a;
+            border-color: #e1bf4a;
+            color: #181710;
+        }
+
+    .mobile-delete-btn {
+        border: 1px solid #d8b6b1;
+        color: #9d554e;
+    }
+
+        .mobile-delete-btn:hover {
+            background: #a45c54;
+            border-color: #a45c54;
+            color: white;
+        }
+
+
+    /* =====================================================
+           EMPTY STATES
+           ===================================================== */
+
+    .empty-state,
+    .filter-empty {
+        text-align: center;
+    }
+
+    .empty-state {
+        padding: 65px 20px;
+        border-radius: 20px;
+        background: #181710;
+        color: white;
+    }
+
+    .empty-icon,
+    .filter-empty-icon {
+        width: 59px;
+        height: 59px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .95rem;
+    }
+
+    .empty-state > span,
+    .filter-empty > span {
+        display: block;
+        margin-bottom: 5px;
+        font-size: .5rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .empty-state > span {
+        color: #e1bf4a;
+    }
+
+    .filter-empty > span {
+        color: #987918;
+    }
+
+    .empty-state h2,
+    .filter-empty h3 {
+        margin-bottom: 7px;
+        font-family: 'DM Serif Display', serif;
+        font-weight: 400;
+    }
+
+    .empty-state h2 {
+        font-size: 2rem;
+    }
+
+    .filter-empty h3 {
+        color: #29251f;
+        font-size: 1.4rem;
+    }
+
+    .empty-state p,
+    .filter-empty p {
+        margin-bottom: 17px;
+        font-size: .63rem;
+    }
+
+    .empty-state p {
+        color: rgba(255,255,255,.45);
+    }
+
+    .filter-empty p {
+        color: #91897c;
+    }
+
+    .empty-add-btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1px solid #e1bf4a;
+        border-radius: 9px;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .6rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .filter-empty {
+        padding: 50px 20px;
+        border-top: 1px solid #e7dfd2;
+    }
+
+
+    /* =====================================================
+           FOOTER
+           ===================================================== */
+
+    .astrologer-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        margin-top: 18px;
+        padding: 24px 27px;
+        border-radius: 17px;
+        background: #24221c;
+        color: white;
+    }
+
+        .astrologer-footer > div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+    .footer-icon {
+        width: 41px;
+        height: 41px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .7rem;
+    }
+
+    .astrologer-footer span {
+        display: block;
+        margin-bottom: 2px;
+        color: #e1bf4a;
+        font-size: .48rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+    }
+
+    .astrologer-footer h3 {
+        margin-bottom: 2px;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.15rem;
+        font-weight: 400;
+    }
+
+    .astrologer-footer p {
+        margin: 0;
+        color: rgba(255,255,255,.42);
+        font-size: .58rem;
+    }
+
+    .footer-add-btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex-shrink: 0;
+        padding: 8px 13px;
+        border: 1px solid #e1bf4a;
+        border-radius: 9px;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .6rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 991px) {
+
+        .page-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .astrologer-summary {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .summary-stats {
+            width: 100%;
+            justify-content: space-around;
+        }
+
+        .desktop-astrologers {
+            display: none;
+        }
+
+        .mobile-astrologers {
+            display: block;
+        }
+
+        .astrologer-footer {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+
+    @@media (max-width: 767px) {
+
+        .astrologer-management-page {
+            padding-top: 30px;
+        }
+
+        .header-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .back-btn,
+        .add-astrologer-btn {
+            width: 100%;
+        }
+
+        .astrologers-card-header {
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 22px 20px 18px;
+        }
+
+        .record-count {
+            text-align: left;
+        }
+
+        .mobile-info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .astrologer-footer {
+            padding: 22px 20px;
+        }
+
+        .footer-add-btn {
+            width: 100%;
+        }
+    }
+
+
+    @@media (max-width: 480px) {
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .summary-divider {
+            display: none;
+        }
+
+        .mobile-card-top {
+            flex-direction: column;
+        }
+
+        .mobile-actions {
+            flex-direction: column;
+        }
+
+        .mobile-edit-btn,
+        .mobile-delete-btn {
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+@section Scripts
+{
     <script>
 
-        document.getElementById("astrologerSearch")
-        .addEventListener("keyup", function () {
+        document.addEventListener("DOMContentLoaded", function () {
 
-            let value = this.value.toLowerCase();
+            const searchInput =
+                document.getElementById("astrologerSearch");
 
-            let rows = document.querySelectorAll("#astrologerTable tbody tr");
+            const desktopRows =
+                document.querySelectorAll("#astrologerTable tbody tr");
 
-            rows.forEach(function (row) {
+            const mobileCards =
+                document.querySelectorAll("#mobileAstrologerList .mobile-astrologer-card");
 
-                row.style.display =
-                    row.innerText.toLowerCase().includes(value)
-                    ? ""
-                    : "none";
+            const visibleCount =
+                document.getElementById("visibleAstrologerCount");
 
-            });
+            const filterEmpty =
+                document.getElementById("astrologerFilterEmpty");
+
+
+            function filterAstrologers() {
+
+                const search =
+                    searchInput.value
+                        .toLowerCase()
+                        .trim();
+
+                let count = 0;
+
+
+                desktopRows.forEach(function (row) {
+
+                    const match =
+                        row.innerText
+                           .toLowerCase()
+                           .includes(search);
+
+                    row.style.display =
+                        match ? "" : "none";
+
+                    if (match) {
+                        count++;
+                    }
+
+                });
+
+
+                mobileCards.forEach(function (card) {
+
+                    const match =
+                        card.innerText
+                            .toLowerCase()
+                            .includes(search);
+
+                    card.style.display =
+                        match ? "" : "none";
+
+                });
+
+
+                if (visibleCount) {
+                    visibleCount.textContent = count;
+                }
+
+
+                if (filterEmpty) {
+
+                    filterEmpty.style.display =
+                        count === 0
+                            ? "block"
+                            : "none";
+
+                }
+
+            }
+
+
+            if (searchInput) {
+
+                searchInput.addEventListener(
+                    "keyup",
+                    filterAstrologers
+                );
+
+            }
 
         });
 
     </script>
-
 }

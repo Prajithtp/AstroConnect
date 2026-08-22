@@ -4,107 +4,401 @@
     ViewData["Title"] = "Create Account";
 }
 
-<div class="container py-5">
+<section class="register-page">
 
-    <div class="row justify-content-center">
+    <div class="container">
 
-        <div class="col-lg-6">
+        <div class="register-wrapper">
 
-            <div class="card shadow-lg border-0 rounded-4">
+            <!-- =====================================================
+                 LEFT VISUAL
+                 ===================================================== -->
 
-                <div class="card-body p-5">
+            <div class="register-visual">
 
-                    <div class="text-center mb-4">
+                <div class="visual-orbit orbit-one"></div>
+                <div class="visual-orbit orbit-two"></div>
 
-                        <h2 class="fw-bold text-primary">
-                            🌙 AstroConnect
-                        </h2>
+                <div class="register-visual-content">
 
-                        <p class="text-muted">
-                            Create your customer account
+                    <!-- BRAND -->
+
+                    <a asp-controller="Public"
+                       asp-action="Home"
+                       class="register-brand">
+
+                        <div class="brand-icon">
+                            <i class="fa-solid fa-moon"></i>
+                        </div>
+
+                        <span>
+                            AstroConnect
+                        </span>
+
+                    </a>
+
+
+                    <!-- MAIN -->
+
+                    <div class="visual-main">
+
+                        <span class="section-label">
+                            JOIN ASTROCONNECT
+                        </span>
+
+                        <h1>
+                            Begin your journey
+                            <span>with confidence.</span>
+                        </h1>
+
+                        <p>
+                            Create your AstroConnect account to explore
+                            astrology services, choose an astrologer and
+                            manage your appointments in one place.
                         </p>
+
+
+                        <div class="visual-features">
+
+                            <div>
+
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+
+                                <div>
+                                    <strong>
+                                        Explore consultations
+                                    </strong>
+
+                                    <span>
+                                        Find the guidance that matches your needs.
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-user-check"></i>
+                                </div>
+
+                                <div>
+                                    <strong>
+                                        Choose your astrologer
+                                    </strong>
+
+                                    <span>
+                                        Review profiles before making a booking.
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                </div>
+
+                                <div>
+                                    <strong>
+                                        Manage appointments
+                                    </strong>
+
+                                    <span>
+                                        Book and follow your consultations easily.
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
-                    <form asp-action="Register" method="post">
+
+                    <div class="visual-footer">
+                        ASTROLOGY • GUIDANCE • CONNECTION
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================================
+                 REGISTER FORM
+                 ===================================================== -->
+
+            <div class="register-form-side">
+
+                <div class="register-form-container">
+
+                    <!-- MOBILE BRAND -->
+
+                    <div class="mobile-brand">
+
+                        <a asp-controller="Public"
+                           asp-action="Home">
+
+                            <i class="fa-solid fa-moon"></i>
+
+                            AstroConnect
+
+                        </a>
+
+                    </div>
+
+
+                    <span class="form-label-top">
+                        CREATE YOUR ACCOUNT
+                    </span>
+
+                    <h2>
+                        Join AstroConnect
+                    </h2>
+
+                    <p class="form-description">
+                        Enter your details below to create your customer account.
+                    </p>
+
+
+                    <form asp-action="Register"
+                          method="post">
+
+                        <!-- VALIDATION -->
 
                         <div asp-validation-summary="ModelOnly"
-                             class="alert alert-danger"></div>
+                             class="register-validation mb-3">
+                        </div>
 
-                        <div class="mb-3">
 
-                            <label asp-for="FullName" class="form-label"></label>
+                        <!-- FULL NAME -->
 
-                            <input asp-for="FullName" class="form-control" />
+                        <div class="form-group-custom">
+
+                            <label asp-for="FullName">
+                                Full Name
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-user"></i>
+
+                                <input asp-for="FullName"
+                                       class="form-control"
+                                       placeholder="Enter your full name"
+                                       autocomplete="name" />
+
+                            </div>
 
                             <span asp-validation-for="FullName"
-                                  class="text-danger"></span>
+                                  class="validation-message">
+                            </span>
 
                         </div>
 
-                        <div class="mb-3">
 
-                            <label asp-for="Email" class="form-label"></label>
+                        <!-- EMAIL -->
 
-                            <input asp-for="Email" class="form-control" />
+                        <div class="form-group-custom">
+
+                            <label asp-for="Email">
+                                Email Address
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-envelope"></i>
+
+                                <input asp-for="Email"
+                                       class="form-control"
+                                       placeholder="Enter your email"
+                                       autocomplete="email" />
+
+                            </div>
 
                             <span asp-validation-for="Email"
-                                  class="text-danger"></span>
+                                  class="validation-message">
+                            </span>
 
                         </div>
 
-                        <div class="mb-3">
 
-                            <label asp-for="PhoneNumber" class="form-label"></label>
+                        <!-- PHONE -->
 
-                            <input asp-for="PhoneNumber" class="form-control" />
+                        <div class="form-group-custom">
+
+                            <label asp-for="PhoneNumber">
+                                Phone Number
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-phone"></i>
+
+                                <input asp-for="PhoneNumber"
+                                       class="form-control"
+                                       placeholder="Enter your phone number"
+                                       autocomplete="tel" />
+
+                            </div>
 
                             <span asp-validation-for="PhoneNumber"
-                                  class="text-danger"></span>
+                                  class="validation-message">
+                            </span>
 
                         </div>
 
-                        <div class="mb-3">
 
-                            <label asp-for="Password" class="form-label"></label>
+                        <!-- PASSWORD ROW -->
 
-                            <input asp-for="Password"
-                                   class="form-control" />
+                        <div class="row g-3">
 
-                            <span asp-validation-for="Password"
-                                  class="text-danger"></span>
+                            <!-- PASSWORD -->
+
+                            <div class="col-md-6">
+
+                                <div class="form-group-custom">
+
+                                    <label asp-for="Password">
+                                        Password
+                                    </label>
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fa-solid fa-lock"></i>
+
+                                        <input asp-for="Password"
+                                               class="form-control"
+                                               placeholder="Password"
+                                               autocomplete="new-password" />
+
+                                        <button type="button"
+                                                class="password-toggle"
+                                                data-password-toggle
+                                                data-target="@Html.IdFor(m => m.Password)"
+                                                aria-label="Show password">
+
+                                            <i class="fa-solid fa-eye"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                    <span asp-validation-for="Password"
+                                          class="validation-message">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- CONFIRM PASSWORD -->
+
+                            <div class="col-md-6">
+
+                                <div class="form-group-custom">
+
+                                    <label asp-for="ConfirmPassword">
+                                        Confirm Password
+                                    </label>
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fa-solid fa-shield-halved"></i>
+
+                                        <input asp-for="ConfirmPassword"
+                                               class="form-control"
+                                               placeholder="Confirm password"
+                                               autocomplete="new-password" />
+
+                                        <button type="button"
+                                                class="password-toggle"
+                                                data-password-toggle
+                                                data-target="@Html.IdFor(m => m.ConfirmPassword)"
+                                                aria-label="Show password">
+
+                                            <i class="fa-solid fa-eye"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                    <span asp-validation-for="ConfirmPassword"
+                                          class="validation-message">
+                                    </span>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div class="mb-4">
 
-                            <label asp-for="ConfirmPassword"
-                                   class="form-label"></label>
+                        <!-- PASSWORD NOTE -->
 
-                            <input asp-for="ConfirmPassword"
-                                   class="form-control" />
+                        <div class="password-note">
 
-                            <span asp-validation-for="ConfirmPassword"
-                                  class="text-danger"></span>
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            <span>
+                                Choose a secure password for your AstroConnect account.
+                            </span>
 
                         </div>
 
-                        <button class="btn btn-primary w-100">
+
+                        <!-- SUBMIT -->
+
+                        <button type="submit"
+                                class="btn register-button">
 
                             Create Account
+
+                            <i class="fa-solid fa-arrow-right"></i>
 
                         </button>
 
                     </form>
 
-                    <hr />
 
-                    <div class="text-center">
+                    <!-- LOGIN -->
 
-                        Already have an account?
+                    <div class="login-section">
 
-                        <a asp-action="Login">
-                            Login
+                        <span>
+                            Already have an account?
+                        </span>
+
+                        <a asp-controller="Account"
+                           asp-action="Login">
+
+                            Sign in
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- BACK -->
+
+                    <div class="back-home">
+
+                        <a asp-controller="Public"
+                           asp-action="Home">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                            Back to website
+
                         </a>
 
                     </div>
@@ -117,9 +411,576 @@
 
     </div>
 
-</div>
+</section>
+
+
+<style>
+
+    /* =====================================================
+           PAGE
+           ===================================================== */
+
+    .register-page {
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        padding: 55px 0;
+        background: #f8f5ec;
+    }
+
+    .register-wrapper {
+        max-width: 1180px;
+        min-height: 720px;
+        display: grid;
+        grid-template-columns: .9fr 1.1fr;
+        margin: auto;
+        overflow: hidden;
+        border: 1px solid #ded6c7;
+        border-radius: 28px;
+        background: #fffdf8;
+        box-shadow: 0 30px 70px rgba(35, 30, 20, .10);
+    }
+
+
+    /* =====================================================
+           LEFT VISUAL
+           ===================================================== */
+
+    .register-visual {
+        position: relative;
+        overflow: hidden;
+        padding: 48px;
+        background: #181710;
+        color: white;
+    }
+
+    .register-visual-content {
+        position: relative;
+        z-index: 3;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    /* BRAND */
+
+    .register-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+        color: white;
+        text-decoration: none;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.35rem;
+    }
+
+        .register-brand:hover {
+            color: #e1bf4a;
+        }
+
+    .brand-icon {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .9rem;
+    }
+
+
+    /* MAIN */
+
+    .visual-main {
+        margin: auto 0;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 15px;
+        color: #e1bf4a;
+        font-size: .67rem;
+        font-weight: 800;
+        letter-spacing: .19em;
+    }
+
+    .visual-main h1 {
+        max-width: 450px;
+        margin-bottom: 22px;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.8rem, 4vw, 4.2rem);
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: -.025em;
+    }
+
+        .visual-main h1 span {
+            display: block;
+            color: #e1bf4a;
+        }
+
+    .visual-main > p {
+        max-width: 450px;
+        margin-bottom: 35px;
+        color: rgba(255,255,255,.57);
+        font-size: .86rem;
+        line-height: 1.8;
+    }
+
+
+    /* FEATURES */
+
+    .visual-features {
+        display: flex;
+        flex-direction: column;
+        gap: 17px;
+    }
+
+        .visual-features > div {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+    .feature-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(225,191,74,.17);
+        border-radius: 50%;
+        background: rgba(225,191,74,.08);
+        color: #e1bf4a;
+        font-size: .76rem;
+    }
+
+    .visual-features strong,
+    .visual-features span {
+        display: block;
+    }
+
+    .visual-features strong {
+        margin-bottom: 2px;
+        color: rgba(255,255,255,.9);
+        font-size: .77rem;
+    }
+
+    .visual-features span {
+        color: rgba(255,255,255,.42);
+        font-size: .68rem;
+    }
+
+    .visual-footer {
+        color: rgba(255,255,255,.28);
+        font-size: .57rem;
+        font-weight: 700;
+        letter-spacing: .18em;
+    }
+
+
+    /* ORBITS */
+
+    .visual-orbit {
+        position: absolute;
+        border: 1px solid rgba(225,191,74,.07);
+        border-radius: 50%;
+    }
+
+    .orbit-one {
+        width: 430px;
+        height: 430px;
+        right: -220px;
+        top: -150px;
+    }
+
+    .orbit-two {
+        width: 300px;
+        height: 300px;
+        left: -180px;
+        bottom: -140px;
+    }
+
+
+    /* =====================================================
+           FORM SIDE
+           ===================================================== */
+
+    .register-form-side {
+        display: flex;
+        align-items: center;
+        padding: 50px 60px;
+    }
+
+    .register-form-container {
+        width: 100%;
+        max-width: 530px;
+        margin: auto;
+    }
+
+    .mobile-brand {
+        display: none;
+    }
+
+    .form-label-top {
+        display: block;
+        margin-bottom: 10px;
+        color: #987918;
+        font-size: .65rem;
+        font-weight: 800;
+        letter-spacing: .16em;
+    }
+
+    .register-form-container h2 {
+        margin-bottom: 9px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: 2.45rem;
+        font-weight: 400;
+        line-height: 1.05;
+    }
+
+    .form-description {
+        margin-bottom: 28px;
+        color: #817b70;
+        font-size: .82rem;
+    }
+
+
+    /* =====================================================
+           INPUTS
+           ===================================================== */
+
+    .form-group-custom {
+        margin-bottom: 18px;
+    }
+
+        .form-group-custom > label {
+            display: block;
+            margin-bottom: 7px;
+            color: #464139;
+            font-size: .71rem;
+            font-weight: 800;
+        }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+        .input-wrapper > i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            z-index: 2;
+            transform: translateY(-50%);
+            color: #999184;
+            font-size: .76rem;
+            pointer-events: none;
+        }
+
+        .input-wrapper .form-control {
+            height: 50px;
+            padding-left: 43px;
+            padding-right: 44px;
+            border: 1px solid #ddd5c6;
+            border-radius: 12px;
+            background: #fbf8f0;
+            color: #29261f;
+            font-size: .79rem;
+            transition: all .2s ease;
+        }
+
+            .input-wrapper .form-control::placeholder {
+                color: #aaa398;
+            }
+
+            .input-wrapper .form-control:focus {
+                border-color: #c4a640;
+                background: white;
+                box-shadow: 0 0 0 .2rem rgba(225,191,74,.13);
+            }
+
+
+    /* =====================================================
+           PASSWORD
+           ===================================================== */
+
+    .password-toggle {
+        position: absolute;
+        right: 13px;
+        top: 50%;
+        z-index: 3;
+        transform: translateY(-50%);
+        padding: 5px;
+        border: none;
+        background: transparent;
+        color: #8d867a;
+        font-size: .76rem;
+    }
+
+        .password-toggle:hover {
+            color: #181710;
+        }
+
+    .password-note {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: -3px;
+        margin-bottom: 22px;
+        padding: 11px 13px;
+        border: 1px solid #ebe3d4;
+        border-radius: 10px;
+        background: #faf7ef;
+        color: #817b70;
+        font-size: .67rem;
+    }
+
+        .password-note i {
+            color: #987918;
+        }
+
+
+    /* =====================================================
+           VALIDATION
+           ===================================================== */
+
+    .validation-message {
+        display: block;
+        margin-top: 5px;
+        color: #b64d45;
+        font-size: .67rem;
+    }
+
+    .register-validation {
+        padding: 0;
+        color: #b64d45;
+        font-size: .72rem;
+    }
+
+        .register-validation ul {
+            padding-left: 18px;
+            margin-bottom: 0;
+        }
+
+
+    /* =====================================================
+           BUTTON
+           ===================================================== */
+
+    .register-button {
+        width: 100%;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        border: 1px solid #181710;
+        border-radius: 12px;
+        background: #181710;
+        color: white;
+        font-size: .78rem;
+        font-weight: 700;
+        transition: all .2s ease;
+    }
+
+        .register-button:hover {
+            transform: translateY(-2px);
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+            box-shadow: 0 10px 25px rgba(80,68,25,.12);
+        }
+
+
+    /* =====================================================
+           LOGIN
+           ===================================================== */
+
+    .login-section {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 25px;
+        padding-top: 23px;
+        border-top: 1px solid #e8e1d5;
+        color: #817b70;
+        font-size: .73rem;
+    }
+
+        .login-section a {
+            color: #8a6c0c;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+            .login-section a:hover {
+                color: #181710;
+            }
+
+        .login-section i {
+            margin-left: 3px;
+            font-size: .6rem;
+        }
+
+
+    /* BACK */
+
+    .back-home {
+        margin-top: 21px;
+        text-align: center;
+    }
+
+        .back-home a {
+            color: #8a8479;
+            font-size: .69rem;
+            text-decoration: none;
+        }
+
+            .back-home a:hover {
+                color: #181710;
+            }
+
+        .back-home i {
+            margin-right: 5px;
+        }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 991px) {
+
+        .register-wrapper {
+            max-width: 650px;
+            grid-template-columns: 1fr;
+        }
+
+        .register-visual {
+            display: none;
+        }
+
+        .register-form-side {
+            padding: 50px;
+        }
+
+        .mobile-brand {
+            display: block;
+            margin-bottom: 45px;
+        }
+
+            .mobile-brand a {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: #181710;
+                font-family: 'DM Serif Display', serif;
+                font-size: 1.3rem;
+                text-decoration: none;
+            }
+
+            .mobile-brand i {
+                width: 35px;
+                height: 35px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: #e1bf4a;
+                font-size: .75rem;
+            }
+    }
+
+
+    @@media (max-width: 575px) {
+
+        .register-page {
+            padding: 25px 12px;
+        }
+
+        .register-wrapper {
+            border-radius: 20px;
+        }
+
+        .register-form-side {
+            padding: 35px 22px;
+        }
+
+        .mobile-brand {
+            margin-bottom: 38px;
+        }
+
+        .register-form-container h2 {
+            font-size: 2.1rem;
+        }
+    }
+
+</style>
+
 
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const toggleButtons =
+                document.querySelectorAll("[data-password-toggle]");
+
+            toggleButtons.forEach(function (button) {
+
+                button.addEventListener("click", function () {
+
+                    const targetId =
+                        button.getAttribute("data-target");
+
+                    const input =
+                        document.getElementById(targetId);
+
+                    const icon =
+                        button.querySelector("i");
+
+                    if (!input || !icon) {
+                        return;
+                    }
+
+                    const passwordHidden =
+                        input.type === "password";
+
+                    input.type =
+                        passwordHidden ? "text" : "password";
+
+                    icon.classList.toggle(
+                        "fa-eye",
+                        !passwordHidden
+                    );
+
+                    icon.classList.toggle(
+                        "fa-eye-slash",
+                        passwordHidden
+                    );
+
+                    button.setAttribute(
+                        "aria-label",
+                        passwordHidden
+                            ? "Hide password"
+                            : "Show password"
+                    );
+
+                });
+
+            });
+
+        });
+
+    </script>
 }

@@ -4,414 +4,1315 @@
     ViewData["Title"] = "Booking Details";
 }
 
-<div class="container py-5">
+<section class="booking-details-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="container">
 
-        <div>
-            <h2 class="fw-bold mb-1">
-                📋 Booking Details
-            </h2>
 
-            <p class="text-muted mb-0">
-                View your appointment information.
-            </p>
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <div class="details-header">
+
+            <div>
+
+                <span class="section-label">
+                    APPOINTMENT DETAILS
+                </span>
+
+                <h1>
+                    Your Consultation
+                </h1>
+
+                <p>
+                    Review your appointment schedule, consultation details
+                    and current booking status.
+                </p>
+
+            </div>
+
+
+            <a asp-controller="CustomerPortal"
+               asp-action="BookingHistory"
+               class="btn back-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Booking History
+
+            </a>
+
         </div>
 
-        <a asp-controller="CustomerPortal"
-           asp-action="BookingHistory"
-           class="btn btn-outline-secondary">
 
-            ← Back to History
+        <!-- =====================================================
+             SUCCESS / ERROR
+             ===================================================== -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="message-box success-message">
 
-        </a>
+                <div class="message-icon">
 
-    </div>
+                    <i class="fa-solid fa-circle-check"></i>
 
-
-    <!-- Booking Status -->
-
-    <div class="card shadow-sm border-0 mb-4">
-
-        <div class="card-body">
-
-            <div class="d-flex justify-content-between align-items-center">
+                </div>
 
                 <div>
 
-                    <h5 class="fw-bold mb-1">
-                        Booking Status
-                    </h5>
+                    <strong>
+                        Success
+                    </strong>
 
-                    <p class="text-muted mb-0">
-                        Current status of your appointment
+                    <span>
+                        @TempData["Success"]
+                    </span>
+
+                </div>
+
+            </div>
+        }
+
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="message-box error-message">
+
+                <div class="message-icon">
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Unable to complete action
+                    </strong>
+
+                    <span>
+                        @TempData["Error"]
+                    </span>
+
+                </div>
+
+            </div>
+        }
+
+
+        <!-- =====================================================
+             STATUS HERO
+             ===================================================== -->
+
+        <section class="status-panel">
+
+            <div class="status-decoration decoration-one"></div>
+            <div class="status-decoration decoration-two"></div>
+
+
+            <div class="status-content">
+
+                <div>
+
+                    <span class="status-label">
+                        CURRENT STATUS
+                    </span>
+
+                    <h2>
+                        Appointment
+                        <span>#@Model.Id</span>
+                    </h2>
+
+                    <p>
+                        Your appointment status will update as your
+                        consultation progresses.
                     </p>
 
                 </div>
 
-                @switch (Model.Status)
+
+                <div class="status-area">
+
+                    @switch (Model.Status)
+                    {
+                        case AstroConnect.Domain.Enums.BookingStatus.Pending:
+
+                            <span class="status-badge status-pending">
+
+                                <span class="status-dot"></span>
+
+                                Pending
+
+                            </span>
+
+                            break;
+
+
+                        case AstroConnect.Domain.Enums.BookingStatus.Confirmed:
+
+                            <span class="status-badge status-confirmed">
+
+                                <span class="status-dot"></span>
+
+                                Confirmed
+
+                            </span>
+
+                            break;
+
+
+                        case AstroConnect.Domain.Enums.BookingStatus.Completed:
+
+                            <span class="status-badge status-completed">
+
+                                <span class="status-dot"></span>
+
+                                Completed
+
+                            </span>
+
+                            break;
+
+
+                        case AstroConnect.Domain.Enums.BookingStatus.Cancelled:
+
+                            <span class="status-badge status-cancelled">
+
+                                <span class="status-dot"></span>
+
+                                Cancelled
+
+                            </span>
+
+                            break;
+
+
+                        default:
+
+                            <span class="status-badge status-default">
+
+                                <span class="status-dot"></span>
+
+                                @Model.Status
+
+                            </span>
+
+                            break;
+                    }
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             MAIN DETAILS
+             ===================================================== -->
+
+        <div class="row g-4">
+
+
+            <!-- =================================================
+                 APPOINTMENT INFORMATION
+                 ================================================= -->
+
+            <div class="col-lg-6">
+
+                <section class="details-card h-100">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">
+
+                            <i class="fa-solid fa-calendar-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                CONSULTATION
+                            </span>
+
+                            <h3>
+                                Appointment Information
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="details-list">
+
+
+                        <!-- SERVICE -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-solid fa-list-check"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Service
+                                </span>
+
+                                <strong>
+                                    @(Model.Service?.Name ?? "N/A")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ASTROLOGER -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-solid fa-star"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Astrologer
+                                </span>
+
+                                <strong>
+                                    @(Model.Astrologer?.FullName ?? "N/A")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DATE -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-regular fa-calendar"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Booking Date
+                                </span>
+
+                                <strong>
+                                    @Model.BookingDate.ToString("dd MMMM yyyy")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- TIME -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-regular fa-clock"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Appointment Time
+                                </span>
+
+                                <strong>
+                                    @Model.StartTime.ToString("hh:mm tt")
+                                    -
+                                    @Model.EndTime.ToString("hh:mm tt")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 CUSTOMER INFORMATION
+                 ================================================= -->
+
+            <div class="col-lg-6">
+
+                <section class="details-card h-100">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">
+
+                            <i class="fa-solid fa-user"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                CUSTOMER
+                            </span>
+
+                            <h3>
+                                Personal Information
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="details-list">
+
+
+                        <!-- NAME -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-solid fa-user"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Full Name
+                                </span>
+
+                                <strong>
+                                    @(Model.Customer?.FullName ?? "N/A")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- WHATSAPP -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-brands fa-whatsapp"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    WhatsApp Number
+                                </span>
+
+                                <strong>
+                                    @(string.IsNullOrWhiteSpace(Model.WhatsAppNumber)
+                                                                        ? "Not provided"
+                                                                        : Model.WhatsAppNumber)
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- GENDER -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-solid fa-venus-mars"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Gender
+                                </span>
+
+                                <strong>
+                                    @(string.IsNullOrWhiteSpace(Model.Gender)
+                                                                        ? "Not provided"
+                                                                        : Model.Gender)
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 BIRTH INFORMATION
+                 ================================================= -->
+
+            <div class="col-lg-6">
+
+                <section class="details-card h-100">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">
+
+                            <i class="fa-solid fa-moon"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                ASTROLOGY DETAILS
+                            </span>
+
+                            <h3>
+                                Birth Information
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="details-list">
+
+
+                        <!-- BIRTH DATE -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-solid fa-cake-candles"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Birth Date
+                                </span>
+
+                                <strong>
+                                    @Model.BirthDate.ToString("dd MMMM yyyy")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BIRTH TIME -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-solid fa-clock"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Birth Time
+                                </span>
+
+                                <strong>
+                                    @Model.BirthTime.ToString("hh:mm tt")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BIRTH PLACE -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Birth Place
+                                </span>
+
+                                <strong>
+                                    @(string.IsNullOrWhiteSpace(Model.BirthPlace)
+                                                                        ? "Not provided"
+                                                                        : Model.BirthPlace)
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 QUESTION
+                 ================================================= -->
+
+            <div class="col-lg-6">
+
+                <section class="details-card question-card h-100">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">
+
+                            <i class="fa-solid fa-comment-dots"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                YOUR CONSULTATION
+                            </span>
+
+                            <h3>
+                                Question
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="question-content">
+
+                        @if (string.IsNullOrWhiteSpace(Model.Question))
+                        {
+                            <div class="empty-question">
+
+                                <i class="fa-regular fa-comment"></i>
+
+                                <p>
+                                    No question was provided for this appointment.
+                                </p>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="question-box">
+
+                                <i class="fa-solid fa-quote-left"></i>
+
+                                <p>
+                                    @Model.Question
+                                </p>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             ACTIONS
+             ===================================================== -->
+
+        <section class="details-actions">
+
+            <div>
+
+                <div class="action-info-icon">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        APPOINTMENT ACTIONS
+                    </span>
+
+                    <p>
+                        Manage this appointment or schedule another consultation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="action-buttons">
+
+                <a asp-controller="CustomerPortal"
+                   asp-action="BookingHistory"
+                   class="btn history-btn">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Booking History
+
+                </a>
+
+
+                @if (Model.Status ==
+                                AstroConnect.Domain.Enums.BookingStatus.Pending)
                 {
-                    case AstroConnect.Domain.Enums.BookingStatus.Pending:
+                    <form asp-controller="CustomerPortal"
+                          asp-action="CancelBooking"
+                          asp-route-id="@Model.Id"
+                          method="post"
+                          class="d-inline"
+                          onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
 
-                        <span class="badge bg-warning text-dark fs-6 px-3 py-2">
-                            Pending
-                        </span>
+                        @Html.AntiForgeryToken()
 
-                        break;
 
-                    case AstroConnect.Domain.Enums.BookingStatus.Confirmed:
+                        <button type="submit"
+                                class="btn cancel-booking-btn">
 
-                        <span class="badge bg-success fs-6 px-3 py-2">
-                            Confirmed
-                        </span>
+                            <i class="fa-solid fa-xmark"></i>
 
-                        break;
+                            Cancel Appointment
 
-                    case AstroConnect.Domain.Enums.BookingStatus.Completed:
+                        </button>
 
-                        <span class="badge bg-primary fs-6 px-3 py-2">
-                            Completed
-                        </span>
-
-                        break;
-
-                    case AstroConnect.Domain.Enums.BookingStatus.Cancelled:
-
-                        <span class="badge bg-danger fs-6 px-3 py-2">
-                            Cancelled
-                        </span>
-
-                        break;
-
-                    default:
-
-                        <span class="badge bg-secondary fs-6 px-3 py-2">
-                            @Model.Status
-                        </span>
-
-                        break;
+                    </form>
                 }
 
-            </div>
 
-        </div>
+                <a asp-controller="Booking"
+                   asp-action="Create"
+                   class="btn another-booking-btn">
 
-    </div>
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show">
+                    <i class="fa-solid fa-calendar-plus"></i>
 
-            @TempData["Success"]
+                    Book Another
 
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-
-        </div>
-    }
-
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show">
-
-            @TempData["Error"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-
-        </div>
-    }
-
-
-    <div class="row g-4">
-
-
-        <!-- Appointment Information -->
-
-        <div class="col-md-6">
-
-            <div class="card shadow-sm border-0 h-100">
-
-                <div class="card-header bg-primary text-white">
-
-                    <h5 class="mb-0">
-                        📅 Appointment Information
-                    </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            Service
-                        </small>
-
-                        <div class="fw-semibold">
-                            @(Model.Service?.Name ?? "N/A")
-                        </div>
-
-                    </div>
-
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            Astrologer
-                        </small>
-
-                        <div class="fw-semibold">
-                            @(Model.Astrologer?.FullName ?? "N/A")
-                        </div>
-
-                    </div>
-
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            Booking Date
-                        </small>
-
-                        <div class="fw-semibold">
-                            @Model.BookingDate.ToString("dd MMMM yyyy")
-                        </div>
-
-                    </div>
-
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            Time
-                        </small>
-
-                        <div class="fw-semibold">
-
-                            @Model.StartTime.ToString("hh:mm tt")
-                            -
-                            @Model.EndTime.ToString("hh:mm tt")
-
-                        </div>
-
-                    </div>
-
-                </div>
+                </a>
 
             </div>
 
-        </div>
-
-
-        <!-- Customer Information -->
-
-        <div class="col-md-6">
-
-            <div class="card shadow-sm border-0 h-100">
-
-                <div class="card-header bg-success text-white">
-
-                    <h5 class="mb-0">
-                        👤 Customer Information
-                    </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            Name
-                        </small>
-
-                        <div class="fw-semibold">
-                            @(Model.Customer?.FullName ?? "N/A")
-                        </div>
-
-                    </div>
-
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            WhatsApp Number
-                        </small>
-
-                        <div class="fw-semibold">
-                            @Model.WhatsAppNumber
-                        </div>
-
-                    </div>
-
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            Gender
-                        </small>
-
-                        <div class="fw-semibold">
-                            @Model.Gender
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Birth Information -->
-
-        <div class="col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-header bg-info text-white">
-
-                    <h5 class="mb-0">
-                        🌟 Birth Information
-                    </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            Birth Date
-                        </small>
-
-                        <div class="fw-semibold">
-                            @Model.BirthDate.ToString("dd MMMM yyyy")
-                        </div>
-
-                    </div>
-
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            Birth Time
-                        </small>
-
-                        <div class="fw-semibold">
-                            @Model.BirthTime.ToString("hh:mm tt")
-                        </div>
-
-                    </div>
-
-
-                    <div class="mb-3">
-
-                        <small class="text-muted">
-                            Birth Place
-                        </small>
-
-                        <div class="fw-semibold">
-                            @Model.BirthPlace
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Question -->
-
-        <div class="col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-header bg-warning">
-
-                    <h5 class="mb-0">
-                        ❓ Your Question
-                    </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    @if (string.IsNullOrWhiteSpace(Model.Question))
-                    {
-                        <p class="text-muted mb-0">
-                            No question was provided.
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="mb-0">
-                            @Model.Question
-                        </p>
-                    }
-
-                </div>
-
-            </div>
-
-        </div>
+        </section>
 
     </div>
 
-
-    <div class="mt-4">
-
-        <div class="mt-4">
-
-            <a asp-controller="CustomerPortal"
-               asp-action="BookingHistory"
-               class="btn btn-secondary">
-
-                ← Back to Booking History
-
-            </a>
+</section>
 
 
-            @if (Model.Status == AstroConnect.Domain.Enums.BookingStatus.Pending)
-            {
-                <form asp-controller="CustomerPortal"
-                      asp-action="CancelBooking"
-                      asp-route-id="@Model.Id"
-                      method="post"
-                      class="d-inline ms-2"
-                      onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+<style>
 
-                    @Html.AntiForgeryToken()
+    /* =====================================================
+           PAGE
+           ===================================================== */
 
-                    <button type="submit"
-                            class="btn btn-danger">
+    .booking-details-page {
+        min-height: 100vh;
+        padding: 45px 0 80px;
+        background: #f8f5ec;
+    }
 
-                        ❌ Cancel Appointment
 
-                    </button>
+    /* =====================================================
+           HEADER
+           ===================================================== */
 
-                </form>
+    .details-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #987918;
+        font-size: .64rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
+
+    .details-header h1 {
+        margin-bottom: 8px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.5rem, 4vw, 3.8rem);
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .details-header p {
+        max-width: 650px;
+        margin: 0;
+        color: #817b70;
+        font-size: .8rem;
+        line-height: 1.7;
+    }
+
+    .back-btn {
+        min-height: 43px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        border: 1px solid #ccc2af;
+        background: transparent;
+        color: #181710;
+        font-size: .69rem;
+    }
+
+        .back-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: white;
+        }
+
+
+    /* =====================================================
+           MESSAGE BOXES
+           ===================================================== */
+
+    .message-box {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 20px;
+        padding: 13px 15px;
+        border-radius: 12px;
+        font-size: .7rem;
+    }
+
+        .message-box strong,
+        .message-box span {
+            display: block;
+        }
+
+        .message-box strong {
+            margin-bottom: 2px;
+            font-size: .68rem;
+        }
+
+    .message-icon {
+        font-size: .9rem;
+    }
+
+    .success-message {
+        border: 1px solid #cedfce;
+        background: #edf5ed;
+        color: #49644d;
+    }
+
+    .error-message {
+        border: 1px solid #e3cac7;
+        background: #f7e9e7;
+        color: #874f49;
+    }
+
+
+    /* =====================================================
+           STATUS PANEL
+           ===================================================== */
+
+    .status-panel {
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 24px;
+        padding: 32px 36px;
+        border-radius: 20px;
+        background: #181710;
+        color: white;
+    }
+
+    .status-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .status-label {
+        display: block;
+        margin-bottom: 6px;
+        color: #e1bf4a;
+        font-size: .58rem;
+        font-weight: 800;
+        letter-spacing: .15em;
+    }
+
+    .status-panel h2 {
+        margin-bottom: 6px;
+        font-family: 'DM Serif Display', serif;
+        font-size: 2rem;
+        font-weight: 400;
+    }
+
+        .status-panel h2 span {
+            color: #e1bf4a;
+        }
+
+    .status-panel p {
+        max-width: 520px;
+        margin: 0;
+        color: rgba(255,255,255,.48);
+        font-size: .69rem;
+        line-height: 1.6;
+    }
+
+    .status-area {
+        flex-shrink: 0;
+    }
+
+    .status-decoration {
+        position: absolute;
+        border: 1px solid rgba(225,191,74,.07);
+        border-radius: 50%;
+    }
+
+    .decoration-one {
+        width: 280px;
+        height: 280px;
+        right: -140px;
+        top: -170px;
+    }
+
+    .decoration-two {
+        width: 180px;
+        height: 180px;
+        right: 120px;
+        bottom: -140px;
+    }
+
+
+    /* =====================================================
+           STATUS BADGES
+           ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 14px;
+        border-radius: 999px;
+        font-size: .66rem;
+        font-weight: 800;
+    }
+
+    .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+    }
+
+    .status-pending {
+        background: #fff1c8;
+        color: #735c11;
+    }
+
+        .status-pending .status-dot {
+            background: #c49a1b;
+        }
+
+    .status-confirmed {
+        background: #dfeedd;
+        color: #45694b;
+    }
+
+        .status-confirmed .status-dot {
+            background: #599363;
+        }
+
+    .status-completed {
+        background: #e1e9ed;
+        color: #4c6670;
+    }
+
+        .status-completed .status-dot {
+            background: #688996;
+        }
+
+    .status-cancelled {
+        background: #f3dddd;
+        color: #8d4d47;
+    }
+
+        .status-cancelled .status-dot {
+            background: #b76159;
+        }
+
+    .status-default {
+        background: #ece8df;
+        color: #665f54;
+    }
+
+        .status-default .status-dot {
+            background: #82796c;
+        }
+
+
+    /* =====================================================
+           DETAILS CARD
+           ===================================================== */
+
+    .details-card {
+        padding: 28px;
+        border: 1px solid #e2dacb;
+        border-radius: 19px;
+        background: #fffdf8;
+    }
+
+    .card-heading {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 23px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid #e9e2d6;
+    }
+
+    .heading-icon {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .75rem;
+    }
+
+    .card-heading span {
+        display: block;
+        margin-bottom: 2px;
+        color: #987918;
+        font-size: .53rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .card-heading h3 {
+        margin: 0;
+        color: #28241e;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.4rem;
+        font-weight: 400;
+    }
+
+
+    /* =====================================================
+           DETAIL ITEMS
+           ===================================================== */
+
+    .details-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .detail-item {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 12px;
+        border: 1px solid #e9e2d6;
+        border-radius: 11px;
+        background: #faf7ef;
+    }
+
+    .detail-icon {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #fff0ad;
+        color: #6a5511;
+        font-size: .65rem;
+    }
+
+    .detail-item span,
+    .detail-item strong {
+        display: block;
+    }
+
+    .detail-item span {
+        margin-bottom: 2px;
+        color: #958e82;
+        font-size: .53rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .detail-item strong {
+        color: #373229;
+        font-size: .71rem;
+        font-weight: 800;
+    }
+
+
+    /* =====================================================
+           QUESTION
+           ===================================================== */
+
+    .question-content {
+        min-height: 196px;
+        display: flex;
+        align-items: center;
+    }
+
+    .question-box {
+        position: relative;
+        width: 100%;
+        padding: 22px;
+        border: 1px solid #e5ddcf;
+        border-radius: 13px;
+        background: #faf7ef;
+    }
+
+        .question-box i {
+            margin-bottom: 12px;
+            color: #d3b03a;
+            font-size: 1rem;
+        }
+
+        .question-box p {
+            margin: 0;
+            color: #5d574c;
+            font-size: .76rem;
+            line-height: 1.75;
+        }
+
+    .empty-question {
+        width: 100%;
+        padding: 25px;
+        text-align: center;
+        color: #8e877a;
+    }
+
+        .empty-question i {
+            margin-bottom: 10px;
+            color: #c7beae;
+            font-size: 1.5rem;
+        }
+
+        .empty-question p {
+            margin: 0;
+            font-size: .7rem;
+        }
+
+
+    /* =====================================================
+           ACTIONS
+           ===================================================== */
+
+    .details-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        margin-top: 24px;
+        padding: 25px 28px;
+        border-radius: 17px;
+        background: #24221c;
+        color: white;
+    }
+
+        .details-actions > div:first-child {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+    .action-info-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .7rem;
+    }
+
+    .details-actions span {
+        display: block;
+        margin-bottom: 3px;
+        color: #e1bf4a;
+        font-size: .53rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .details-actions p {
+        margin: 0;
+        color: rgba(255,255,255,.45);
+        font-size: .65rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .history-btn,
+    .cancel-booking-btn,
+    .another-booking-btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 13px;
+        font-size: .62rem;
+    }
+
+    .history-btn {
+        border: 1px solid rgba(255,255,255,.2);
+        background: transparent;
+        color: white;
+    }
+
+        .history-btn:hover {
+            border-color: rgba(255,255,255,.45);
+            background: rgba(255,255,255,.07);
+            color: white;
+        }
+
+    .cancel-booking-btn {
+        border: 1px solid #a6544d;
+        background: #a6544d;
+        color: white;
+    }
+
+        .cancel-booking-btn:hover {
+            border-color: #8e453f;
+            background: #8e453f;
+            color: white;
+        }
+
+    .another-booking-btn {
+        border: 1px solid #e1bf4a;
+        background: #e1bf4a;
+        color: #181710;
+    }
+
+        .another-booking-btn:hover {
+            border-color: #d4af34;
+            background: #d4af34;
+            color: #181710;
+        }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 991px) {
+
+        .details-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .status-content {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .details-actions {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+
+    @@media (max-width: 767px) {
+
+        .booking-details-page {
+            padding-top: 30px;
+        }
+
+        .back-btn {
+            width: 100%;
+        }
+
+        .status-panel,
+        .details-card {
+            padding: 24px 20px;
+        }
+
+        .action-buttons {
+            width: 100%;
+            flex-direction: column;
+        }
+
+            .action-buttons form {
+                width: 100%;
             }
 
+        .history-btn,
+        .cancel-booking-btn,
+        .another-booking-btn {
+            width: 100%;
+        }
+    }
 
-            <a asp-controller="Booking"
-               asp-action="Create"
-               class="btn btn-primary ms-2">
-
-                📅 Book Another Appointment
-
-            </a>
-
-        </div>
-
-    </div>
-
-</div>
+</style>

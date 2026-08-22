@@ -4,356 +4,374 @@
     ViewData["Title"] = "Receptionist Dashboard";
 }
 
-<div class="container-fluid py-4">
+<section class="receptionist-dashboard">
 
-    <!-- =====================================================
-         HEADER
-         ===================================================== -->
+    <div class="container">
 
-    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
 
-        <div>
-            <h2 class="fw-bold mb-1">
-                <i class="fa-solid fa-headset text-primary me-2"></i>
-                Receptionist Dashboard
-            </h2>
+        <div class="dashboard-header">
 
-            <p class="text-muted mb-0">
-                Manage today's appointments and customer bookings.
-            </p>
-        </div>
+            <div>
 
-        <div class="mt-3 mt-md-0">
+                <span class="section-label">
+                    RECEPTION DESK
+                </span>
 
-            <span class="badge bg-primary px-3 py-2 fs-6">
-                <i class="fa-solid fa-user-tie me-1"></i>
-                Receptionist
-            </span>
+                <h1>
+                    Receptionist Dashboard
+                </h1>
 
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         STATISTICS
-         ===================================================== -->
-
-    <div class="row g-4 mb-4">
-
-        <!-- TODAY -->
-
-        <div class="col-md-6 col-xl-3">
-
-            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <p class="text-muted mb-1">
-                                Today's Appointments
-                            </p>
-
-                            <h2 class="fw-bold mb-0">
-                                @Model.TodayBookings
-                            </h2>
-
-                        </div>
-
-                        <div class="stat-icon bg-primary-subtle text-primary">
-
-                            <i class="fa-solid fa-calendar-day"></i>
-
-                        </div>
-
-                    </div>
-
-                    <span class="small text-muted">
-                        Appointments scheduled today
-                    </span>
-
-                </div>
+                <p>
+                    Manage today's appointments, customer bookings
+                    and daily consultation activity.
+                </p>
 
             </div>
 
-        </div>
+            <div class="role-badge">
 
-
-        <!-- PENDING -->
-
-        <div class="col-md-6 col-xl-3">
-
-            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <p class="text-muted mb-1">
-                                Pending
-                            </p>
-
-                            <h2 class="fw-bold mb-0">
-                                @Model.PendingBookings
-                            </h2>
-
-                        </div>
-
-                        <div class="stat-icon bg-warning-subtle text-warning">
-
-                            <i class="fa-solid fa-clock"></i>
-
-                        </div>
-
-                    </div>
-
-                    <span class="small text-muted">
-                        Awaiting confirmation
-                    </span>
-
+                <div class="role-icon">
+                    <i class="fa-solid fa-headset"></i>
                 </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- CONFIRMED -->
-
-        <div class="col-md-6 col-xl-3">
-
-            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <p class="text-muted mb-1">
-                                Confirmed
-                            </p>
-
-                            <h2 class="fw-bold mb-0">
-                                @Model.ConfirmedBookings
-                            </h2>
-
-                        </div>
-
-                        <div class="stat-icon bg-success-subtle text-success">
-
-                            <i class="fa-solid fa-circle-check"></i>
-
-                        </div>
-
-                    </div>
-
-                    <span class="small text-muted">
-                        Confirmed appointments
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- COMPLETED -->
-
-        <div class="col-md-6 col-xl-3">
-
-            <div class="card dashboard-stat-card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <p class="text-muted mb-1">
-                                Completed
-                            </p>
-
-                            <h2 class="fw-bold mb-0">
-                                @Model.CompletedBookings
-                            </h2>
-
-                        </div>
-
-                        <div class="stat-icon bg-info-subtle text-info">
-
-                            <i class="fa-solid fa-check-double"></i>
-
-                        </div>
-
-                    </div>
-
-                    <span class="small text-muted">
-                        Completed appointments
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         QUICK ACTIONS
-         ===================================================== -->
-
-    <div class="row g-4 mb-4">
-
-        <div class="col-md-4">
-
-            <a asp-controller="Receptionist"
-               asp-action="Bookings"
-               class="text-decoration-none">
-
-                <div class="quick-action-card shadow-sm">
-
-                    <div class="quick-action-icon bg-primary">
-
-                        <i class="fa-solid fa-calendar-days"></i>
-
-                    </div>
-
-                    <div>
-
-                        <h5 class="fw-bold mb-1">
-                            Manage Bookings
-                        </h5>
-
-                        <p class="text-muted mb-0">
-                            View and filter all customer appointments.
-                        </p>
-
-                    </div>
-
-                    <i class="fa-solid fa-chevron-right ms-auto text-primary"></i>
-
-                </div>
-
-            </a>
-
-        </div>
-
-
-        <div class="col-md-4">
-
-            <a asp-controller="Booking"
-               asp-action="Create"
-               class="text-decoration-none">
-
-                <div class="quick-action-card shadow-sm">
-
-                    <div class="quick-action-icon bg-success">
-
-                        <i class="fa-solid fa-calendar-plus"></i>
-
-                    </div>
-
-                    <div>
-
-                        <h5 class="fw-bold mb-1">
-                            New Booking
-                        </h5>
-
-                        <p class="text-muted mb-0">
-                            Create an appointment for a customer.
-                        </p>
-
-                    </div>
-
-                    <i class="fa-solid fa-chevron-right ms-auto text-success"></i>
-
-                </div>
-
-            </a>
-
-        </div>
-
-
-        <div class="col-md-4">
-
-            <a asp-controller="Customer"
-               asp-action="Index"
-               class="text-decoration-none">
-
-                <div class="quick-action-card shadow-sm">
-
-                    <div class="quick-action-icon bg-warning text-dark">
-
-                        <i class="fa-solid fa-users"></i>
-
-                    </div>
-
-                    <div>
-
-                        <h5 class="fw-bold mb-1">
-                            Customers
-                        </h5>
-
-                        <p class="text-muted mb-0">
-                            View and manage customer information.
-                        </p>
-
-                    </div>
-
-                    <i class="fa-solid fa-chevron-right ms-auto text-warning"></i>
-
-                </div>
-
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         TODAY'S APPOINTMENTS
-         ===================================================== -->
-
-    <div class="card border-0 shadow-sm mb-4">
-
-        <div class="card-body p-4">
-
-            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
 
                 <div>
+                    <span>LOGGED IN AS</span>
+                    <strong>Receptionist</strong>
+                </div>
 
-                    <h5 class="fw-bold mb-1">
+            </div>
 
-                        <i class="fa-solid fa-calendar-day text-primary me-2"></i>
+        </div>
 
+
+        <!-- =====================================================
+             STATISTICS
+             ===================================================== -->
+
+        <div class="row g-3 mb-4">
+
+            <!-- TODAY -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-calendar-day"></i>
+                        </div>
+
+                        <span class="stat-label">
+                            TODAY
+                        </span>
+
+                    </div>
+
+                    <h2>
+                        @Model.TodayBookings
+                    </h2>
+
+                    <h3>
                         Today's Appointments
+                    </h3>
 
-                    </h5>
-
-                    <p class="text-muted mb-0">
-
-                        Appointments scheduled for today.
-
+                    <p>
+                        Consultations scheduled for today.
                     </p>
 
                 </div>
 
-                <div class="mt-2 mt-md-0">
+            </div>
 
-                    <span class="badge bg-primary px-3 py-2">
 
-                        @Model.TodayBookings appointment(s)
+            <!-- PENDING -->
 
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon stat-icon-gold">
+                            <i class="fa-regular fa-clock"></i>
+                        </div>
+
+                        <span class="stat-label">
+                            PENDING
+                        </span>
+
+                    </div>
+
+                    <h2>
+                        @Model.PendingBookings
+                    </h2>
+
+                    <h3>
+                        Awaiting Review
+                    </h3>
+
+                    <p>
+                        Bookings waiting for confirmation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONFIRMED -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon stat-icon-green">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                        <span class="stat-label">
+                            CONFIRMED
+                        </span>
+
+                    </div>
+
+                    <h2>
+                        @Model.ConfirmedBookings
+                    </h2>
+
+                    <h3>
+                        Confirmed Bookings
+                    </h3>
+
+                    <p>
+                        Appointments ready for consultation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPLETED -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon stat-icon-dark">
+                            <i class="fa-solid fa-check-double"></i>
+                        </div>
+
+                        <span class="stat-label">
+                            COMPLETED
+                        </span>
+
+                    </div>
+
+                    <h2>
+                        @Model.CompletedBookings
+                    </h2>
+
+                    <h3>
+                        Completed
+                    </h3>
+
+                    <p>
+                        Successfully completed consultations.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             QUICK ACTIONS
+             ===================================================== -->
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    QUICK ACTIONS
+                </span>
+
+                <h2>
+                    What would you like to do?
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-3 mb-4">
+
+            <!-- BOOKINGS -->
+
+            <div class="col-md-4">
+
+                <a asp-controller="Receptionist"
+                   asp-action="Bookings"
+                   class="action-card">
+
+                    <div class="action-icon">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+
+                    <div class="action-content">
+
+                        <span>
+                            APPOINTMENTS
+                        </span>
+
+                        <h3>
+                            Manage Bookings
+                        </h3>
+
+                        <p>
+                            View, filter and manage all customer appointments.
+                        </p>
+
+                    </div>
+
+                    <div class="action-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <!-- NEW BOOKING -->
+
+            <div class="col-md-4">
+
+                <a asp-controller="Booking"
+                   asp-action="Create"
+                   class="action-card action-card-dark">
+
+                    <div class="action-icon">
+                        <i class="fa-solid fa-calendar-plus"></i>
+                    </div>
+
+                    <div class="action-content">
+
+                        <span>
+                            CREATE
+                        </span>
+
+                        <h3>
+                            New Booking
+                        </h3>
+
+                        <p>
+                            Schedule a new consultation for a customer.
+                        </p>
+
+                    </div>
+
+                    <div class="action-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <!-- CUSTOMERS -->
+
+            <div class="col-md-4">
+
+                <a asp-controller="Customer"
+                   asp-action="Index"
+                   class="action-card">
+
+                    <div class="action-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div class="action-content">
+
+                        <span>
+                            CUSTOMERS
+                        </span>
+
+                        <h3>
+                            Customer Records
+                        </h3>
+
+                        <p>
+                            View and manage registered customer information.
+                        </p>
+
+                    </div>
+
+                    <div class="action-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             TODAY'S APPOINTMENTS
+             ===================================================== -->
+
+        <section class="appointments-card">
+
+            <div class="appointments-header">
+
+                <div class="appointments-heading">
+
+                    <div class="heading-icon">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            TODAY'S SCHEDULE
+                        </span>
+
+                        <h2>
+                            Today's Appointments
+                        </h2>
+
+                        <p>
+                            Review and manage consultations scheduled for today.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="appointment-count">
+
+                    <strong>
+                        @Model.TodayBookings
+                    </strong>
+
+                    <span>
+                        @(Model.TodayBookings == 1 ? "appointment" : "appointments")
                     </span>
 
                 </div>
@@ -364,60 +382,55 @@
             @if (Model.TodayAppointmentList != null &&
                         Model.TodayAppointmentList.Any())
             {
-
                 <div class="table-responsive">
 
-                    <table class="table align-middle mb-0">
+                    <table class="table appointment-table align-middle">
 
-                        <thead class="table-light">
+                        <thead>
 
                             <tr>
-
                                 <th>Customer</th>
-
                                 <th>Astrologer</th>
-
                                 <th>Service</th>
-
                                 <th>Date</th>
-
                                 <th>Time</th>
-
                                 <th>Status</th>
 
                                 <th class="text-end">
                                     Action
                                 </th>
-
                             </tr>
 
                         </thead>
+
 
                         <tbody>
 
                             @foreach (var booking in Model.TodayAppointmentList)
                             {
-
                                 <tr>
 
                                     <!-- CUSTOMER -->
 
                                     <td>
 
-                                        <div class="d-flex align-items-center">
+                                        <div class="customer-cell">
 
-                                            <div class="table-icon bg-primary-subtle text-primary">
-
+                                            <div class="customer-avatar">
                                                 <i class="fa-solid fa-user"></i>
-
                                             </div>
 
-                                            <span class="ms-2 fw-semibold">
+                                            <div>
 
-                                                @(booking.Customer?.FullName
-                                                                                        ?? "Customer")
+                                                <span>
+                                                    CUSTOMER
+                                                </span>
 
-                                            </span>
+                                                <strong>
+                                                    @(booking.Customer?.FullName ?? "Customer")
+                                                </strong>
+
+                                            </div>
 
                                         </div>
 
@@ -428,12 +441,15 @@
 
                                     <td>
 
-                                        <span>
+                                        <div class="simple-cell">
 
-                                            @(booking.Astrologer?.FullName
-                                                                                ?? "Astrologer")
+                                            <i class="fa-solid fa-star"></i>
 
-                                        </span>
+                                            <span>
+                                                @(booking.Astrologer?.FullName ?? "Astrologer")
+                                            </span>
+
+                                        </div>
 
                                     </td>
 
@@ -442,17 +458,30 @@
 
                                     <td>
 
-                                        @(booking.Service?.Name
-                                                                        ?? "Consultation")
+                                        <div class="simple-cell">
 
-                            </td>
+                                            <i class="fa-solid fa-moon"></i>
+
+                                            <span>
+                                                @(booking.Service?.Name ?? "Consultation")
+                                            </span>
+
+                                        </div>
+
+                                    </td>
 
 
                                     <!-- DATE -->
 
                                     <td>
 
-                                        @booking.BookingDate.ToString("dd MMM yyyy")
+                                        <div class="date-cell">
+
+                                            <i class="fa-regular fa-calendar"></i>
+
+                                            @booking.BookingDate.ToString("dd MMM yyyy")
+
+                                        </div>
 
                                     </td>
 
@@ -461,18 +490,23 @@
 
                                     <td>
 
-                                        <span class="fw-semibold">
+                                        <div class="time-cell">
 
-                                            @booking.StartTime.ToString("hh:mm tt")
+                                            <i class="fa-regular fa-clock"></i>
 
-                                        </span>
+                                            <div>
 
-                                        <span class="text-muted">
+                                                <strong>
+                                                    @booking.StartTime.ToString("hh:mm tt")
+                                                </strong>
 
-                                            -
-                                            @booking.EndTime.ToString("hh:mm tt")
+                                                <span>
+                                                    @booking.EndTime.ToString("hh:mm tt")
+                                                </span>
 
-                                        </span>
+                                            </div>
+
+                                        </div>
 
                                     </td>
 
@@ -481,49 +515,49 @@
 
                                     <td>
 
-                                @if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Pending)
+                                        @if (booking.Status ==
+                                                                        AstroConnect.Domain.Enums.BookingStatus.Pending)
                                         {
+                                            <span class="status-badge status-pending">
 
-                                            <span class="badge bg-warning text-dark">
+                                                <span class="status-dot"></span>
 
-                                                <i class="fa-solid fa-clock me-1"></i>
                                                 Pending
 
                                             </span>
-
                                         }
-                                        else if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Confirmed)
+                                        else if (booking.Status ==
+                                        AstroConnect.Domain.Enums.BookingStatus.Confirmed)
                                         {
+                                            <span class="status-badge status-confirmed">
 
-                                            <span class="badge bg-success">
+                                                <span class="status-dot"></span>
 
-                                                <i class="fa-solid fa-circle-check me-1"></i>
                                                 Confirmed
 
                                             </span>
-
                                         }
-                                        else if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Completed)
+                                        else if (booking.Status ==
+                                        AstroConnect.Domain.Enums.BookingStatus.Completed)
                                         {
+                                            <span class="status-badge status-completed">
 
-                                            <span class="badge bg-primary">
+                                                <span class="status-dot"></span>
 
-                                                <i class="fa-solid fa-check-double me-1"></i>
                                                 Completed
 
                                             </span>
-
                                         }
-                                        else if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Cancelled)
+                                        else if (booking.Status ==
+                                        AstroConnect.Domain.Enums.BookingStatus.Cancelled)
                                         {
+                                            <span class="status-badge status-cancelled">
 
-                                            <span class="badge bg-danger">
+                                                <span class="status-dot"></span>
 
-                                                <i class="fa-solid fa-circle-xmark me-1"></i>
                                                 Cancelled
 
                                             </span>
-
                                         }
 
                                     </td>
@@ -533,12 +567,13 @@
 
                                     <td class="text-end">
 
-                                        <div class="d-flex justify-content-end gap-1">
+                                        <div class="booking-actions">
+
 
                                             <!-- CONFIRM -->
-                                            @if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Pending)
+                                            @if (booking.Status ==
+                                                                                AstroConnect.Domain.Enums.BookingStatus.Pending)
                                             {
-
                                                 <form asp-controller="Receptionist"
                                                       asp-action="ConfirmBooking"
                                                       asp-route-id="@booking.Id"
@@ -547,7 +582,7 @@
                                                     @Html.AntiForgeryToken()
 
                                                     <button type="submit"
-                                                            class="btn btn-sm btn-outline-success"
+                                                            class="table-action-btn confirm-btn"
                                                             title="Confirm Booking">
 
                                                         <i class="fa-solid fa-check"></i>
@@ -555,14 +590,13 @@
                                                     </button>
 
                                                 </form>
-
                                             }
 
 
                                             <!-- COMPLETE -->
-                                            @if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Confirmed)
+                                            @if (booking.Status ==
+                                                                                AstroConnect.Domain.Enums.BookingStatus.Confirmed)
                                             {
-
                                                 <form asp-controller="Receptionist"
                                                       asp-action="CompleteBooking"
                                                       asp-route-id="@booking.Id"
@@ -571,7 +605,7 @@
                                                     @Html.AntiForgeryToken()
 
                                                     <button type="submit"
-                                                            class="btn btn-sm btn-outline-primary"
+                                                            class="table-action-btn complete-btn"
                                                             title="Complete Booking">
 
                                                         <i class="fa-solid fa-check-double"></i>
@@ -579,15 +613,15 @@
                                                     </button>
 
                                                 </form>
-
                                             }
 
 
                                             <!-- CANCEL -->
-                                            @if (booking.Status == AstroConnect.Domain.Enums.BookingStatus.Pending ||
-                                                                                booking.Status == AstroConnect.Domain.Enums.BookingStatus.Confirmed)
+                                            @if (booking.Status ==
+                                                                                AstroConnect.Domain.Enums.BookingStatus.Pending ||
+                                                                                booking.Status ==
+                                                                                AstroConnect.Domain.Enums.BookingStatus.Confirmed)
                                             {
-
                                                 <form asp-controller="Receptionist"
                                                       asp-action="CancelBooking"
                                                       asp-route-id="@booking.Id"
@@ -597,7 +631,7 @@
                                                     @Html.AntiForgeryToken()
 
                                                     <button type="submit"
-                                                            class="btn btn-sm btn-outline-danger"
+                                                            class="table-action-btn cancel-btn"
                                                             title="Cancel Booking">
 
                                                         <i class="fa-solid fa-xmark"></i>
@@ -605,7 +639,6 @@
                                                     </button>
 
                                                 </form>
-
                                             }
 
                                         </div>
@@ -613,7 +646,6 @@
                                     </td>
 
                                 </tr>
-
                             }
 
                         </tbody>
@@ -621,66 +653,75 @@
                     </table>
 
                 </div>
-
             }
             else
             {
-
                 <div class="empty-state">
 
                     <div class="empty-icon">
-
-                        <i class="fa-solid fa-calendar-xmark"></i>
-
+                        <i class="fa-regular fa-calendar-check"></i>
                     </div>
 
-                    <h5 class="fw-bold mt-3">
-                        No Appointments Today
-                    </h5>
+                    <span>
+                        TODAY'S SCHEDULE
+                    </span>
 
-                    <p class="text-muted mb-0">
+                    <h3>
+                        No appointments today.
+                    </h3>
 
-                        There are no appointments scheduled for today.
-
+                    <p>
+                        There are currently no consultations scheduled
+                        for today.
                     </p>
 
-                </div>
+                    <a asp-controller="Booking"
+                       asp-action="Create"
+                       class="btn empty-booking-btn">
 
+                        <i class="fa-solid fa-calendar-plus"></i>
+
+                        Create Booking
+
+                    </a>
+
+                </div>
             }
 
-        </div>
-
-    </div>
+        </section>
 
 
-    <!-- =====================================================
-         RECEPTIONIST INFORMATION
-         ===================================================== -->
+        <!-- =====================================================
+             BOTTOM SECTION
+             ===================================================== -->
 
-    <div class="row g-4">
+        <div class="row g-4 mt-1">
 
-        <div class="col-lg-8">
 
-            <div class="card border-0 shadow-sm h-100">
+            <!-- RECEPTIONIST TASKS -->
 
-                <div class="card-body p-4">
+            <div class="col-lg-8">
 
-                    <div class="d-flex align-items-center mb-3">
+                <section class="tasks-card h-100">
 
-                        <div class="section-icon bg-primary">
+                    <div class="card-title-area">
 
+                        <div class="title-icon">
                             <i class="fa-solid fa-headset"></i>
-
                         </div>
 
-                        <div class="ms-3">
+                        <div>
 
-                            <h5 class="fw-bold mb-1">
+                            <span>
+                                DAILY WORKFLOW
+                            </span>
+
+                            <h2>
                                 Receptionist Tasks
-                            </h5>
+                            </h2>
 
-                            <p class="text-muted mb-0">
-                                Manage customer appointments efficiently.
+                            <p>
+                                Keep appointments organised and customers informed.
                             </p>
 
                         </div>
@@ -688,91 +729,131 @@
                     </div>
 
 
-                    <div class="row g-3">
+                    <div class="task-grid">
 
-                        <div class="col-md-6">
+                        <a asp-controller="Receptionist"
+                           asp-action="Bookings"
+                           class="task-item">
 
-                            <div class="info-item">
+                            <div class="task-number">
+                                01
+                            </div>
 
-                                <i class="fa-solid fa-calendar-check text-primary"></i>
+                            <div>
 
                                 <span>
+                                    SCHEDULE
+                                </span>
+
+                                <strong>
                                     Check today's appointments
-                                </span>
+                                </strong>
 
                             </div>
 
-                        </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
 
 
-                        <div class="col-md-6">
+                        <a asp-controller="Receptionist"
+                           asp-action="Bookings"
+                           class="task-item">
 
-                            <div class="info-item">
+                            <div class="task-number">
+                                02
+                            </div>
 
-                                <i class="fa-solid fa-clock text-warning"></i>
+                            <div>
 
                                 <span>
+                                    REVIEW
+                                </span>
+
+                                <strong>
                                     Review pending bookings
-                                </span>
+                                </strong>
 
                             </div>
 
-                        </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
 
 
-                        <div class="col-md-6">
+                        <a asp-controller="Receptionist"
+                           asp-action="Bookings"
+                           class="task-item">
 
-                            <div class="info-item">
+                            <div class="task-number">
+                                03
+                            </div>
 
-                                <i class="fa-solid fa-circle-check text-success"></i>
+                            <div>
 
                                 <span>
+                                    CONFIRM
+                                </span>
+
+                                <strong>
                                     Confirm customer bookings
-                                </span>
+                                </strong>
 
                             </div>
 
-                        </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
 
 
-                        <div class="col-md-6">
+                        <a asp-controller="Receptionist"
+                           asp-action="Bookings"
+                           class="task-item">
 
-                            <div class="info-item">
+                            <div class="task-number">
+                                04
+                            </div>
 
-                                <i class="fa-solid fa-check-double text-primary"></i>
+                            <div>
 
                                 <span>
-                                    Mark appointments completed
+                                    COMPLETE
                                 </span>
+
+                                <strong>
+                                    Mark appointments completed
+                                </strong>
 
                             </div>
 
-                        </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
 
                     </div>
 
-                </div>
+                </section>
 
             </div>
 
-        </div>
 
+            <!-- QUICK LINKS -->
 
-        <!-- QUICK LINKS -->
+            <div class="col-lg-4">
 
-        <div class="col-lg-4">
+                <section class="links-card h-100">
 
-            <div class="card border-0 shadow-sm h-100">
+                    <div class="links-header">
 
-                <div class="card-body p-4">
+                        <span>
+                            NAVIGATION
+                        </span>
 
-                    <h5 class="fw-bold mb-3">
+                        <h2>
+                            Quick Links
+                        </h2>
 
-                        <i class="fa-solid fa-link text-primary me-2"></i>
-
-                        Quick Links
-
-                    </h5>
+                    </div>
 
 
                     <div class="quick-link-list">
@@ -781,43 +862,61 @@
                            asp-action="Bookings"
                            class="quick-link">
 
-                            <span>
+                            <div>
 
-                                <i class="fa-solid fa-calendar-days"></i>
+                                <span class="link-icon">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                </span>
 
-                                All Bookings
+                                <span>
+                                    All Bookings
+                                </span>
 
-                            </span>
+                            </div>
 
-                            <i class="fa-solid fa-chevron-right"></i>
+                            <i class="fa-solid fa-arrow-right"></i>
 
                         </a>
+
+
                         <a asp-controller="Receptionist"
                            asp-action="Calendar"
                            class="quick-link">
 
-                            <span>
-                                <i class="fa-solid fa-calendar-days"></i>
-                                Booking Calendar
-                            </span>
+                            <div>
 
-                            <i class="fa-solid fa-chevron-right"></i>
+                                <span class="link-icon">
+                                    <i class="fa-regular fa-calendar"></i>
+                                </span>
+
+                                <span>
+                                    Booking Calendar
+                                </span>
+
+                            </div>
+
+                            <i class="fa-solid fa-arrow-right"></i>
 
                         </a>
+
 
                         <a asp-controller="Booking"
                            asp-action="Create"
                            class="quick-link">
 
-                            <span>
+                            <div>
 
-                                <i class="fa-solid fa-calendar-plus"></i>
+                                <span class="link-icon">
+                                    <i class="fa-solid fa-calendar-plus"></i>
+                                </span>
 
-                                New Booking
+                                <span>
+                                    New Booking
+                                </span>
 
-                            </span>
+                            </div>
 
-                            <i class="fa-solid fa-chevron-right"></i>
+                            <i class="fa-solid fa-arrow-right"></i>
 
                         </a>
 
@@ -826,15 +925,19 @@
                            asp-action="Index"
                            class="quick-link">
 
-                            <span>
+                            <div>
 
-                                <i class="fa-solid fa-users"></i>
+                                <span class="link-icon">
+                                    <i class="fa-solid fa-users"></i>
+                                </span>
 
-                                Customers
+                                <span>
+                                    Customers
+                                </span>
 
-                            </span>
+                            </div>
 
-                            <i class="fa-solid fa-chevron-right"></i>
+                            <i class="fa-solid fa-arrow-right"></i>
 
                         </a>
 
@@ -843,15 +946,19 @@
                            asp-action="Index"
                            class="quick-link">
 
-                            <span>
+                            <div>
 
-                                <i class="fa-solid fa-star"></i>
+                                <span class="link-icon">
+                                    <i class="fa-solid fa-star"></i>
+                                </span>
 
-                                Astrologers
+                                <span>
+                                    Astrologers
+                                </span>
 
-                            </span>
+                            </div>
 
-                            <i class="fa-solid fa-chevron-right"></i>
+                            <i class="fa-solid fa-arrow-right"></i>
 
                         </a>
 
@@ -860,21 +967,25 @@
                            asp-action="Index"
                            class="quick-link">
 
-                            <span>
+                            <div>
 
-                                <i class="fa-solid fa-list-check"></i>
+                                <span class="link-icon">
+                                    <i class="fa-solid fa-list-check"></i>
+                                </span>
 
-                                Services
+                                <span>
+                                    Services
+                                </span>
 
-                            </span>
+                            </div>
 
-                            <i class="fa-solid fa-chevron-right"></i>
+                            <i class="fa-solid fa-arrow-right"></i>
 
                         </a>
 
                     </div>
 
-                </div>
+                </section>
 
             </div>
 
@@ -882,85 +993,646 @@
 
     </div>
 
-</div>
+</section>
 
 
 <style>
 
     /* =====================================================
-           DASHBOARD STATISTICS
+           PAGE
            ===================================================== */
 
-    .dashboard-stat-card {
-        border-radius: 16px;
-        transition: all .25s ease;
-    }
-
-        .dashboard-stat-card:hover {
-            transform: translateY(-4px);
-        }
-
-    .stat-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 21px;
+    .receptionist-dashboard {
+        min-height: 100vh;
+        padding: 45px 0 80px;
+        background: #f8f5ec;
     }
 
 
     /* =====================================================
-           QUICK ACTION CARDS
+           HEADER
            ===================================================== */
 
-    .quick-action-card {
+    .dashboard-header {
         display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 20px;
-        border-radius: 14px;
-        background: white;
-        color: #212529;
-        transition: all .25s ease;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 32px;
     }
 
-        .quick-action-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0,0,0,.10) !important;
-        }
+    .section-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #987918;
+        font-size: .63rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
 
-    .quick-action-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
+    .dashboard-header h1 {
+        margin-bottom: 9px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.5rem, 4vw, 3.8rem);
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .dashboard-header p {
+        max-width: 640px;
+        margin: 0;
+        color: #817b70;
+        font-size: .8rem;
+        line-height: 1.7;
+    }
+
+    .role-badge {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 175px;
+        padding: 11px 14px;
+        border: 1px solid #ddd3c0;
+        border-radius: 13px;
+        background: #fffdf8;
+    }
+
+    .role-icon {
+        width: 38px;
+        height: 38px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        font-size: 20px;
         flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .72rem;
     }
+
+    .role-badge span,
+    .role-badge strong {
+        display: block;
+    }
+
+    .role-badge span {
+        margin-bottom: 1px;
+        color: #9b9386;
+        font-size: .48rem;
+        font-weight: 800;
+        letter-spacing: .09em;
+    }
+
+    .role-badge strong {
+        color: #302c25;
+        font-size: .7rem;
+    }
+
+
+    /* =====================================================
+           STATISTICS
+           ===================================================== */
+
+    .stat-card {
+        height: 100%;
+        padding: 22px;
+        border: 1px solid #e2dacb;
+        border-radius: 17px;
+        background: #fffdf8;
+        transition: all .22s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: #d4bd67;
+            box-shadow: 0 12px 28px rgba(40, 34, 22, .05);
+        }
+
+    .stat-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .72rem;
+    }
+
+    .stat-icon-gold {
+        background: #fff0ad;
+        color: #725c12;
+    }
+
+    .stat-icon-green {
+        background: #e0ecdf;
+        color: #53745a;
+    }
+
+    .stat-icon-dark {
+        background: #e7e3db;
+        color: #4f4940;
+    }
+
+    .stat-label {
+        color: #aaa294;
+        font-size: .51rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+    }
+
+    .stat-card h2 {
+        margin-bottom: 3px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: 2.35rem;
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .stat-card h3 {
+        margin-bottom: 6px;
+        color: #403b32;
+        font-size: .72rem;
+        font-weight: 800;
+    }
+
+    .stat-card p {
+        margin: 0;
+        color: #928a7e;
+        font-size: .62rem;
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+           SECTION HEADING
+           ===================================================== */
+
+    .section-heading {
+        margin: 32px 0 16px;
+    }
+
+        .section-heading h2 {
+            margin: 0;
+            color: #181710;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+        }
+
+
+    /* =====================================================
+           QUICK ACTIONS
+           ===================================================== */
+
+    .action-card {
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        overflow: hidden;
+        padding: 22px;
+        border: 1px solid #e1d9ca;
+        border-radius: 17px;
+        background: #fffdf8;
+        color: #29261f;
+        text-decoration: none;
+        transition: all .22s ease;
+    }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            border-color: #caae4b;
+            color: #29261f;
+            box-shadow: 0 12px 28px rgba(40,34,22,.055);
+        }
+
+    .action-card-dark {
+        border-color: #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .action-card-dark:hover {
+            border-color: #181710;
+            color: white;
+        }
+
+    .action-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #fff0ad;
+        color: #6b5611;
+        font-size: .8rem;
+    }
+
+    .action-card-dark .action-icon {
+        background: #e1bf4a;
+        color: #181710;
+    }
+
+    .action-content {
+        flex: 1;
+    }
+
+        .action-content > span {
+            display: block;
+            margin-bottom: 3px;
+            color: #a08f50;
+            font-size: .49rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+        }
+
+    .action-card-dark .action-content > span {
+        color: #e1bf4a;
+    }
+
+    .action-content h3 {
+        margin-bottom: 5px;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.25rem;
+        font-weight: 400;
+    }
+
+    .action-content p {
+        margin: 0;
+        color: #8d867a;
+        font-size: .62rem;
+        line-height: 1.55;
+    }
+
+    .action-card-dark .action-content p {
+        color: rgba(255,255,255,.45);
+    }
+
+    .action-arrow {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border: 1px solid #ded5c5;
+        border-radius: 50%;
+        color: #7c7467;
+        font-size: .57rem;
+        transition: all .2s ease;
+    }
+
+    .action-card:hover .action-arrow {
+        border-color: #181710;
+        background: #181710;
+        color: #e1bf4a;
+    }
+
+    .action-card-dark .action-arrow {
+        border-color: rgba(255,255,255,.15);
+        color: #e1bf4a;
+    }
+
+    .action-card-dark:hover .action-arrow {
+        border-color: #e1bf4a;
+        background: #e1bf4a;
+        color: #181710;
+    }
+
+
+    /* =====================================================
+           APPOINTMENTS
+           ===================================================== */
+
+    .appointments-card {
+        overflow: hidden;
+        margin-top: 26px;
+        border: 1px solid #e1d9ca;
+        border-radius: 20px;
+        background: #fffdf8;
+    }
+
+    .appointments-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        padding: 27px 28px 22px;
+    }
+
+    .appointments-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .heading-icon {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .75rem;
+    }
+
+    .appointments-heading span {
+        display: block;
+        margin-bottom: 2px;
+        color: #987918;
+        font-size: .51rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .appointments-heading h2 {
+        margin-bottom: 3px;
+        color: #25221c;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    .appointments-heading p {
+        margin: 0;
+        color: #938b7e;
+        font-size: .63rem;
+    }
+
+    .appointment-count {
+        flex-shrink: 0;
+        text-align: center;
+    }
+
+        .appointment-count strong,
+        .appointment-count span {
+            display: block;
+        }
+
+        .appointment-count strong {
+            color: #181710;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.7rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .appointment-count span {
+            margin-top: 3px;
+            color: #958d80;
+            font-size: .52rem;
+            font-weight: 700;
+        }
 
 
     /* =====================================================
            TABLE
            ===================================================== */
 
-    .table-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 9px;
+    .appointment-table {
+        margin: 0;
+    }
+
+        .appointment-table thead th {
+            padding: 12px 16px;
+            border-top: 1px solid #e7dfd2;
+            border-bottom: 1px solid #ded5c6;
+            background: #faf7ef;
+            color: #8e867a;
+            font-size: .54rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .appointment-table tbody td {
+            padding: 15px 16px;
+            border-bottom: 1px solid #eee7dc;
+            color: #554f46;
+            font-size: .67rem;
+        }
+
+        .appointment-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .appointment-table tbody tr {
+            transition: background .2s ease;
+        }
+
+            .appointment-table tbody tr:hover {
+                background: #fbf8f1;
+            }
+
+    .customer-cell {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .customer-avatar {
+        width: 35px;
+        height: 35px;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .6rem;
     }
 
-    .table th {
+    .customer-cell span,
+    .customer-cell strong {
+        display: block;
+    }
+
+    .customer-cell span {
+        margin-bottom: 1px;
+        color: #a39b8e;
+        font-size: .45rem;
+        font-weight: 800;
+        letter-spacing: .06em;
+    }
+
+    .customer-cell strong {
+        color: #373229;
+        font-size: .67rem;
         white-space: nowrap;
     }
+
+    .simple-cell,
+    .date-cell,
+    .time-cell {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        white-space: nowrap;
+    }
+
+        .simple-cell i,
+        .date-cell i,
+        .time-cell > i {
+            width: 14px;
+            color: #a28625;
+            text-align: center;
+            font-size: .59rem;
+        }
+
+        .time-cell strong,
+        .time-cell span {
+            display: block;
+        }
+
+        .time-cell strong {
+            color: #39342c;
+            font-size: .66rem;
+        }
+
+        .time-cell span {
+            margin-top: 1px;
+            color: #9b9386;
+            font-size: .55rem;
+        }
+
+
+    /* =====================================================
+           STATUS
+           ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: .54rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .status-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+    }
+
+    .status-pending {
+        background: #fff1c8;
+        color: #745d12;
+    }
+
+        .status-pending .status-dot {
+            background: #c49a1b;
+        }
+
+    .status-confirmed {
+        background: #dfeddf;
+        color: #45694b;
+    }
+
+        .status-confirmed .status-dot {
+            background: #5a9765;
+        }
+
+    .status-completed {
+        background: #e1e9ed;
+        color: #4c6671;
+    }
+
+        .status-completed .status-dot {
+            background: #688996;
+        }
+
+    .status-cancelled {
+        background: #f3dddd;
+        color: #8d4d47;
+    }
+
+        .status-cancelled .status-dot {
+            background: #b76159;
+        }
+
+
+    /* =====================================================
+           TABLE ACTIONS
+           ===================================================== */
+
+    .booking-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+
+        .booking-actions form {
+            margin: 0;
+        }
+
+    .table-action-btn {
+        width: 31px;
+        height: 31px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border-radius: 8px;
+        background: transparent;
+        font-size: .57rem;
+        transition: all .18s ease;
+    }
+
+    .confirm-btn {
+        border: 1px solid #b8d0bb;
+        color: #54745a;
+    }
+
+        .confirm-btn:hover {
+            border-color: #54745a;
+            background: #54745a;
+            color: white;
+        }
+
+    .complete-btn {
+        border: 1px solid #c8c0a8;
+        color: #7d6821;
+    }
+
+        .complete-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: #e1bf4a;
+        }
+
+    .cancel-btn {
+        border: 1px solid #dfc1bd;
+        color: #a45c54;
+    }
+
+        .cancel-btn:hover {
+            border-color: #a45c54;
+            background: #a45c54;
+            color: white;
+        }
 
 
     /* =====================================================
@@ -968,109 +1640,315 @@
            ===================================================== */
 
     .empty-state {
+        padding: 55px 20px;
+        border-top: 1px solid #e7dfd2;
         text-align: center;
-        padding: 40px 20px;
     }
 
     .empty-icon {
-        width: 64px;
-        height: 64px;
-        margin: auto;
-        border-radius: 50%;
-        background: #f1f3f5;
-        color: #6c757d;
+        width: 60px;
+        height: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 25px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: 1rem;
     }
+
+    .empty-state > span {
+        display: block;
+        margin-bottom: 5px;
+        color: #987918;
+        font-size: .52rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .empty-state h3 {
+        margin-bottom: 7px;
+        color: #28241e;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.45rem;
+        font-weight: 400;
+    }
+
+    .empty-state p {
+        margin-bottom: 17px;
+        color: #91897c;
+        font-size: .66rem;
+    }
+
+    .empty-booking-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 39px;
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+        font-size: .61rem;
+    }
+
+        .empty-booking-btn:hover {
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+        }
 
 
     /* =====================================================
-           INFORMATION SECTION
+           TASKS CARD
            ===================================================== */
 
-    .section-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
+    .tasks-card,
+    .links-card {
+        padding: 27px;
+        border: 1px solid #e1d9ca;
+        border-radius: 19px;
+        background: #fffdf8;
     }
 
-    .info-item {
+    .card-title-area {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 13px;
-        border: 1px solid #e9ecef;
-        border-radius: 10px;
-        background-color: #fafafa;
-        font-size: .9rem;
-        font-weight: 500;
+        margin-bottom: 22px;
     }
 
-        .info-item i {
-            width: 22px;
-            text-align: center;
+    .title-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .72rem;
+    }
+
+    .card-title-area span,
+    .links-header > span {
+        display: block;
+        margin-bottom: 2px;
+        color: #987918;
+        font-size: .51rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .card-title-area h2,
+    .links-header h2 {
+        margin-bottom: 3px;
+        color: #29251f;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.45rem;
+        font-weight: 400;
+    }
+
+    .card-title-area p {
+        margin: 0;
+        color: #938b7e;
+        font-size: .63rem;
+    }
+
+    .task-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+    }
+
+    .task-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px;
+        border: 1px solid #e8e0d4;
+        border-radius: 11px;
+        background: #faf7ef;
+        color: #373229;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+        .task-item:hover {
+            transform: translateX(2px);
+            border-color: #cdb95f;
+            background: #fffdf8;
+            color: #373229;
         }
+
+    .task-number {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-family: 'DM Serif Display', serif;
+        font-size: .62rem;
+    }
+
+    .task-item > div:nth-child(2) {
+        flex: 1;
+    }
+
+    .task-item span,
+    .task-item strong {
+        display: block;
+    }
+
+    .task-item span {
+        margin-bottom: 2px;
+        color: #9c9384;
+        font-size: .46rem;
+        font-weight: 800;
+        letter-spacing: .08em;
+    }
+
+    .task-item strong {
+        font-size: .65rem;
+    }
+
+    .task-item > i {
+        color: #aa9140;
+        font-size: .55rem;
+    }
 
 
     /* =====================================================
            QUICK LINKS
            ===================================================== */
 
+    .links-header {
+        margin-bottom: 18px;
+    }
+
     .quick-link-list {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 7px;
     }
 
     .quick-link {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding: 12px 14px;
-        border: 1px solid #e9ecef;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 9px 11px;
+        border: 1px solid #e8e0d4;
         border-radius: 10px;
+        background: #faf7ef;
+        color: #403b33;
         text-decoration: none;
-        color: #343a40;
-        font-size: .88rem;
+        font-size: .63rem;
+        font-weight: 700;
         transition: all .2s ease;
     }
 
-        .quick-link span {
+        .quick-link > div {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
         }
 
-        .quick-link > i {
-            color: #0d6efd;
-        }
+    .link-icon {
+        width: 29px;
+        height: 29px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #eee7d8;
+        color: #8d7626;
+        font-size: .55rem;
+    }
 
-        .quick-link:hover {
-            background-color: #f8f9fa;
-            border-color: #0d6efd;
-            transform: translateX(3px);
-            color: #0d6efd;
+    .quick-link > i {
+        color: #a18c3d;
+        font-size: .5rem;
+        transition: transform .2s ease;
+    }
+
+    .quick-link:hover {
+        transform: translateX(2px);
+        border-color: #cdb95f;
+        background: #fffdf8;
+        color: #181710;
+    }
+
+        .quick-link:hover > i {
+            transform: translateX(2px);
         }
 
 
     /* =====================================================
-           MOBILE
+           RESPONSIVE
            ===================================================== */
 
-    @@media (max-width: 768px) {
+    @@media (max-width: 991px) {
 
-        .quick-action-card {
-            padding: 16px;
+        .dashboard-header {
+            align-items: flex-start;
+            flex-direction: column;
         }
 
-        .table {
-            font-size: .85rem;
+        .role-badge {
+            width: 100%;
+        }
+
+        .appointments-header {
+            align-items: flex-start;
+        }
+
+        .task-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+
+    @@media (max-width: 767px) {
+
+        .receptionist-dashboard {
+            padding-top: 30px;
+        }
+
+        .appointments-header {
+            flex-direction: column;
+            padding: 22px;
+        }
+
+        .appointment-count {
+            text-align: left;
+        }
+
+        .action-card {
+            padding: 19px;
+        }
+
+        .tasks-card,
+        .links-card {
+            padding: 22px;
+        }
+    }
+
+
+    @@media (max-width: 480px) {
+
+        .appointments-heading {
+            align-items: flex-start;
+        }
+
+        .action-card {
+            align-items: flex-start;
         }
     }
 

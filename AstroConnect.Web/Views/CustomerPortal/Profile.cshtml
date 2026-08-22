@@ -4,93 +4,596 @@
     ViewData["Title"] = "My Profile";
 }
 
-<div class="container mt-5">
+<section class="profile-page">
 
-    <div class="row justify-content-center">
+    <div class="container">
 
-        <div class="col-lg-8">
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
 
-            <div class="card shadow">
+        <div class="profile-header">
 
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">My Profile</h3>
+            <div>
+
+                <span class="section-label">
+                    CUSTOMER PROFILE
+                </span>
+
+                <h1>
+                    Your personal details.
+                </h1>
+
+                <p>
+                    Keep your contact and birth information up to date
+                    for a smoother consultation experience.
+                </p>
+
+            </div>
+
+
+            <a asp-action="Index"
+               class="btn back-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+
+        <!-- =====================================================
+             CONTENT
+             ===================================================== -->
+
+        <div class="row g-4">
+
+            <!-- LEFT INFO PANEL -->
+
+            <div class="col-lg-4">
+
+                <div class="profile-summary">
+
+                    <div class="summary-orbit orbit-one"></div>
+                    <div class="summary-orbit orbit-two"></div>
+
+
+                    <div class="summary-content">
+
+                        <div class="profile-avatar">
+
+                            @{
+                                var initials = string.Join("",
+                                (Model.FullName ?? "Customer")
+                                .Split(
+                                ' ',
+                                StringSplitOptions.RemoveEmptyEntries)
+                                .Take(2)
+                                .Select(x => x[0]))
+                                .ToUpper();
+                            }
+
+                            @initials
+
+                        </div>
+
+
+                        <span class="summary-label">
+                            YOUR ACCOUNT
+                        </span>
+
+                        <h2>
+                            @Model.FullName
+                        </h2>
+
+                        <p>
+                            Your profile information is used to help
+                            prepare accurate appointment details.
+                        </p>
+
+
+                        <div class="summary-list">
+
+
+                            <div>
+
+                                <div class="summary-icon">
+
+                                    <i class="fa-solid fa-envelope"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Email
+                                    </span>
+
+                                    <strong>
+                                        @Model.Email
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="summary-icon">
+
+                                    <i class="fa-solid fa-phone"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Phone
+                                    </span>
+
+                                    <strong>
+                                        @(string.IsNullOrWhiteSpace(Model.PhoneNumber)
+                                                                                ? "Not provided"
+                                                                                : Model.PhoneNumber)
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="summary-icon">
+
+                                    <i class="fa-solid fa-location-dot"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Birth Place
+                                    </span>
+
+                                    <strong>
+                                        @(string.IsNullOrWhiteSpace(Model.BirthPlace)
+                                                                                ? "Not provided"
+                                                                                : Model.BirthPlace)
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-note">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            <span>
+                                Keep your birth details accurate before
+                                booking an astrology consultation.
+                            </span>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="card-body">
+            </div>
+
+
+            <!-- RIGHT FORM -->
+
+            <div class="col-lg-8">
+
+                <div class="profile-form-card">
+
+                    <div class="form-heading">
+
+                        <span class="section-label dark-label">
+                            PROFILE INFORMATION
+                        </span>
+
+                        <h2>
+                            Update your details
+                        </h2>
+
+                        <p>
+                            Changes made here will be used for your
+                            future appointments.
+                        </p>
+
+                    </div>
+
 
                     @if (TempData["Success"] != null)
                     {
-                        <div class="alert alert-success">
-                            @TempData["Success"]
+                        <div class="success-message">
+
+                            <div class="success-icon">
+
+                                <i class="fa-solid fa-circle-check"></i>
+
+                            </div>
+
+                            <span>
+                                @TempData["Success"]
+                            </span>
+
                         </div>
                     }
 
-                    <form asp-action="Profile" method="post">
 
-                        <input asp-for="CustomerId" type="hidden" />
+                    <form asp-action="Profile"
+                          method="post">
 
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input asp-for="CustomerId"
+                               type="hidden" />
 
-                        <div class="mb-3">
-                            <label asp-for="FullName" class="form-label"></label>
-                            <input asp-for="FullName" class="form-control" />
-                            <span asp-validation-for="FullName" class="text-danger"></span>
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="profile-validation mb-3">
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label"></label>
-                            <input asp-for="Email" class="form-control" readonly />
-                        </div>
 
-                        <div class="mb-3">
-                            <label asp-for="PhoneNumber" class="form-label"></label>
-                            <input asp-for="PhoneNumber" class="form-control" />
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        </div>
+                        <!-- =================================================
+                             PERSONAL
+                             ================================================= -->
 
-                        <div class="row">
+                        <div class="form-section">
 
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="BirthDate" class="form-label"></label>
-                                <input asp-for="BirthDate" type="date" class="form-control" />
+                            <div class="form-section-title">
+
+                                <div class="section-number">
+                                    01
+                                </div>
+
+                                <div>
+
+                                    <h4>
+                                        Personal Information
+                                    </h4>
+
+                                    <p>
+                                        Basic customer information.
+                                    </p>
+
+                                </div>
+
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="BirthTime" class="form-label"></label>
-                                <input asp-for="BirthTime" type="time" class="form-control" />
+
+                            <div class="row g-3">
+
+                                <!-- FULL NAME -->
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group-custom">
+
+                                        <label asp-for="FullName">
+                                            Full Name
+                                        </label>
+
+                                        <div class="input-wrapper">
+
+                                            <i class="fa-solid fa-user"></i>
+
+                                            <input asp-for="FullName"
+                                                   class="form-control"
+                                                   placeholder="Enter your full name" />
+
+                                        </div>
+
+                                        <span asp-validation-for="FullName"
+                                              class="validation-message">
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- EMAIL -->
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group-custom">
+
+                                        <label asp-for="Email">
+                                            Email Address
+                                        </label>
+
+                                        <div class="input-wrapper readonly-wrapper">
+
+                                            <i class="fa-solid fa-envelope"></i>
+
+                                            <input asp-for="Email"
+                                                   class="form-control"
+                                                   readonly />
+
+                                            <span class="locked-icon">
+
+                                                <i class="fa-solid fa-lock"></i>
+
+                                            </span>
+
+                                        </div>
+
+                                        <small class="field-note">
+                                            Email cannot be changed here.
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- PHONE -->
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group-custom">
+
+                                        <label asp-for="PhoneNumber">
+                                            Phone Number
+                                        </label>
+
+                                        <div class="input-wrapper">
+
+                                            <i class="fa-solid fa-phone"></i>
+
+                                            <input asp-for="PhoneNumber"
+                                                   class="form-control"
+                                                   placeholder="Enter your phone number" />
+
+                                        </div>
+
+                                        <span asp-validation-for="PhoneNumber"
+                                              class="validation-message">
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- GENDER -->
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group-custom">
+
+                                        <label asp-for="Gender">
+                                            Gender
+                                        </label>
+
+                                        <div class="input-wrapper select-wrapper">
+
+                                            <i class="fa-solid fa-venus-mars"></i>
+
+                                            <select asp-for="Gender"
+                                                    class="form-select">
+
+                                                <option value="">
+                                                    Select Gender
+                                                </option>
+
+                                                <option value="Male">
+                                                    Male
+                                                </option>
+
+                                                <option value="Female">
+                                                    Female
+                                                </option>
+
+                                                <option value="Other">
+                                                    Other
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
                             </div>
 
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="BirthPlace" class="form-label"></label>
-                            <input asp-for="BirthPlace" class="form-control" />
+
+                        <!-- =================================================
+                             BIRTH DETAILS
+                             ================================================= -->
+
+                        <div class="form-section">
+
+                            <div class="form-section-title">
+
+                                <div class="section-number">
+                                    02
+                                </div>
+
+                                <div>
+
+                                    <h4>
+                                        Birth Details
+                                    </h4>
+
+                                    <p>
+                                        Information used during astrology consultation.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="row g-3">
+
+
+                                <!-- DATE -->
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group-custom">
+
+                                        <label asp-for="BirthDate">
+                                            Birth Date
+                                        </label>
+
+                                        <div class="input-wrapper">
+
+                                            <i class="fa-solid fa-calendar"></i>
+
+                                            <input asp-for="BirthDate"
+                                                   type="date"
+                                                   class="form-control" />
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- TIME -->
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group-custom">
+
+                                        <label asp-for="BirthTime">
+                                            Birth Time
+                                        </label>
+
+                                        <div class="input-wrapper">
+
+                                            <i class="fa-solid fa-clock"></i>
+
+                                            <input asp-for="BirthTime"
+                                                   type="time"
+                                                   class="form-control" />
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- BIRTH PLACE -->
+
+                                <div class="col-12">
+
+                                    <div class="form-group-custom">
+
+                                        <label asp-for="BirthPlace">
+                                            Birth Place
+                                        </label>
+
+                                        <div class="input-wrapper">
+
+                                            <i class="fa-solid fa-location-dot"></i>
+
+                                            <input asp-for="BirthPlace"
+                                                   class="form-control"
+                                                   placeholder="Enter your place of birth" />
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Gender" class="form-label"></label>
 
-                            <select asp-for="Gender" class="form-select">
-                                <option value="">-- Select Gender --</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Other</option>
-                            </select>
+                        <!-- =================================================
+                             ADDRESS
+                             ================================================= -->
+
+                        <div class="form-section">
+
+                            <div class="form-section-title">
+
+                                <div class="section-number">
+                                    03
+                                </div>
+
+                                <div>
+
+                                    <h4>
+                                        Contact Address
+                                    </h4>
+
+                                    <p>
+                                        Your current address information.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group-custom mb-0">
+
+                                <label asp-for="Address">
+                                    Address
+                                </label>
+
+                                <div class="textarea-wrapper">
+
+                                    <i class="fa-solid fa-house"></i>
+
+                                    <textarea asp-for="Address"
+                                              class="form-control"
+                                              rows="4"
+                                              placeholder="Enter your address"></textarea>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div class="mb-4">
-                            <label asp-for="Address" class="form-label"></label>
-                            <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+
+                        <!-- =================================================
+                             ACTIONS
+                             ================================================= -->
+
+                        <div class="form-actions">
+
+                            <a asp-action="Index"
+                               class="btn cancel-btn">
+
+                                Cancel
+
+                            </a>
+
+
+                            <button type="submit"
+                                    class="btn save-btn">
+
+                                <i class="fa-solid fa-check"></i>
+
+                                Save Changes
+
+                            </button>
+
                         </div>
-
-                        <button type="submit" class="btn btn-primary">
-                            Save Changes
-                        </button>
-
-                        <a asp-action="Index" class="btn btn-secondary ms-2">
-                            Back
-                        </a>
 
                     </form>
 
@@ -102,7 +605,542 @@
 
     </div>
 
-</div>
+</section>
+
+
+<style>
+
+    /* =====================================================
+           PAGE
+           ===================================================== */
+
+    .profile-page {
+        min-height: 100vh;
+        padding: 45px 0 80px;
+        background: #f8f5ec;
+    }
+
+
+    /* =====================================================
+           HEADER
+           ===================================================== */
+
+    .profile-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 25px;
+        margin-bottom: 35px;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #987918;
+        font-size: .65rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
+
+    .dark-label {
+        color: #987918;
+    }
+
+    .profile-header h1 {
+        margin-bottom: 8px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.5rem, 4vw, 3.8rem);
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .profile-header p {
+        max-width: 650px;
+        margin: 0;
+        color: #817b70;
+        font-size: .82rem;
+        line-height: 1.7;
+    }
+
+    .back-btn {
+        min-height: 43px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border: 1px solid #cbc1ad;
+        background: transparent;
+        color: #181710;
+        font-size: .7rem;
+    }
+
+        .back-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: white;
+        }
+
+
+    /* =====================================================
+           SUMMARY
+           ===================================================== */
+
+    .profile-summary {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+        padding: 38px;
+        border-radius: 22px;
+        background: #181710;
+        color: white;
+    }
+
+    .summary-content {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-avatar {
+        width: 82px;
+        height: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 28px;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: 2rem;
+        box-shadow: 0 0 0 7px rgba(225,191,74,.08);
+    }
+
+    .summary-label {
+        display: block;
+        margin-bottom: 7px;
+        color: #e1bf4a;
+        font-size: .6rem;
+        font-weight: 800;
+        letter-spacing: .16em;
+    }
+
+    .profile-summary h2 {
+        margin-bottom: 12px;
+        font-family: 'DM Serif Display', serif;
+        font-size: 2rem;
+        font-weight: 400;
+    }
+
+    .profile-summary > .summary-content > p {
+        margin-bottom: 32px;
+        color: rgba(255,255,255,.5);
+        font-size: .76rem;
+        line-height: 1.75;
+    }
+
+
+    /* SUMMARY LIST */
+
+    .summary-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 30px;
+    }
+
+        .summary-list > div {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 12px;
+            background: rgba(255,255,255,.03);
+        }
+
+    .summary-icon {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(225,191,74,.1);
+        color: #e1bf4a;
+        font-size: .67rem;
+    }
+
+    .summary-list span,
+    .summary-list strong {
+        display: block;
+    }
+
+    .summary-list span {
+        margin-bottom: 2px;
+        color: rgba(255,255,255,.35);
+        font-size: .55rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .summary-list strong {
+        color: rgba(255,255,255,.85);
+        font-size: .7rem;
+        font-weight: 700;
+        word-break: break-word;
+    }
+
+
+    /* NOTE */
+
+    .summary-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,.08);
+        color: rgba(255,255,255,.42);
+        font-size: .65rem;
+        line-height: 1.6;
+    }
+
+        .summary-note i {
+            margin-top: 2px;
+            color: #e1bf4a;
+        }
+
+
+    /* ORBITS */
+
+    .summary-orbit {
+        position: absolute;
+        border: 1px solid rgba(225,191,74,.07);
+        border-radius: 50%;
+    }
+
+    .orbit-one {
+        width: 300px;
+        height: 300px;
+        right: -180px;
+        top: -150px;
+    }
+
+    .orbit-two {
+        width: 220px;
+        height: 220px;
+        left: -140px;
+        bottom: -120px;
+    }
+
+
+    /* =====================================================
+           FORM CARD
+           ===================================================== */
+
+    .profile-form-card {
+        padding: 38px;
+        border: 1px solid #e2dacb;
+        border-radius: 22px;
+        background: #fffdf8;
+    }
+
+    .form-heading {
+        margin-bottom: 30px;
+    }
+
+        .form-heading h2 {
+            margin-bottom: 8px;
+            color: #181710;
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+        }
+
+        .form-heading p {
+            margin: 0;
+            color: #817b70;
+            font-size: .74rem;
+        }
+
+
+    /* =====================================================
+           SUCCESS
+           ===================================================== */
+
+    .success-message {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 25px;
+        padding: 13px 15px;
+        border: 1px solid #cfdfcf;
+        border-radius: 11px;
+        background: #edf5ed;
+        color: #48634c;
+        font-size: .72rem;
+        font-weight: 700;
+    }
+
+    .success-icon {
+        color: #56815d;
+    }
+
+
+    /* =====================================================
+           FORM SECTIONS
+           ===================================================== */
+
+    .form-section {
+        margin-bottom: 28px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid #e9e2d6;
+    }
+
+        .form-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+    .form-section-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+
+    .section-number {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-family: 'DM Serif Display', serif;
+        font-size: .8rem;
+    }
+
+    .form-section-title h4 {
+        margin-bottom: 2px;
+        color: #29261f;
+        font-size: .83rem;
+        font-weight: 800;
+    }
+
+    .form-section-title p {
+        margin: 0;
+        color: #918a7e;
+        font-size: .65rem;
+    }
+
+
+    /* =====================================================
+           INPUTS
+           ===================================================== */
+
+    .form-group-custom {
+        margin-bottom: 3px;
+    }
+
+        .form-group-custom > label {
+            display: block;
+            margin-bottom: 7px;
+            color: #49443b;
+            font-size: .7rem;
+            font-weight: 800;
+        }
+
+    .input-wrapper,
+    .textarea-wrapper {
+        position: relative;
+    }
+
+        .input-wrapper > i,
+        .textarea-wrapper > i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            z-index: 2;
+            transform: translateY(-50%);
+            color: #9a9387;
+            font-size: .7rem;
+            pointer-events: none;
+        }
+
+        .textarea-wrapper > i {
+            top: 17px;
+            transform: none;
+        }
+
+        .input-wrapper .form-control,
+        .input-wrapper .form-select,
+        .textarea-wrapper .form-control {
+            min-height: 48px;
+            padding-left: 42px;
+            border: 1px solid #ddd5c6;
+            border-radius: 11px;
+            background: #fbf8f0;
+            color: #29261f;
+            font-size: .76rem;
+        }
+
+        .textarea-wrapper .form-control {
+            padding-top: 13px;
+        }
+
+            .input-wrapper .form-control:focus,
+            .input-wrapper .form-select:focus,
+            .textarea-wrapper .form-control:focus {
+                border-color: #c3a43f;
+                background: white;
+                box-shadow: 0 0 0 .18rem rgba(225,191,74,.12);
+            }
+
+
+    /* READONLY */
+
+    .readonly-wrapper .form-control {
+        padding-right: 42px;
+        background: #f0ece3;
+        color: #7f796f;
+    }
+
+    .locked-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa296;
+        font-size: .65rem;
+    }
+
+    .field-note {
+        display: block;
+        margin-top: 5px;
+        color: #9a9387;
+        font-size: .58rem;
+    }
+
+
+    /* SELECT */
+
+    .select-wrapper .form-select {
+        padding-right: 36px;
+    }
+
+
+    /* VALIDATION */
+
+    .validation-message,
+    .profile-validation {
+        color: #b24f47;
+        font-size: .65rem;
+    }
+
+    .validation-message {
+        display: block;
+        margin-top: 5px;
+    }
+
+
+    /* =====================================================
+           ACTIONS
+           ===================================================== */
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding-top: 5px;
+    }
+
+    .cancel-btn,
+    .save-btn {
+        min-height: 45px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 10px 19px;
+        font-size: .7rem;
+    }
+
+    .cancel-btn {
+        border: 1px solid #ccc3b2;
+        background: transparent;
+        color: #29261f;
+    }
+
+        .cancel-btn:hover {
+            border-color: #181710;
+            color: #181710;
+        }
+
+    .save-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .save-btn:hover {
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+            transform: translateY(-1px);
+        }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 991px) {
+
+        .profile-summary {
+            min-height: 520px;
+        }
+    }
+
+
+    @@media (max-width: 767px) {
+
+        .profile-page {
+            padding-top: 30px;
+        }
+
+        .profile-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .back-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .profile-summary,
+        .profile-form-card {
+            padding: 27px 22px;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .cancel-btn,
+        .save-btn {
+            width: 100%;
+        }
+    }
+
+</style>
+
 
 @section Scripts
 {

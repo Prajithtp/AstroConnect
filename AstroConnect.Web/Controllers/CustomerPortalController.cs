@@ -168,37 +168,101 @@ public class CustomerPortalController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Profile(CustomerProfileViewModel model)
     {
-        if (!ModelState.IsValid)
-            return View(model);
-
         var user = await _userManager.GetUserAsync(User);
 
         if (user == null)
             return RedirectToAction("Login", "Account");
 
         var customer = await _context.Customers
-            .FirstOrDefaultAsync(c => c.UserId == user.Id);
+            .FirstOrDefaultAsync(c =>
+                c.UserId == user.Id &&
+                !c.IsDeleted);
 
         if (customer == null)
             return NotFound();
 
+
+        // -----------------------------------------------------
+        // EMAIL IS READ-ONLY ON CUSTOMER PROFILE
+        // -----------------------------------------------------
+
+        // Always use the email stored in the database.
+        // This prevents a read-only/disabled email field from
+        // causing Required validation to fail.
+
+        model.Email = customer.Email;
+
+        ModelState.Remove(nameof(model.Email));
+
+
+        // -----------------------------------------------------
+        // VALIDATION
+        // -----------------------------------------------------
+
+        if (!ModelState.IsValid)
+        {
+            model.CustomerId = customer.Id;
+
+            return View(model);
+        }
+
+
+        // -----------------------------------------------------
+        // UPDATE CUSTOMER PROFILE
+        // -----------------------------------------------------
+
         customer.FullName = model.FullName;
         customer.PhoneNumber = model.PhoneNumber;
         customer.DateOfBirth = model.BirthDate;
-        customer.BirthTime = model.BirthTime.ToString(@"hh\:mm");
+
+        customer.BirthTime =
+            model.BirthTime.ToString(@"hh\:mm");
+
         customer.BirthPlace = model.BirthPlace;
         customer.Gender = model.Gender;
         customer.Address = model.Address;
 
+
+        // -----------------------------------------------------
+        // UPDATE IDENTITY USER
+        // -----------------------------------------------------
+
         user.FullName = model.FullName;
         user.PhoneNumber = model.PhoneNumber;
 
+
+        // -----------------------------------------------------
+        // SAVE
+        // -----------------------------------------------------
+
         _context.Customers.Update(customer);
 
-        await _userManager.UpdateAsync(user);
+        var identityResult =
+            await _userManager.UpdateAsync(user);
+
+        if (!identityResult.Succeeded)
+        {
+            foreach (var error in identityResult.Errors)
+            {
+                ModelState.AddModelError(
+                    string.Empty,
+                    error.Description);
+            }
+
+            model.CustomerId = customer.Id;
+
+            return View(model);
+        }
+
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Profile updated successfully.";
+
+        // -----------------------------------------------------
+        // SUCCESS
+        // -----------------------------------------------------
+
+        TempData["Success"] =
+            "Profile updated successfully.";
 
         return RedirectToAction(nameof(Profile));
     }

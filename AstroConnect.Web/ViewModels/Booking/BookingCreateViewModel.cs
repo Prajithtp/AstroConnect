@@ -5,42 +5,76 @@ namespace AstroConnect.Web.ViewModels.Booking;
 
 public class BookingCreateViewModel
 {
-    [Required]
+    // =========================================================
+    // BOOKING RELATIONSHIPS
+    // =========================================================
+
+    [Range(1, int.MaxValue, ErrorMessage = "Please select a customer.")]
     public int CustomerId { get; set; }
 
-    [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "Please select an astrologer.")]
     public int AstrologerId { get; set; }
 
-    [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "Please select a service.")]
     public int ServiceId { get; set; }
 
-    [Required]
+
+    // =========================================================
+    // APPOINTMENT
+    // =========================================================
+
+    [Required(ErrorMessage = "Booking date is required.")]
     public DateOnly BookingDate { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Start time is required.")]
     public TimeOnly StartTime { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "End time is required.")]
     public TimeOnly EndTime { get; set; }
 
-    [Required]
+
+    // =========================================================
+    // CUSTOMER DETAILS
+    // =========================================================
+
+    [Required(ErrorMessage = "WhatsApp number is required.")]
+    [StringLength(
+        20,
+        MinimumLength = 7,
+        ErrorMessage = "WhatsApp number must be between 7 and 20 characters.")]
     public string WhatsAppNumber { get; set; } = string.Empty;
 
-    [Required]
+    [Required(ErrorMessage = "Gender is required.")]
+    [StringLength(
+        30,
+        ErrorMessage = "Gender cannot exceed 30 characters.")]
     public string Gender { get; set; } = string.Empty;
 
-    [Required]
+    [Required(ErrorMessage = "Birth date is required.")]
     public DateOnly BirthDate { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Birth time is required.")]
     public TimeOnly BirthTime { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Birth place is required.")]
+    [StringLength(
+        150,
+        ErrorMessage = "Birth place cannot exceed 150 characters.")]
     public string BirthPlace { get; set; } = string.Empty;
 
+    [StringLength(
+        1000,
+        ErrorMessage = "Question cannot exceed 1000 characters.")]
     public string? Question { get; set; }
 
+
+    // =========================================================
+    // DROPDOWNS
+    // =========================================================
+
     public List<SelectListItem> Customers { get; set; } = new();
+
     public List<SelectListItem> Astrologers { get; set; } = new();
+
     public List<SelectListItem> Services { get; set; } = new();
 }

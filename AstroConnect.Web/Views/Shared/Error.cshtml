@@ -1,25 +1,449 @@
-﻿@model ErrorViewModel
+﻿@model AstroConnect.Web.Models.ErrorViewModel
+
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = "Something Went Wrong";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<section class="error-page">
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
+    <div class="container">
 
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>
+        <div class="error-card">
+
+            <!-- DECORATION -->
+
+            <div class="error-orbit orbit-one"></div>
+            <div class="error-orbit orbit-two"></div>
+
+
+            <!-- ICON -->
+
+            <div class="error-icon">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <span class="error-label">
+                ASTROCONNECT
+            </span>
+
+            <h1>
+                Something went wrong.
+            </h1>
+
+            <p class="error-description">
+                We couldn't complete your request right now.
+                Please try again or return to a safe page.
+            </p>
+
+
+            <!-- REQUEST ID -->
+            @if (Model != null && Model.ShowRequestId)
+            {
+                <div class="request-box">
+
+                    <div class="request-icon">
+
+                        <i class="fa-solid fa-fingerprint"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            REQUEST REFERENCE
+                        </span>
+
+                        <code>
+                            @Model.RequestId
+                        </code>
+
+                    </div>
+
+                </div>
+            }
+
+
+            <!-- ACTIONS -->
+
+            <div class="error-actions">
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Admin"
+                           asp-action="Index"
+                           class="primary-error-btn">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            Admin Dashboard
+
+                        </a>
+                    }
+                    else if (User.IsInRole("Receptionist"))
+                    {
+                        <a asp-controller="Receptionist"
+                           asp-action="Index"
+                           class="primary-error-btn">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            Reception Dashboard
+
+                        </a>
+                    }
+                    else if (User.IsInRole("Customer"))
+                    {
+                        <a asp-controller="CustomerPortal"
+                           asp-action="Index"
+                           class="primary-error-btn">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            My Dashboard
+
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="primary-error-btn">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            Dashboard
+
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a asp-controller="Public"
+                       asp-action="Index"
+                       class="primary-error-btn">
+
+                        <i class="fa-solid fa-house"></i>
+
+                        Home
+
+                    </a>
+                }
+
+
+                <button type="button"
+                        class="secondary-error-btn"
+                        onclick="history.back();">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Go Back
+
+                </button>
+
+            </div>
+
+
+            <!-- HELP -->
+
+            <div class="error-help">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <span>
+                    If the problem continues, keep the request reference
+                    above so the issue can be identified more easily.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<style>
+
+    /* =====================================================
+           PAGE
+           ===================================================== */
+
+    .error-page {
+        min-height: calc(100vh - 120px);
+        display: flex;
+        align-items: center;
+        padding: 65px 0 90px;
+        background: #f8f5ec;
+    }
+
+
+    /* =====================================================
+           CARD
+           ===================================================== */
+
+    .error-card {
+        position: relative;
+        max-width: 760px;
+        overflow: hidden;
+        margin: auto;
+        padding: 65px 50px;
+        border-radius: 24px;
+        background: #181710;
+        color: white;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(38,31,18,.08);
+    }
+
+
+    /* =====================================================
+           DECORATION
+           ===================================================== */
+
+    .error-orbit {
+        position: absolute;
+        border: 1px solid rgba(225,191,74,.07);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .orbit-one {
+        width: 320px;
+        height: 320px;
+        right: -190px;
+        top: -190px;
+    }
+
+    .orbit-two {
+        width: 220px;
+        height: 220px;
+        left: -135px;
+        bottom: -145px;
+    }
+
+
+    /* =====================================================
+           ICON
+           ===================================================== */
+
+    .error-icon {
+        position: relative;
+        z-index: 2;
+        width: 72px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: 1.25rem;
+    }
+
+
+    /* =====================================================
+           CONTENT
+           ===================================================== */
+
+    .error-label {
+        position: relative;
+        z-index: 2;
+        display: block;
+        margin-bottom: 7px;
+        color: #e1bf4a;
+        font-size: .54rem;
+        font-weight: 800;
+        letter-spacing: .18em;
+    }
+
+    .error-card h1 {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 12px;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.3rem, 5vw, 3.6rem);
+        font-weight: 400;
+        line-height: 1.05;
+    }
+
+    .error-description {
+        position: relative;
+        z-index: 2;
+        max-width: 530px;
+        margin: 0 auto 24px;
+        color: rgba(255,255,255,.48);
+        font-size: .72rem;
+        line-height: 1.8;
+    }
+
+
+    /* =====================================================
+           REQUEST
+           ===================================================== */
+
+    .request-box {
+        position: relative;
+        z-index: 2;
+        max-width: 520px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin: 0 auto 26px;
+        padding: 12px 15px;
+        border: 1px solid rgba(225,191,74,.17);
+        border-radius: 11px;
+        background: rgba(255,255,255,.035);
+        text-align: left;
+    }
+
+    .request-icon {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: rgba(225,191,74,.12);
+        color: #e1bf4a;
+        font-size: .62rem;
+    }
+
+    .request-box span,
+    .request-box code {
+        display: block;
+    }
+
+    .request-box span {
+        margin-bottom: 3px;
+        color: rgba(255,255,255,.37);
+        font-size: .45rem;
+        font-weight: 800;
+        letter-spacing: .09em;
+    }
+
+    .request-box code {
+        color: #e5dba9;
+        font-size: .58rem;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =====================================================
+           ACTIONS
+           ===================================================== */
+
+    .error-actions {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        gap: 9px;
+        margin-bottom: 26px;
+    }
+
+    .primary-error-btn,
+    .secondary-error-btn {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 16px;
+        border-radius: 9px;
+        font-size: .62rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+    .primary-error-btn {
+        border: 1px solid #e1bf4a;
+        background: #e1bf4a;
+        color: #181710;
+    }
+
+        .primary-error-btn:hover {
+            border-color: #d1ad34;
+            background: #d1ad34;
+            color: #181710;
+        }
+
+    .secondary-error-btn {
+        border: 1px solid rgba(255,255,255,.18);
+        background: transparent;
+        color: white;
+    }
+
+        .secondary-error-btn:hover {
+            border-color: white;
+            background: white;
+            color: #181710;
+        }
+
+
+    /* =====================================================
+           HELP
+           ===================================================== */
+
+    .error-help {
+        position: relative;
+        z-index: 2;
+        max-width: 570px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        margin: auto;
+        padding-top: 21px;
+        border-top: 1px solid rgba(255,255,255,.08);
+        color: rgba(255,255,255,.35);
+        font-size: .55rem;
+        line-height: 1.6;
+    }
+
+        .error-help i {
+            flex-shrink: 0;
+            color: #e1bf4a;
+            font-size: .58rem;
+        }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 767px) {
+
+        .error-page {
+            padding: 40px 0 70px;
+        }
+
+        .error-card {
+            padding: 48px 24px;
+            border-radius: 19px;
+        }
+
+        .error-actions {
+            flex-direction: column;
+        }
+
+        .primary-error-btn,
+        .secondary-error-btn {
+            width: 100%;
+        }
+
+        .request-box {
+            align-items: flex-start;
+        }
+    }
+
+</style>

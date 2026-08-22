@@ -4,63 +4,287 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="container mt-5">
+<section class="login-page">
 
-    <div class="row justify-content-center">
+    <div class="container">
 
-        <div class="col-md-5">
+        <div class="login-wrapper">
 
-            <div class="card shadow-lg">
+            <!-- =====================================================
+                 LEFT SIDE
+                 ===================================================== -->
 
-                <div class="card-header text-center bg-primary text-white">
+            <div class="login-visual">
 
-                    <h3>
-                        🔐 AstroConnect Login
-                    </h3>
+                <div class="visual-orbit orbit-one"></div>
+                <div class="visual-orbit orbit-two"></div>
+
+                <div class="login-visual-content">
+
+                    <a asp-controller="Public"
+                       asp-action="Home"
+                       class="login-brand">
+
+                        <div class="brand-icon">
+                            <i class="fa-solid fa-moon"></i>
+                        </div>
+
+                        <span>
+                            AstroConnect
+                        </span>
+
+                    </a>
+
+
+                    <div class="visual-main">
+
+                        <span class="section-label">
+                            WELCOME BACK
+                        </span>
+
+                        <h1>
+                            Your guidance
+                            <span>continues here.</span>
+                        </h1>
+
+                        <p>
+                            Sign in to manage your appointments,
+                            follow booking updates and continue your
+                            AstroConnect journey.
+                        </p>
+
+
+                        <div class="visual-features">
+
+                            <div>
+
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Manage appointments</strong>
+                                    <span>View and follow your bookings.</span>
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-bell"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Stay informed</strong>
+                                    <span>Keep track of booking updates.</span>
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="feature-icon">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Secure access</strong>
+                                    <span>Your account information stays protected.</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="visual-footer">
+                        ASTROLOGY • GUIDANCE • CONNECTION
+                    </div>
 
                 </div>
 
-                <div class="card-body">
+            </div>
 
-                    <form asp-action="Login" method="post">
 
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <!-- =====================================================
+                 LOGIN FORM
+                 ===================================================== -->
 
-                        <div class="mb-3">
+            <div class="login-form-side">
 
-                            <label asp-for="Email" class="form-label"></label>
+                <div class="login-form-container">
 
-                            <input asp-for="Email" class="form-control" />
+                    <div class="mobile-brand">
 
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                        <a asp-controller="Public"
+                           asp-action="Home">
+
+                            <i class="fa-solid fa-moon"></i>
+
+                            AstroConnect
+
+                        </a>
+
+                    </div>
+
+
+                    <span class="form-label-top">
+                        ACCOUNT ACCESS
+                    </span>
+
+                    <h2>
+                        Sign in to AstroConnect
+                    </h2>
+
+                    <p class="form-description">
+                        Enter your account details to continue.
+                    </p>
+
+
+                    <form asp-action="Login"
+                          method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="login-validation mb-3">
+                        </div>
+
+
+                        <!-- EMAIL -->
+
+                        <div class="form-group-custom">
+
+                            <label asp-for="Email">
+                                Email Address
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-envelope"></i>
+
+                                <input asp-for="Email"
+                                       class="form-control"
+                                       placeholder="Enter your email"
+                                       autocomplete="email" />
+
+                            </div>
+
+                            <span asp-validation-for="Email"
+                                  class="validation-message">
+                            </span>
 
                         </div>
 
-                        <div class="mb-3">
 
-                            <label asp-for="Password" class="form-label"></label>
+                        <!-- PASSWORD -->
 
-                            <input asp-for="Password" class="form-control" />
+                        <div class="form-group-custom">
 
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <label asp-for="Password">
+                                Password
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-lock"></i>
+
+                                <input asp-for="Password"
+                                       class="form-control password-input"
+                                       placeholder="Enter your password"
+                                       autocomplete="current-password" />
+
+                                <button type="button"
+                                        class="password-toggle"
+                                        id="togglePassword"
+                                        aria-label="Show password">
+
+                                    <i class="fa-solid fa-eye"
+                                       id="passwordIcon"></i>
+
+                                </button>
+
+                            </div>
+
+                            <span asp-validation-for="Password"
+                                  class="validation-message">
+                            </span>
 
                         </div>
 
-                        <div class="form-check mb-3">
 
-                            <input asp-for="RememberMe" class="form-check-input" />
+                        <!-- REMEMBER -->
 
-                            <label asp-for="RememberMe" class="form-check-label"></label>
+                        <div class="remember-row">
+
+                            <div class="form-check">
+
+                                <input asp-for="RememberMe"
+                                       class="form-check-input" />
+
+                                <label asp-for="RememberMe"
+                                       class="form-check-label">
+
+                                    Remember me
+
+                                </label>
+
+                            </div>
 
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">
 
-                            Login
+                        <!-- LOGIN -->
+
+                        <button type="submit"
+                                class="btn login-button">
+
+                            Sign In
+
+                            <i class="fa-solid fa-arrow-right"></i>
 
                         </button>
 
                     </form>
+
+
+                    <!-- REGISTER -->
+
+                    <div class="register-section">
+
+                        <span>
+                            New to AstroConnect?
+                        </span>
+
+                        <a asp-controller="Account"
+                           asp-action="Register">
+
+                            Create an account
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- BACK -->
+
+                    <div class="back-home">
+
+                        <a asp-controller="Public"
+                           asp-action="Home">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                            Back to website
+
+                        </a>
+
+                    </div>
 
                 </div>
 
@@ -70,9 +294,583 @@
 
     </div>
 
-</div>
+</section>
+
+
+<style>
+
+    /* =====================================================
+           PAGE
+           ===================================================== */
+
+    .login-page {
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        padding: 55px 0;
+        background: #f8f5ec;
+    }
+
+    .login-wrapper {
+        max-width: 1100px;
+        min-height: 650px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: auto;
+        overflow: hidden;
+        border: 1px solid #ded6c7;
+        border-radius: 28px;
+        background: #fffdf8;
+        box-shadow: 0 30px 70px rgba(35, 30, 20, .10);
+    }
+
+
+    /* =====================================================
+           LEFT VISUAL
+           ===================================================== */
+
+    .login-visual {
+        position: relative;
+        overflow: hidden;
+        padding: 48px;
+        background: #181710;
+        color: white;
+    }
+
+    .login-visual-content {
+        position: relative;
+        z-index: 3;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    /* BRAND */
+
+    .login-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+        color: white;
+        text-decoration: none;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.35rem;
+    }
+
+        .login-brand:hover {
+            color: #e1bf4a;
+        }
+
+    .brand-icon {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .9rem;
+    }
+
+
+    /* MAIN */
+
+    .visual-main {
+        margin: auto 0;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 15px;
+        color: #e1bf4a;
+        font-size: .67rem;
+        font-weight: 800;
+        letter-spacing: .19em;
+    }
+
+    .visual-main h1 {
+        max-width: 450px;
+        margin-bottom: 22px;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.8rem, 4vw, 4.3rem);
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: -.025em;
+    }
+
+        .visual-main h1 span {
+            display: block;
+            color: #e1bf4a;
+        }
+
+    .visual-main > p {
+        max-width: 450px;
+        margin-bottom: 35px;
+        color: rgba(255,255,255,.57);
+        font-size: .86rem;
+        line-height: 1.8;
+    }
+
+
+    /* FEATURES */
+
+    .visual-features {
+        display: flex;
+        flex-direction: column;
+        gap: 17px;
+    }
+
+        .visual-features > div {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+    .feature-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(225,191,74,.17);
+        border-radius: 50%;
+        background: rgba(225,191,74,.08);
+        color: #e1bf4a;
+        font-size: .76rem;
+    }
+
+    .visual-features strong,
+    .visual-features span {
+        display: block;
+    }
+
+    .visual-features strong {
+        margin-bottom: 2px;
+        color: rgba(255,255,255,.9);
+        font-size: .77rem;
+    }
+
+    .visual-features span {
+        color: rgba(255,255,255,.42);
+        font-size: .68rem;
+    }
+
+
+    /* FOOTER */
+
+    .visual-footer {
+        color: rgba(255,255,255,.28);
+        font-size: .57rem;
+        font-weight: 700;
+        letter-spacing: .18em;
+    }
+
+
+    /* ORBITS */
+
+    .visual-orbit {
+        position: absolute;
+        border: 1px solid rgba(225,191,74,.07);
+        border-radius: 50%;
+    }
+
+    .orbit-one {
+        width: 430px;
+        height: 430px;
+        right: -220px;
+        top: -150px;
+    }
+
+    .orbit-two {
+        width: 300px;
+        height: 300px;
+        left: -180px;
+        bottom: -140px;
+    }
+
+
+    /* =====================================================
+           RIGHT SIDE
+           ===================================================== */
+
+    .login-form-side {
+        display: flex;
+        align-items: center;
+        padding: 55px;
+    }
+
+    .login-form-container {
+        width: 100%;
+        max-width: 410px;
+        margin: auto;
+    }
+
+    .mobile-brand {
+        display: none;
+    }
+
+    .form-label-top {
+        display: block;
+        margin-bottom: 10px;
+        color: #987918;
+        font-size: .65rem;
+        font-weight: 800;
+        letter-spacing: .16em;
+    }
+
+    .login-form-container h2 {
+        margin-bottom: 9px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: 2.45rem;
+        font-weight: 400;
+        line-height: 1.05;
+    }
+
+    .form-description {
+        margin-bottom: 32px;
+        color: #817b70;
+        font-size: .82rem;
+    }
+
+
+    /* =====================================================
+           INPUTS
+           ===================================================== */
+
+    .form-group-custom {
+        margin-bottom: 20px;
+    }
+
+        .form-group-custom > label {
+            display: block;
+            margin-bottom: 8px;
+            color: #464139;
+            font-size: .72rem;
+            font-weight: 800;
+        }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+        .input-wrapper > i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            z-index: 2;
+            transform: translateY(-50%);
+            color: #999184;
+            font-size: .78rem;
+            pointer-events: none;
+        }
+
+        .input-wrapper .form-control {
+            height: 51px;
+            padding-left: 43px;
+            padding-right: 45px;
+            border: 1px solid #ddd5c6;
+            border-radius: 12px;
+            background: #fbf8f0;
+            color: #29261f;
+            font-size: .8rem;
+            transition: all .2s ease;
+        }
+
+            .input-wrapper .form-control::placeholder {
+                color: #aaa398;
+            }
+
+            .input-wrapper .form-control:focus {
+                border-color: #c4a640;
+                background: white;
+                box-shadow: 0 0 0 .2rem rgba(225,191,74,.13);
+            }
+
+
+    /* PASSWORD BUTTON */
+
+    .password-toggle {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        z-index: 3;
+        transform: translateY(-50%);
+        padding: 5px;
+        border: none;
+        background: transparent;
+        color: #8d867a;
+        font-size: .78rem;
+    }
+
+        .password-toggle:hover {
+            color: #181710;
+        }
+
+
+    /* VALIDATION */
+
+    .validation-message {
+        display: block;
+        margin-top: 5px;
+        color: #b64d45;
+        font-size: .68rem;
+    }
+
+    .login-validation {
+        padding: 0;
+        color: #b64d45;
+        font-size: .72rem;
+    }
+
+        .login-validation ul {
+            padding-left: 18px;
+            margin-bottom: 0;
+        }
+
+
+    /* =====================================================
+           REMEMBER
+           ===================================================== */
+
+    .remember-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5px 0 24px;
+    }
+
+    .form-check-label {
+        color: #625d53;
+        font-size: .72rem;
+    }
+
+    .form-check-input {
+        border-color: #bcb3a4;
+    }
+
+        .form-check-input:checked {
+            background-color: #181710;
+            border-color: #181710;
+        }
+
+        .form-check-input:focus {
+            border-color: #c4a640;
+            box-shadow: 0 0 0 .15rem rgba(225,191,74,.14);
+        }
+
+
+    /* =====================================================
+           LOGIN BUTTON
+           ===================================================== */
+
+    .login-button {
+        width: 100%;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        border: 1px solid #181710;
+        border-radius: 12px;
+        background: #181710;
+        color: white;
+        font-size: .78rem;
+        font-weight: 700;
+        transition: all .2s ease;
+    }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+            box-shadow: 0 10px 25px rgba(80,68,25,.12);
+        }
+
+
+    /* =====================================================
+           REGISTER
+           ===================================================== */
+
+    .register-section {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 27px;
+        padding-top: 24px;
+        border-top: 1px solid #e8e1d5;
+        color: #817b70;
+        font-size: .73rem;
+    }
+
+        .register-section a {
+            color: #8a6c0c;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+            .register-section a:hover {
+                color: #181710;
+            }
+
+        .register-section i {
+            margin-left: 3px;
+            font-size: .6rem;
+        }
+
+
+    /* BACK */
+
+    .back-home {
+        margin-top: 23px;
+        text-align: center;
+    }
+
+        .back-home a {
+            color: #8a8479;
+            font-size: .69rem;
+            text-decoration: none;
+        }
+
+            .back-home a:hover {
+                color: #181710;
+            }
+
+        .back-home i {
+            margin-right: 5px;
+        }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 991px) {
+
+        .login-wrapper {
+            max-width: 600px;
+            grid-template-columns: 1fr;
+        }
+
+        .login-visual {
+            display: none;
+        }
+
+        .login-form-side {
+            min-height: 620px;
+            padding: 50px;
+        }
+
+        .mobile-brand {
+            display: block;
+            margin-bottom: 50px;
+        }
+
+            .mobile-brand a {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: #181710;
+                font-family: 'DM Serif Display', serif;
+                font-size: 1.3rem;
+                text-decoration: none;
+            }
+
+            .mobile-brand i {
+                width: 35px;
+                height: 35px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: #e1bf4a;
+                font-size: .75rem;
+            }
+    }
+
+
+    @@media (max-width: 575px) {
+
+        .login-page {
+            padding: 25px 12px;
+        }
+
+        .login-wrapper {
+            border-radius: 20px;
+        }
+
+        .login-form-side {
+            min-height: auto;
+            padding: 35px 22px;
+        }
+
+        .mobile-brand {
+            margin-bottom: 40px;
+        }
+
+        .login-form-container h2 {
+            font-size: 2.1rem;
+        }
+    }
+
+</style>
+
 
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const passwordInput =
+                document.getElementById("@Html.IdFor(m => m.Password)");
+
+            const toggleButton =
+                document.getElementById("togglePassword");
+
+            const passwordIcon =
+                document.getElementById("passwordIcon");
+
+            if (passwordInput && toggleButton && passwordIcon) {
+
+                toggleButton.addEventListener("click", function () {
+
+                    const passwordHidden =
+                        passwordInput.type === "password";
+
+                    passwordInput.type =
+                        passwordHidden ? "text" : "password";
+
+                    passwordIcon.classList.toggle(
+                        "fa-eye",
+                        !passwordHidden
+                    );
+
+                    passwordIcon.classList.toggle(
+                        "fa-eye-slash",
+                        passwordHidden
+                    );
+
+                    toggleButton.setAttribute(
+                        "aria-label",
+                        passwordHidden
+                            ? "Hide password"
+                            : "Show password"
+                    );
+
+                });
+
+            }
+
+        });
+
+    </script>
 }

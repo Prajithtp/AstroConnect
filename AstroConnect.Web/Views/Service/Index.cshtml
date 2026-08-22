@@ -2,170 +2,1739 @@
 
 @{
     ViewData["Title"] = "Services";
+
+    var totalServices = Model?.Count ?? 0;
+    var activeServices = Model?.Count(x => x.IsActive) ?? 0;
+    var inactiveServices = totalServices - activeServices;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<section class="service-management-page">
 
-    <div>
+    <div class="container">
 
-        <h2 class="fw-bold">
-            <i class="fa-solid fa-briefcase text-primary"></i>
-            Services
-        </h2>
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
 
-        <p class="text-muted mb-0">
-            Manage astrology consultation services
-        </p>
+        <div class="page-header">
 
-    </div>
+            <div>
 
-    <a asp-action="Create" class="btn btn-primary">
+                <span class="section-label">
+                    ADMINISTRATION
+                </span>
 
-        <i class="fa-solid fa-plus"></i>
+                <h1>
+                    Services
+                </h1>
 
-        Add Service
+                <p>
+                    Manage astrology consultation services,
+                    pricing and appointment durations.
+                </p>
 
-    </a>
+            </div>
 
-</div>
 
-<div class="card shadow-sm border-0 mb-4">
+            <div class="header-actions">
 
-    <div class="card-body">
+                <a asp-controller="Admin"
+                   asp-action="Index"
+                   class="back-btn">
 
-        <input type="text"
-               id="serviceSearch"
-               class="form-control"
-               placeholder="🔍 Search by service name or description">
+                    <i class="fa-solid fa-arrow-left"></i>
 
-    </div>
+                    Dashboard
 
-</div>
+                </a>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
-        No services found.
-    </div>
-}
-else
-{
-    <div class="card shadow-sm border-0">
 
-        <div class="card-body">
+                <a asp-action="Create"
+                   class="add-service-btn">
 
-            <div class="table-responsive">
+                    <i class="fa-solid fa-plus"></i>
 
-                <table class="table table-hover align-middle" id="serviceTable">
+                    Add Service
 
-                    <thead class="table-dark">
-
-                        <tr>
-                            <th>Service</th>
-                            <th>Description</th>
-                            <th>Price</th>
-                            <th>Duration</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @foreach (var service in Model)
-                        {
-                            <tr>
-
-                                <td>
-
-                                    <strong>@service.Name</strong>
-
-                                </td>
-
-                                <td>
-
-                                    @service.Description
-
-                                </td>
-
-                                <td>
-
-                                    <span class="badge bg-success fs-6">
-
-                                        ₹ @service.Price.ToString("N2")
-
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <span class="badge bg-info text-dark">
-
-                                        @service.DurationInMinutes Minutes
-
-                                    </span>
-
-                                </td>
-
-                                <td class="text-center">
-
-                                    <a asp-action="Edit"
-                                       asp-route-id="@service.Id"
-                                       class="btn btn-warning btn-sm action-btn me-1"
-                                       title="Edit Service">
-
-                                        <i class="fa-solid fa-pen"></i>
-
-                                    </a>
-
-                                    <a asp-action="Delete"
-                                       asp-route-id="@service.Id"
-                                       class="btn btn-danger btn-sm action-btn"
-                                       title="Delete Service">
-
-                                        <i class="fa-solid fa-trash"></i>
-
-                                    </a>
-
-                                </td>
-
-                            </tr>
-                        }
-
-                    </tbody>
-
-                </table>
+                </a>
 
             </div>
 
         </div>
 
+
+        <!-- =====================================================
+             SUMMARY
+             ===================================================== -->
+
+        <section class="service-summary">
+
+            <div class="summary-main">
+
+                <div class="summary-icon">
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        SERVICE OVERVIEW
+                    </span>
+
+                    <h2>
+                        Consultation Services
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-stats">
+
+                <div>
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong>
+                        @totalServices
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        ACTIVE
+                    </span>
+
+                    <strong>
+                        @activeServices
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        INACTIVE
+                    </span>
+
+                    <strong>
+                        @inactiveServices
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SEARCH
+             ===================================================== -->
+
+        <section class="search-card">
+
+            <div class="search-heading">
+
+                <div>
+
+                    <span>
+                        FIND SERVICES
+                    </span>
+
+                    <h2>
+                        Search Services
+                    </h2>
+
+                </div>
+
+
+                <div class="search-heading-icon">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="search-wrapper">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text"
+                       id="serviceSearch"
+                       class="form-control"
+                       placeholder="Search by service name or description" />
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             EMPTY STATE
+             ===================================================== -->
+        @if (Model == null || !Model.Any())
+        {
+            <section class="empty-state">
+
+                <div class="empty-icon">
+
+                    <i class="fa-solid fa-briefcase"></i>
+
+                </div>
+
+                <span>
+                    SERVICE CATALOG
+                </span>
+
+                <h2>
+                    No services found.
+                </h2>
+
+                <p>
+                    Add your first astrology consultation service
+                    to begin accepting bookings.
+                </p>
+
+
+                <a asp-action="Create"
+                   class="empty-add-btn">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add Service
+
+                </a>
+
+            </section>
+        }
+        else
+        {
+            <!-- =================================================
+                 SERVICE LIST
+                 ================================================= -->
+
+            <section class="services-card">
+
+                <div class="services-card-header">
+
+                    <div class="services-heading">
+
+                        <div class="services-icon">
+
+                            <i class="fa-solid fa-moon"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                SERVICE CATALOG
+                            </span>
+
+                            <h2>
+                                Available Services
+                            </h2>
+
+                            <p>
+                                Review consultation pricing and duration.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="record-count">
+
+                        <strong id="visibleServiceCount">
+                            @totalServices
+                        </strong>
+
+                        <span>
+                            services
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     DESKTOP TABLE
+                     ================================================= -->
+
+                <div class="desktop-services">
+
+                    <div class="table-responsive">
+
+                        <table class="table service-table align-middle"
+                               id="serviceTable">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Service
+                                    </th>
+
+                                    <th>
+                                        Description
+                                    </th>
+
+                                    <th>
+                                        Price
+                                    </th>
+
+                                    <th>
+                                        Duration
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th class="text-end">
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @foreach (var service in Model)
+                                {
+                                    <tr>
+
+                                        <!-- SERVICE -->
+
+                                        <td>
+
+                                            <div class="service-name-cell">
+
+                                                <div class="service-icon">
+
+                                                    <i class="fa-solid fa-star"></i>
+
+                                                </div>
+
+                                                <div>
+
+                                                    <span>
+                                                        SERVICE
+                                                    </span>
+
+                                                    <strong>
+                                                        @service.Name
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- DESCRIPTION -->
+
+                                        <td>
+
+                                            <div class="description-cell">
+
+                                                @(string.IsNullOrWhiteSpace(service.Description)
+                                                                                        ? "No description provided"
+                                                                                        : service.Description)
+
+                                    </div>
+
+                                        </td>
+
+
+                                        <!-- PRICE -->
+
+                                        <td>
+
+                                            <span class="price-badge">
+
+                                                <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                                                @service.Price.ToString("N2")
+
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- DURATION -->
+
+                                        <td>
+
+                                            <span class="duration-badge">
+
+                                                <i class="fa-regular fa-clock"></i>
+
+                                                @service.DurationInMinutes Minutes
+
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- STATUS -->
+
+                                        <td>
+
+                                    @if (service.IsActive)
+                                            {
+                                                <span class="status-badge status-active">
+
+                                                    <span class="status-dot"></span>
+
+                                                    Active
+
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status-badge status-inactive">
+
+                                                    <span class="status-dot"></span>
+
+                                                    Inactive
+
+                                                </span>
+                                            }
+
+                                        </td>
+
+
+                                        <!-- ACTIONS -->
+
+                                        <td class="text-end">
+
+                                            <div class="service-actions">
+
+                                                <a asp-action="Edit"
+                                                   asp-route-id="@service.Id"
+                                                   class="action-btn edit-btn"
+                                                   title="Edit Service">
+
+                                                    <i class="fa-solid fa-pen"></i>
+
+                                                </a>
+
+
+                                                <a asp-action="Delete"
+                                                   asp-route-id="@service.Id"
+                                                   class="action-btn delete-btn"
+                                                   title="Delete Service">
+
+                                                    <i class="fa-solid fa-trash"></i>
+
+                                                </a>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     MOBILE CARDS
+                     ================================================= -->
+
+                <div class="mobile-services"
+                     id="mobileServiceList">
+
+                    @foreach (var service in Model)
+                    {
+                        <article class="mobile-service-card">
+
+                            <div class="mobile-card-top">
+
+                                <div>
+
+                                    <span class="mobile-label">
+                                        SERVICE
+                                    </span>
+
+                                    <h3>
+                                        @service.Name
+                                    </h3>
+
+                                </div>
+
+
+                                @if (service.IsActive)
+                                {
+                                    <span class="status-badge status-active">
+
+                                        <span class="status-dot"></span>
+
+                                        Active
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-inactive">
+
+                                        <span class="status-dot"></span>
+
+                                        Inactive
+
+                                    </span>
+                                }
+
+                        </div>
+
+
+                        <p class="mobile-description">
+
+                            @(string.IsNullOrWhiteSpace(service.Description)
+                                                    ? "No description provided"
+                                                    : service.Description)
+
+                    </p>
+
+
+                            <div class="mobile-info-grid">
+
+                                <div>
+
+                                    <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                                    <div>
+
+                                        <span>
+                                            Price
+                                        </span>
+
+                                        <strong>
+                                            ₹ @service.Price.ToString("N2")
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div>
+
+                                    <i class="fa-regular fa-clock"></i>
+
+                                    <div>
+
+                                        <span>
+                                            Duration
+                                        </span>
+
+                                        <strong>
+                                            @service.DurationInMinutes Minutes
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="mobile-actions">
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@service.Id"
+                                   class="mobile-edit-btn">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                    Edit Service
+
+                                </a>
+
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@service.Id"
+                                   class="mobile-delete-btn">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                    Delete
+
+                                </a>
+
+                            </div>
+
+                        </article>
+                                }
+
+                </div>
+
+
+                <!-- FILTER EMPTY -->
+
+                <div id="serviceFilterEmpty"
+                     class="filter-empty"
+                     style="display:none;">
+
+                    <div class="filter-empty-icon">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                    </div>
+
+                    <span>
+                        NO MATCHES
+                    </span>
+
+                    <h3>
+                        No matching services.
+                    </h3>
+
+                    <p>
+                        Try searching with another service name or description.
+                    </p>
+
+                </div>
+
+            </section>
+        }
+
+
+        <!-- =====================================================
+             FOOTER
+             ===================================================== -->
+        @if (Model != null && Model.Any())
+        {
+            <section class="service-footer">
+
+                <div>
+
+                    <div class="footer-icon">
+
+                        <i class="fa-solid fa-moon"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            SERVICE MANAGEMENT
+                        </span>
+
+                        <h3>
+                            Keep your consultation catalog up to date.
+                        </h3>
+
+                        <p>
+                            Maintain accurate pricing, duration and availability.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a asp-action="Create"
+                   class="footer-add-btn">
+
+                    Add Service
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </section>
+        }
+
     </div>
-}
 
-@section Scripts {
+</section>
 
+
+<style>
+
+    /* =====================================================
+           PAGE
+           ===================================================== */
+
+    .service-management-page {
+        min-height: 100vh;
+        padding: 45px 0 80px;
+        background: #f8f5ec;
+    }
+
+
+    /* =====================================================
+           HEADER
+           ===================================================== */
+
+    .page-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 28px;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #987918;
+        font-size: .63rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
+
+    .page-header h1 {
+        margin-bottom: 8px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.5rem, 4vw, 3.8rem);
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .page-header p {
+        max-width: 620px;
+        margin: 0;
+        color: #817b70;
+        font-size: .8rem;
+        line-height: 1.7;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 9px;
+        flex-shrink: 0;
+    }
+
+    .back-btn,
+    .add-service-btn {
+        min-height: 43px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 16px;
+        border-radius: 9px;
+        font-size: .67rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+    .back-btn {
+        border: 1px solid #ccc2af;
+        background: transparent;
+        color: #181710;
+    }
+
+        .back-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: white;
+        }
+
+    .add-service-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .add-service-btn:hover {
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+        }
+
+
+    /* =====================================================
+           SUMMARY
+           ===================================================== */
+
+    .service-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 18px;
+        padding: 23px 27px;
+        border-radius: 18px;
+        background: #181710;
+        color: white;
+    }
+
+    .summary-main {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .summary-icon {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .75rem;
+    }
+
+    .summary-main span {
+        display: block;
+        margin-bottom: 2px;
+        color: #e1bf4a;
+        font-size: .49rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .summary-main h2 {
+        margin: 0;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    .summary-stats {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+    }
+
+        .summary-stats > div:not(.summary-divider) {
+            min-width: 58px;
+            text-align: center;
+        }
+
+        .summary-stats span,
+        .summary-stats strong {
+            display: block;
+        }
+
+        .summary-stats span {
+            margin-bottom: 2px;
+            color: rgba(255,255,255,.37);
+            font-size: .47rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+        }
+
+        .summary-stats strong {
+            color: #e1bf4a;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.55rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+    .summary-divider {
+        width: 1px;
+        height: 31px;
+        background: rgba(255,255,255,.12);
+    }
+
+
+    /* =====================================================
+           SEARCH
+           ===================================================== */
+
+    .search-card {
+        margin-bottom: 18px;
+        padding: 22px 24px;
+        border: 1px solid #e1d9ca;
+        border-radius: 17px;
+        background: #fffdf8;
+    }
+
+    .search-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+
+        .search-heading span {
+            display: block;
+            margin-bottom: 2px;
+            color: #987918;
+            font-size: .49rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+        }
+
+        .search-heading h2 {
+            margin: 0;
+            color: #29251f;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+        }
+
+    .search-heading-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f1eadc;
+        color: #8d7626;
+        font-size: .61rem;
+    }
+
+    .search-wrapper {
+        position: relative;
+    }
+
+        .search-wrapper > i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            z-index: 2;
+            transform: translateY(-50%);
+            color: #9c9487;
+            font-size: .62rem;
+            pointer-events: none;
+        }
+
+        .search-wrapper .form-control {
+            min-height: 44px;
+            padding-left: 40px;
+            border: 1px solid #ddd5c6;
+            border-radius: 10px;
+            background: #faf7ef;
+            color: #39342c;
+            font-size: .69rem;
+        }
+
+            .search-wrapper .form-control:focus {
+                border-color: #c5a943;
+                background: white;
+                box-shadow: 0 0 0 .18rem rgba(225,191,74,.11);
+            }
+
+
+    /* =====================================================
+           SERVICES CARD
+           ===================================================== */
+
+    .services-card {
+        overflow: hidden;
+        border: 1px solid #e1d9ca;
+        border-radius: 19px;
+        background: #fffdf8;
+    }
+
+    .services-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        padding: 26px 27px 21px;
+    }
+
+    .services-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .services-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .68rem;
+    }
+
+    .services-heading span {
+        display: block;
+        margin-bottom: 2px;
+        color: #987918;
+        font-size: .49rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+    }
+
+    .services-heading h2 {
+        margin-bottom: 2px;
+        color: #29251f;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.45rem;
+        font-weight: 400;
+    }
+
+    .services-heading p {
+        margin: 0;
+        color: #958d80;
+        font-size: .59rem;
+    }
+
+    .record-count {
+        text-align: center;
+        flex-shrink: 0;
+    }
+
+        .record-count strong,
+        .record-count span {
+            display: block;
+        }
+
+        .record-count strong {
+            color: #181710;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.65rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .record-count span {
+            margin-top: 2px;
+            color: #958d80;
+            font-size: .48rem;
+            font-weight: 700;
+        }
+
+
+    /* =====================================================
+           TABLE
+           ===================================================== */
+
+    .service-table {
+        margin: 0;
+    }
+
+        .service-table thead th {
+            padding: 12px 15px;
+            border-top: 1px solid #e7dfd2;
+            border-bottom: 1px solid #ded5c6;
+            background: #faf7ef;
+            color: #8d8578;
+            font-size: .52rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .service-table tbody td {
+            padding: 15px;
+            border-bottom: 1px solid #eee7dc;
+            color: #554f46;
+            font-size: .65rem;
+        }
+
+        .service-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .service-table tbody tr:hover {
+            background: #fbf8f1;
+        }
+
+
+    /* SERVICE */
+
+    .service-name-cell {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .service-icon {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .57rem;
+    }
+
+    .service-name-cell span,
+    .service-name-cell strong {
+        display: block;
+    }
+
+    .service-name-cell span {
+        margin-bottom: 1px;
+        color: #a0998d;
+        font-size: .43rem;
+        font-weight: 800;
+        letter-spacing: .06em;
+    }
+
+    .service-name-cell strong {
+        color: #373229;
+        font-size: .65rem;
+    }
+
+    .description-cell {
+        max-width: 390px;
+        color: #6f685d;
+        line-height: 1.55;
+    }
+
+
+    /* PRICE / DURATION */
+
+    .price-badge,
+    .duration-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: .55rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .price-badge {
+        background: #e2eee2;
+        color: #4d6e53;
+    }
+
+    .duration-badge {
+        background: #f1eadc;
+        color: #786723;
+    }
+
+
+    /* =====================================================
+           STATUS
+           ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: .52rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .status-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+    }
+
+    .status-active {
+        background: #dfeddf;
+        color: #45694b;
+    }
+
+        .status-active .status-dot {
+            background: #5a9765;
+        }
+
+    .status-inactive {
+        background: #ece8e0;
+        color: #655f55;
+    }
+
+        .status-inactive .status-dot {
+            background: #827a6d;
+        }
+
+
+    /* =====================================================
+           ACTIONS
+           ===================================================== */
+
+    .service-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+
+    .action-btn {
+        width: 31px;
+        height: 31px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: .55rem;
+        text-decoration: none;
+        transition: all .18s ease;
+    }
+
+    .edit-btn {
+        border: 1px solid #c9bc87;
+        color: #826d22;
+    }
+
+        .edit-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: #e1bf4a;
+        }
+
+    .delete-btn {
+        border: 1px solid #dfc1bd;
+        color: #a45c54;
+    }
+
+        .delete-btn:hover {
+            border-color: #a45c54;
+            background: #a45c54;
+            color: white;
+        }
+
+
+    /* =====================================================
+           MOBILE
+           ===================================================== */
+
+    .mobile-services {
+        display: none;
+        padding: 0 20px 20px;
+    }
+
+    .mobile-service-card {
+        margin-bottom: 12px;
+        padding: 19px;
+        border: 1px solid #e4dccf;
+        border-radius: 15px;
+        background: #faf7ef;
+    }
+
+        .mobile-service-card:last-child {
+            margin-bottom: 0;
+        }
+
+    .mobile-card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 11px;
+    }
+
+    .mobile-label {
+        display: block;
+        margin-bottom: 3px;
+        color: #987918;
+        font-size: .47rem;
+        font-weight: 800;
+        letter-spacing: .1em;
+    }
+
+    .mobile-card-top h3 {
+        margin: 0;
+        color: #28241e;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.3rem;
+        font-weight: 400;
+    }
+
+    .mobile-description {
+        margin-bottom: 14px;
+        color: #7b7468;
+        font-size: .61rem;
+        line-height: 1.6;
+    }
+
+    .mobile-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+
+        .mobile-info-grid > div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #e7dfd2;
+            border-radius: 9px;
+            background: #fffdf8;
+        }
+
+            .mobile-info-grid > div > i {
+                width: 16px;
+                color: #967e29;
+                text-align: center;
+                font-size: .56rem;
+            }
+
+        .mobile-info-grid span,
+        .mobile-info-grid strong {
+            display: block;
+        }
+
+        .mobile-info-grid span {
+            margin-bottom: 1px;
+            color: #9b9386;
+            font-size: .45rem;
+            text-transform: uppercase;
+        }
+
+        .mobile-info-grid strong {
+            color: #39342c;
+            font-size: .59rem;
+        }
+
+    .mobile-actions {
+        display: flex;
+        gap: 7px;
+    }
+
+    .mobile-edit-btn,
+    .mobile-delete-btn {
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex: 1;
+        border-radius: 8px;
+        font-size: .57rem;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .mobile-edit-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .mobile-edit-btn:hover {
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+        }
+
+    .mobile-delete-btn {
+        border: 1px solid #d8b6b1;
+        color: #9d554e;
+    }
+
+        .mobile-delete-btn:hover {
+            background: #a45c54;
+            border-color: #a45c54;
+            color: white;
+        }
+
+
+    /* =====================================================
+           EMPTY
+           ===================================================== */
+
+    .empty-state,
+    .filter-empty {
+        text-align: center;
+    }
+
+    .empty-state {
+        padding: 65px 20px;
+        border-radius: 20px;
+        background: #181710;
+        color: white;
+    }
+
+    .empty-icon,
+    .filter-empty-icon {
+        width: 59px;
+        height: 59px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .95rem;
+    }
+
+    .empty-state > span,
+    .filter-empty > span {
+        display: block;
+        margin-bottom: 5px;
+        font-size: .5rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .empty-state > span {
+        color: #e1bf4a;
+    }
+
+    .filter-empty > span {
+        color: #987918;
+    }
+
+    .empty-state h2,
+    .filter-empty h3 {
+        margin-bottom: 7px;
+        font-family: 'DM Serif Display', serif;
+        font-weight: 400;
+    }
+
+    .empty-state h2 {
+        font-size: 2rem;
+    }
+
+    .filter-empty h3 {
+        color: #29251f;
+        font-size: 1.4rem;
+    }
+
+    .empty-state p,
+    .filter-empty p {
+        margin-bottom: 17px;
+        font-size: .63rem;
+    }
+
+    .empty-state p {
+        color: rgba(255,255,255,.45);
+    }
+
+    .filter-empty p {
+        color: #91897c;
+    }
+
+    .empty-add-btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1px solid #e1bf4a;
+        border-radius: 9px;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .6rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .filter-empty {
+        padding: 50px 20px;
+        border-top: 1px solid #e7dfd2;
+    }
+
+
+    /* =====================================================
+           FOOTER
+           ===================================================== */
+
+    .service-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        margin-top: 18px;
+        padding: 24px 27px;
+        border-radius: 17px;
+        background: #24221c;
+        color: white;
+    }
+
+        .service-footer > div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+    .footer-icon {
+        width: 41px;
+        height: 41px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .7rem;
+    }
+
+    .service-footer span {
+        display: block;
+        margin-bottom: 2px;
+        color: #e1bf4a;
+        font-size: .48rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+    }
+
+    .service-footer h3 {
+        margin-bottom: 2px;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.15rem;
+        font-weight: 400;
+    }
+
+    .service-footer p {
+        margin: 0;
+        color: rgba(255,255,255,.42);
+        font-size: .58rem;
+    }
+
+    .footer-add-btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex-shrink: 0;
+        padding: 8px 13px;
+        border: 1px solid #e1bf4a;
+        border-radius: 9px;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .6rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 991px) {
+
+        .page-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .service-summary {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .summary-stats {
+            width: 100%;
+            justify-content: space-around;
+        }
+
+        .desktop-services {
+            display: none;
+        }
+
+        .mobile-services {
+            display: block;
+        }
+
+        .service-footer {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+
+    @@media (max-width: 767px) {
+
+        .service-management-page {
+            padding-top: 30px;
+        }
+
+        .header-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .back-btn,
+        .add-service-btn {
+            width: 100%;
+        }
+
+        .services-card-header {
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 22px 20px 18px;
+        }
+
+        .record-count {
+            text-align: left;
+        }
+
+        .service-footer {
+            padding: 22px 20px;
+        }
+
+        .footer-add-btn {
+            width: 100%;
+        }
+    }
+
+
+    @@media (max-width: 480px) {
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .summary-divider {
+            display: none;
+        }
+
+        .mobile-card-top {
+            flex-direction: column;
+        }
+
+        .mobile-info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .mobile-actions {
+            flex-direction: column;
+        }
+
+        .mobile-edit-btn,
+        .mobile-delete-btn {
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+@section Scripts
+{
     <script>
 
-        document.getElementById("serviceSearch")
-        .addEventListener("keyup", function () {
+        document.addEventListener("DOMContentLoaded", function () {
 
-            let value = this.value.toLowerCase();
+            const searchInput =
+                document.getElementById("serviceSearch");
 
-            let rows = document.querySelectorAll("#serviceTable tbody tr");
+            const desktopRows =
+                document.querySelectorAll("#serviceTable tbody tr");
 
-            rows.forEach(function (row) {
+            const mobileCards =
+                document.querySelectorAll("#mobileServiceList .mobile-service-card");
 
-                row.style.display =
-                    row.innerText.toLowerCase().includes(value)
-                    ? ""
-                    : "none";
+            const visibleCount =
+                document.getElementById("visibleServiceCount");
 
-            });
+            const filterEmpty =
+                document.getElementById("serviceFilterEmpty");
+
+
+            function filterServices() {
+
+                const search =
+                    searchInput.value
+                        .toLowerCase()
+                        .trim();
+
+                let count = 0;
+
+
+                desktopRows.forEach(function (row) {
+
+                    const match =
+                        row.innerText
+                           .toLowerCase()
+                           .includes(search);
+
+                    row.style.display =
+                        match ? "" : "none";
+
+                    if (match) {
+                        count++;
+                    }
+
+                });
+
+
+                mobileCards.forEach(function (card) {
+
+                    const match =
+                        card.innerText
+                            .toLowerCase()
+                            .includes(search);
+
+                    card.style.display =
+                        match ? "" : "none";
+
+                });
+
+
+                if (visibleCount) {
+                    visibleCount.textContent = count;
+                }
+
+
+                if (filterEmpty) {
+
+                    filterEmpty.style.display =
+                        count === 0
+                            ? "block"
+                            : "none";
+
+                }
+
+            }
+
+
+            if (searchInput) {
+
+                searchInput.addEventListener(
+                    "keyup",
+                    filterServices
+                );
+
+            }
 
         });
 
     </script>
-
 }

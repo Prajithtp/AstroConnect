@@ -4,85 +4,206 @@
     ViewData["Title"] = "My Booking History";
 }
 
-<div class="container py-5">
+<section class="booking-history-page">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="container">
 
-        <div>
-            <h2 class="fw-bold mb-1">
-                📜 My Booking History
-            </h2>
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
 
-            <p class="text-muted mb-0">
-                View all your astrology appointments.
-            </p>
-        </div>
+        <div class="history-header">
 
-        <a asp-controller="Booking"
-           asp-action="Create"
-           class="btn btn-primary">
+            <div>
 
-            📅 Book New Appointment
+                <span class="section-label">
+                    YOUR APPOINTMENTS
+                </span>
 
-        </a>
+                <h1>
+                    Booking History
+                </h1>
 
-    </div>
-
-
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Success"]
-        </div>
-    }
-
-
-    @if (Model == null || !Model.Any())
-    {
-        <div class="card shadow-sm border-0">
-
-            <div class="card-body text-center py-5">
-
-                <div style="font-size:50px;">
-                    📅
-                </div>
-
-                <h4 class="mt-3">
-                    No appointments yet
-                </h4>
-
-                <p class="text-muted">
-                    You haven't booked any astrology consultation yet.
+                <p>
+                    Review your astrology consultations, appointment
+                    schedules and current booking status.
                 </p>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <a asp-controller="CustomerPortal"
+                   asp-action="Index"
+                   class="btn dashboard-btn">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Dashboard
+
+                </a>
+
 
                 <a asp-controller="Booking"
                    asp-action="Create"
-                   class="btn btn-primary">
+                   class="btn book-btn">
 
-                    Book Your First Appointment
+                    <i class="fa-solid fa-calendar-plus"></i>
+
+                    Book Appointment
 
                 </a>
 
             </div>
 
         </div>
-    }
-    else
-    {
-        <div class="card shadow-sm border-0">
 
-            <div class="card-body">
+
+        <!-- =====================================================
+             SUCCESS MESSAGE
+             ===================================================== -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="success-message">
+
+                <div class="success-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <span>
+                    @TempData["Success"]
+                </span>
+
+            </div>
+        }
+
+
+        <!-- =====================================================
+             EMPTY STATE
+             ===================================================== -->
+        @if (Model == null || !Model.Any())
+        {
+            <div class="empty-booking-card">
+
+                <div class="empty-decoration empty-decoration-one"></div>
+                <div class="empty-decoration empty-decoration-two"></div>
+
+
+                <div class="empty-content">
+
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+
+                    <span class="empty-label">
+                        NO APPOINTMENTS YET
+                    </span>
+
+                    <h2>
+                        Your consultation journey
+                        <span>can begin here.</span>
+                    </h2>
+
+                    <p>
+                        You haven't booked an astrology consultation yet.
+                        Choose a service, astrologer and convenient time
+                        to schedule your first appointment.
+                    </p>
+
+
+                    <a asp-controller="Booking"
+                       asp-action="Create"
+                       class="btn empty-book-btn">
+
+                        Book Your First Appointment
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <!-- =================================================
+                 SUMMARY
+                 ================================================= -->
+
+            <div class="history-summary">
+
+                <div>
+
+                    <div class="summary-icon">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+
+                    <div>
+                        <span>
+                            TOTAL APPOINTMENTS
+                        </span>
+
+                        <strong>
+                            @Model.Count
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <p>
+                    Your complete AstroConnect consultation history.
+                    Select an appointment below to view its full details.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 DESKTOP TABLE
+                 ================================================= -->
+
+            <div class="history-card desktop-history">
+
+                <div class="history-card-header">
+
+                    <div>
+
+                        <span class="card-label">
+                            APPOINTMENT RECORDS
+                        </span>
+
+                        <h2>
+                            Your Consultations
+                        </h2>
+
+                    </div>
+
+
+                    <div class="record-count">
+
+                        <i class="fa-solid fa-layer-group"></i>
+
+                        @Model.Count
+                        @(Model.Count == 1 ? "record" : "records")
+
+                    </div>
+
+                </div>
+
 
                 <div class="table-responsive">
 
-                    <table class="table table-hover align-middle">
+                    <table class="table booking-table align-middle">
 
-                        <thead class="table-primary">
+                        <thead>
 
                             <tr>
 
                                 <th>
-                                    Service
+                                    Consultation
                                 </th>
 
                                 <th>
@@ -90,11 +211,7 @@
                                 </th>
 
                                 <th>
-                                    Date
-                                </th>
-
-                                <th>
-                                    Time
+                                    Schedule
                                 </th>
 
                                 <th>
@@ -105,13 +222,14 @@
                                     Status
                                 </th>
 
-                                <th>
-                                    Action
+                                <th class="text-end">
+                                    Details
                                 </th>
 
                             </tr>
 
                         </thead>
+
 
                         <tbody>
 
@@ -119,83 +237,199 @@
                             {
                                 <tr>
 
-                                    <td>
-                                        <strong>
-                                            @(booking.Service?.Name ?? "N/A")
-                                        </strong>
-                                    </td>
+                                    <!-- SERVICE -->
 
                                     <td>
-                                        @(booking.Astrologer?.FullName ?? "N/A")
+
+                                        <div class="service-cell">
+
+                                            <div class="table-icon">
+
+                                                <i class="fa-solid fa-moon"></i>
+
+                                            </div>
+
+                                            <div>
+
+                                                <span>
+                                                    SERVICE
+                                                </span>
+
+                                                <strong>
+                                                    @(booking.Service?.Name ?? "N/A")
+                                                </strong>
+
+                                            </div>
+
+                                        </div>
+
                                     </td>
 
-                                    <td>
-                                        @booking.BookingDate.ToString("dd-MM-yyyy")
-                                    </td>
+
+                                    <!-- ASTROLOGER -->
 
                                     <td>
-                                        @booking.StartTime.ToString("hh:mm tt")
-                                        -
-                                        @booking.EndTime.ToString("hh:mm tt")
+
+                                        <div class="astrologer-cell">
+
+                                            <div class="astrologer-avatar">
+
+                                                <i class="fa-solid fa-star"></i>
+
+                                            </div>
+
+                                            <div>
+
+                                                <span>
+                                                    ASTROLOGER
+                                                </span>
+
+                                                <strong>
+                                                    @(booking.Astrologer?.FullName ?? "N/A")
+                                                </strong>
+
+                                            </div>
+
+                                        </div>
+
                                     </td>
 
-                                    <td>
-                                        @booking.WhatsAppNumber
-                                    </td>
+
+                                    <!-- DATE / TIME -->
 
                                     <td>
-                                        @switch (booking.Status)
+
+                                        <div class="schedule-cell">
+
+                                            <div>
+
+                                                <i class="fa-regular fa-calendar"></i>
+
+                                                @booking.BookingDate.ToString("dd MMM yyyy")
+
+                                            </div>
+
+                                            <div>
+
+                                                <i class="fa-regular fa-clock"></i>
+
+                                                @booking.StartTime.ToString("hh:mm tt")
+                                                -
+                                                @booking.EndTime.ToString("hh:mm tt")
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- WHATSAPP -->
+
+                                    <td>
+
+                                        <div class="whatsapp-cell">
+
+                                            <i class="fa-brands fa-whatsapp"></i>
+
+                                            <span>
+                                                @(string.IsNullOrWhiteSpace(booking.WhatsAppNumber)
+                                                                                        ? "Not provided"
+                                                                                        : booking.WhatsAppNumber)
+                                    </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                @switch (booking.Status)
                                         {
                                             case AstroConnect.Domain.Enums.BookingStatus.Pending:
 
-                                                <span class="badge bg-warning text-dark">
+                                                <span class="status-badge status-pending">
+
+                                                    <span class="status-dot"></span>
+
                                                     Pending
+
                                                 </span>
 
                                                 break;
+
 
                                             case AstroConnect.Domain.Enums.BookingStatus.Confirmed:
 
-                                                <span class="badge bg-success">
+                                                <span class="status-badge status-confirmed">
+
+                                                    <span class="status-dot"></span>
+
                                                     Confirmed
+
                                                 </span>
 
                                                 break;
+
 
                                             case AstroConnect.Domain.Enums.BookingStatus.Completed:
 
-                                                <span class="badge bg-primary">
+                                                <span class="status-badge status-completed">
+
+                                                    <span class="status-dot"></span>
+
                                                     Completed
+
                                                 </span>
 
                                                 break;
+
 
                                             case AstroConnect.Domain.Enums.BookingStatus.Cancelled:
 
-                                                <span class="badge bg-danger">
+                                                <span class="status-badge status-cancelled">
+
+                                                    <span class="status-dot"></span>
+
                                                     Cancelled
+
                                                 </span>
 
                                                 break;
 
+
                                             default:
 
-                                                <span class="badge bg-secondary">
+                                                <span class="status-badge status-default">
+
+                                                    <span class="status-dot"></span>
+
                                                     @booking.Status
+
                                                 </span>
 
                                                 break;
                                         }
+
                                     </td>
 
-                                    <td>
+
+                                    <!-- ACTION -->
+
+                                    <td class="text-end">
 
                                         <a asp-controller="CustomerPortal"
                                            asp-action="BookingDetails"
                                            asp-route-id="@booking.Id"
-                                           class="btn btn-sm btn-outline-primary">
+                                           class="view-btn"
+                                           title="View appointment details">
 
                                             View
+
+                                            <i class="fa-solid fa-arrow-right"></i>
 
                                         </a>
 
@@ -212,7 +446,1049 @@
 
             </div>
 
-        </div>
+
+            <!-- =================================================
+                 MOBILE CARDS
+                 ================================================= -->
+
+            <div class="mobile-history">
+
+                @foreach (var booking in Model)
+                {
+                    <div class="mobile-booking-card">
+
+                        <div class="mobile-card-top">
+
+                            <div>
+
+                                <span class="mobile-label">
+                                    CONSULTATION
+                                </span>
+
+                                <h3>
+                                    @(booking.Service?.Name ?? "N/A")
+                                </h3>
+
+                            </div>
+
+
+                            @switch (booking.Status)
+                            {
+                                case AstroConnect.Domain.Enums.BookingStatus.Pending:
+
+                                    <span class="status-badge status-pending">
+
+                                        <span class="status-dot"></span>
+
+                                        Pending
+
+                                    </span>
+
+                                    break;
+
+
+                                case AstroConnect.Domain.Enums.BookingStatus.Confirmed:
+
+                                    <span class="status-badge status-confirmed">
+
+                                        <span class="status-dot"></span>
+
+                                        Confirmed
+
+                                    </span>
+
+                                    break;
+
+
+                                case AstroConnect.Domain.Enums.BookingStatus.Completed:
+
+                                    <span class="status-badge status-completed">
+
+                                        <span class="status-dot"></span>
+
+                                        Completed
+
+                                    </span>
+
+                                    break;
+
+
+                                case AstroConnect.Domain.Enums.BookingStatus.Cancelled:
+
+                                    <span class="status-badge status-cancelled">
+
+                                        <span class="status-dot"></span>
+
+                                        Cancelled
+
+                                    </span>
+
+                                    break;
+
+
+                                default:
+
+                                    <span class="status-badge status-default">
+
+                                        <span class="status-dot"></span>
+
+                                        @booking.Status
+
+                                    </span>
+
+                                    break;
+                            }
+
+                    </div>
+
+
+                    <div class="mobile-info-list">
+
+                        <div>
+
+                            <i class="fa-solid fa-star"></i>
+
+                            <div>
+
+                                <span>
+                                    Astrologer
+                                </span>
+
+                                <strong>
+                                    @(booking.Astrologer?.FullName ?? "N/A")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="fa-regular fa-calendar"></i>
+
+                            <div>
+
+                                <span>
+                                    Date
+                                </span>
+
+                                <strong>
+                                    @booking.BookingDate.ToString("dd MMM yyyy")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="fa-regular fa-clock"></i>
+
+                            <div>
+
+                                <span>
+                                    Time
+                                </span>
+
+                                <strong>
+                                    @booking.StartTime.ToString("hh:mm tt")
+                                    -
+                                    @booking.EndTime.ToString("hh:mm tt")
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="fa-brands fa-whatsapp"></i>
+
+                            <div>
+
+                                <span>
+                                    WhatsApp
+                                </span>
+
+                                <strong>
+                                    @(string.IsNullOrWhiteSpace(booking.WhatsAppNumber)
+                                                                    ? "Not provided"
+                                                                    : booking.WhatsAppNumber)
+                            </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <a asp-controller="CustomerPortal"
+                           asp-action="BookingDetails"
+                           asp-route-id="@booking.Id"
+                           class="mobile-view-btn">
+
+                            View Appointment
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+                        }
+
+            </div>
+        }
+
+
+        <!-- =====================================================
+             FOOTER CTA
+             ===================================================== -->
+        @if (Model != null && Model.Any())
+        {
+            <div class="booking-footer">
+
+                <div>
+
+                    <div class="footer-icon">
+                        <i class="fa-solid fa-moon"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            READY FOR ANOTHER CONSULTATION?
+                        </span>
+
+                        <h3>
+                            Schedule your next appointment.
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <a asp-controller="Booking"
+                   asp-action="Create"
+                   class="btn footer-book-btn">
+
+                    Book Appointment
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+</section>
+
+
+<style>
+
+    /* =====================================================
+           PAGE
+           ===================================================== */
+
+    .booking-history-page {
+        min-height: 100vh;
+        padding: 45px 0 80px;
+        background: #f8f5ec;
     }
 
-</div>
+
+    /* =====================================================
+           HEADER
+           ===================================================== */
+
+    .history-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 32px;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #987918;
+        font-size: .64rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
+
+    .history-header h1 {
+        margin-bottom: 9px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.5rem, 4vw, 3.8rem);
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .history-header p {
+        max-width: 650px;
+        margin: 0;
+        color: #817b70;
+        font-size: .8rem;
+        line-height: 1.7;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 9px;
+        flex-shrink: 0;
+    }
+
+    .dashboard-btn,
+    .book-btn {
+        min-height: 43px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 16px;
+        font-size: .69rem;
+    }
+
+    .dashboard-btn {
+        border: 1px solid #cfc5b2;
+        background: transparent;
+        color: #181710;
+    }
+
+        .dashboard-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: white;
+        }
+
+    .book-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .book-btn:hover {
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+        }
+
+
+    /* =====================================================
+           SUCCESS
+           ===================================================== */
+
+    .success-message {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 24px;
+        padding: 13px 15px;
+        border: 1px solid #cedfce;
+        border-radius: 12px;
+        background: #edf5ed;
+        color: #49644d;
+        font-size: .72rem;
+        font-weight: 700;
+    }
+
+    .success-icon {
+        color: #5b8561;
+    }
+
+
+    /* =====================================================
+           SUMMARY
+           ===================================================== */
+
+    .history-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 18px;
+        padding: 18px 22px;
+        border: 1px solid #e1d9ca;
+        border-radius: 15px;
+        background: #fffdf8;
+    }
+
+        .history-summary > div {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+    .summary-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .75rem;
+    }
+
+    .history-summary span,
+    .history-summary strong {
+        display: block;
+    }
+
+    .history-summary span {
+        margin-bottom: 1px;
+        color: #928a7c;
+        font-size: .55rem;
+        font-weight: 800;
+        letter-spacing: .09em;
+    }
+
+    .history-summary strong {
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .history-summary p {
+        max-width: 480px;
+        margin: 0;
+        color: #898276;
+        font-size: .68rem;
+        line-height: 1.6;
+    }
+
+
+    /* =====================================================
+           HISTORY CARD
+           ===================================================== */
+
+    .history-card {
+        overflow: hidden;
+        border: 1px solid #e1d9ca;
+        border-radius: 20px;
+        background: #fffdf8;
+    }
+
+    .history-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 26px 28px 20px;
+    }
+
+    .card-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #987918;
+        font-size: .58rem;
+        font-weight: 800;
+        letter-spacing: .14em;
+    }
+
+    .history-card-header h2 {
+        margin: 0;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.7rem;
+        font-weight: 400;
+    }
+
+    .record-count {
+        padding: 7px 11px;
+        border: 1px solid #ddd4c3;
+        border-radius: 999px;
+        color: #766e60;
+        font-size: .62rem;
+        font-weight: 700;
+    }
+
+        .record-count i {
+            margin-right: 4px;
+            color: #987918;
+        }
+
+
+    /* =====================================================
+           TABLE
+           ===================================================== */
+
+    .booking-table {
+        margin: 0;
+    }
+
+        .booking-table thead th {
+            padding: 13px 18px;
+            border-top: 1px solid #e6dfd3;
+            border-bottom: 1px solid #ded6c8;
+            background: #faf7ef;
+            color: #8a8377;
+            font-size: .58rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .booking-table tbody td {
+            padding: 17px 18px;
+            border-bottom: 1px solid #eee7dc;
+            color: #554f46;
+            font-size: .71rem;
+            vertical-align: middle;
+        }
+
+        .booking-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .booking-table tbody tr {
+            transition: background .2s ease;
+        }
+
+            .booking-table tbody tr:hover {
+                background: #fbf8f1;
+            }
+
+
+    /* SERVICE */
+
+    .service-cell,
+    .astrologer-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .table-icon,
+    .astrologer-avatar {
+        width: 37px;
+        height: 37px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: .66rem;
+    }
+
+    .table-icon {
+        background: #181710;
+        color: #e1bf4a;
+    }
+
+    .astrologer-avatar {
+        background: #fff0ad;
+        color: #6d5811;
+    }
+
+    .service-cell span,
+    .service-cell strong,
+    .astrologer-cell span,
+    .astrologer-cell strong {
+        display: block;
+    }
+
+    .service-cell span,
+    .astrologer-cell span {
+        margin-bottom: 2px;
+        color: #a0988a;
+        font-size: .5rem;
+        font-weight: 800;
+        letter-spacing: .07em;
+    }
+
+    .service-cell strong,
+    .astrologer-cell strong {
+        color: #302c25;
+        font-size: .7rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+
+    /* SCHEDULE */
+
+    .schedule-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+        .schedule-cell > div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .schedule-cell i {
+            width: 14px;
+            color: #987918;
+            text-align: center;
+        }
+
+
+    /* WHATSAPP */
+
+    .whatsapp-cell {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+        .whatsapp-cell i {
+            color: #628368;
+            font-size: .85rem;
+        }
+
+
+    /* =====================================================
+           STATUS
+           ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: .58rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
+
+    .status-pending {
+        background: #fff1c8;
+        color: #745d12;
+    }
+
+        .status-pending .status-dot {
+            background: #c49a1b;
+        }
+
+    .status-confirmed {
+        background: #dfeddf;
+        color: #45694b;
+    }
+
+        .status-confirmed .status-dot {
+            background: #5a9765;
+        }
+
+    .status-completed {
+        background: #e1e9ed;
+        color: #4c6671;
+    }
+
+        .status-completed .status-dot {
+            background: #688996;
+        }
+
+    .status-cancelled {
+        background: #f3dddd;
+        color: #8d4d47;
+    }
+
+        .status-cancelled .status-dot {
+            background: #b76159;
+        }
+
+    .status-default {
+        background: #ece8e0;
+        color: #655f55;
+    }
+
+        .status-default .status-dot {
+            background: #827a6d;
+        }
+
+
+    /* =====================================================
+           VIEW BUTTON
+           ===================================================== */
+
+    .view-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 11px;
+        border: 1px solid #d4cbb9;
+        border-radius: 9px;
+        color: #39352e;
+        font-size: .62rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+        .view-btn i {
+            font-size: .52rem;
+        }
+
+        .view-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: #e1bf4a;
+        }
+
+
+    /* =====================================================
+           MOBILE HISTORY
+           ===================================================== */
+
+    .mobile-history {
+        display: none;
+    }
+
+    .mobile-booking-card {
+        margin-bottom: 15px;
+        padding: 22px;
+        border: 1px solid #e1d9ca;
+        border-radius: 17px;
+        background: #fffdf8;
+    }
+
+    .mobile-card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .mobile-label {
+        display: block;
+        margin-bottom: 4px;
+        color: #987918;
+        font-size: .53rem;
+        font-weight: 800;
+        letter-spacing: .1em;
+    }
+
+    .mobile-card-top h3 {
+        margin: 0;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.35rem;
+        font-weight: 400;
+    }
+
+    .mobile-info-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+        .mobile-info-list > div {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px;
+            border: 1px solid #e9e2d6;
+            border-radius: 10px;
+            background: #faf7ef;
+        }
+
+            .mobile-info-list > div > i {
+                width: 18px;
+                color: #987918;
+                text-align: center;
+            }
+
+        .mobile-info-list span,
+        .mobile-info-list strong {
+            display: block;
+        }
+
+        .mobile-info-list span {
+            margin-bottom: 2px;
+            color: #958e82;
+            font-size: .52rem;
+            text-transform: uppercase;
+        }
+
+        .mobile-info-list strong {
+            color: #373229;
+            font-size: .66rem;
+        }
+
+    .mobile-view-btn {
+        min-height: 41px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        border-radius: 10px;
+        background: #181710;
+        color: white;
+        font-size: .66rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+        .mobile-view-btn:hover {
+            background: #e1bf4a;
+            color: #181710;
+        }
+
+
+    /* =====================================================
+           EMPTY STATE
+           ===================================================== */
+
+    .empty-booking-card {
+        position: relative;
+        overflow: hidden;
+        padding: 70px 25px;
+        border-radius: 22px;
+        background: #181710;
+        text-align: center;
+        color: white;
+    }
+
+    .empty-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .empty-icon {
+        width: 65px;
+        height: 65px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 22px;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: 1.15rem;
+    }
+
+    .empty-label {
+        display: block;
+        margin-bottom: 9px;
+        color: #e1bf4a;
+        font-size: .59rem;
+        font-weight: 800;
+        letter-spacing: .16em;
+    }
+
+    .empty-content h2 {
+        margin-bottom: 15px;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 400;
+        line-height: 1.05;
+    }
+
+        .empty-content h2 span {
+            color: #e1bf4a;
+        }
+
+    .empty-content p {
+        margin-bottom: 25px;
+        color: rgba(255,255,255,.5);
+        font-size: .76rem;
+        line-height: 1.75;
+    }
+
+    .empty-book-btn {
+        min-height: 45px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border: 1px solid #e1bf4a;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .68rem;
+        font-weight: 700;
+    }
+
+        .empty-book-btn:hover {
+            background: #d4af34;
+            border-color: #d4af34;
+            color: #181710;
+        }
+
+    .empty-decoration {
+        position: absolute;
+        border: 1px solid rgba(225,191,74,.07);
+        border-radius: 50%;
+    }
+
+    .empty-decoration-one {
+        width: 350px;
+        height: 350px;
+        right: -190px;
+        top: -190px;
+    }
+
+    .empty-decoration-two {
+        width: 250px;
+        height: 250px;
+        left: -140px;
+        bottom: -160px;
+    }
+
+
+    /* =====================================================
+           FOOTER CTA
+           ===================================================== */
+
+    .booking-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        margin-top: 20px;
+        padding: 25px 28px;
+        border-radius: 17px;
+        background: #24221c;
+        color: white;
+    }
+
+        .booking-footer > div {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+    .footer-icon {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .75rem;
+    }
+
+    .booking-footer span {
+        display: block;
+        margin-bottom: 3px;
+        color: #e1bf4a;
+        font-size: .53rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .booking-footer h3 {
+        margin: 0;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.25rem;
+        font-weight: 400;
+    }
+
+    .footer-book-btn {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        flex-shrink: 0;
+        border: 1px solid #e1bf4a;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .65rem;
+        font-weight: 700;
+    }
+
+        .footer-book-btn:hover {
+            background: #d4af34;
+            border-color: #d4af34;
+            color: #181710;
+        }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 991px) {
+
+        .history-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .history-summary {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .desktop-history {
+            display: none;
+        }
+
+        .mobile-history {
+            display: block;
+        }
+    }
+
+
+    @@media (max-width: 767px) {
+
+        .booking-history-page {
+            padding-top: 30px;
+        }
+
+        .header-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .dashboard-btn,
+        .book-btn {
+            width: 100%;
+        }
+
+        .mobile-info-list {
+            grid-template-columns: 1fr;
+        }
+
+        .booking-footer {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .footer-book-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+
+    @@media (max-width: 480px) {
+
+        .mobile-card-top {
+            flex-direction: column;
+        }
+    }
+
+</style>

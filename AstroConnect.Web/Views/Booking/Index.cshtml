@@ -1,118 +1,357 @@
-﻿@model List<AstroConnect.Domain.Entities.Booking>
+﻿@using AstroConnect.Domain.Enums
+@model List<AstroConnect.Domain.Entities.Booking>
 
 @{
     ViewData["Title"] = "Bookings";
+
+    var totalBookings = Model?.Count ?? 0;
+    var pendingBookings = Model?.Count(x => x.Status == BookingStatus.Pending) ?? 0;
+    var confirmedBookings = Model?.Count(x => x.Status == BookingStatus.Confirmed) ?? 0;
+    var completedBookings = Model?.Count(x => x.Status == BookingStatus.Completed) ?? 0;
+    var cancelledBookings = Model?.Count(x => x.Status == BookingStatus.Cancelled) ?? 0;
+
     int slNo = 1;
 }
 
-<div class="container-fluid py-4">
+<section class="booking-management-page">
 
-    <!-- HEADER -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="container-fluid booking-container">
 
-        <div>
-            <h2 class="fw-bold">
-                <i class="fa-solid fa-calendar-days text-primary"></i>
-                Bookings
-            </h2>
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
 
-            <p class="text-muted mb-0">
-                Manage astrology appointments
-            </p>
+        <div class="page-header">
+
+            <div>
+
+                <span class="section-label">
+                    ADMINISTRATION
+                </span>
+
+                <h1>
+                    Bookings
+                </h1>
+
+                <p>
+                    Manage customer appointments, schedules,
+                    consultation status and booking records.
+                </p>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <a asp-controller="Admin"
+                   asp-action="Index"
+                   class="back-btn">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Dashboard
+
+                </a>
+
+
+                <a asp-action="Create"
+                   class="new-booking-btn">
+
+                    <i class="fa-solid fa-calendar-plus"></i>
+
+                    New Booking
+
+                </a>
+
+            </div>
+
         </div>
 
-        <a asp-action="Create"
-           class="btn btn-primary">
 
-            <i class="fa-solid fa-plus"></i>
-            New Booking
+        <!-- =====================================================
+             SUCCESS MESSAGE
+             ===================================================== -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="success-message alert alert-dismissible fade show">
 
-        </a>
+                <div class="success-icon">
 
-    </div>
+                    <i class="fa-solid fa-circle-check"></i>
 
+                </div>
 
-    <!-- SUCCESS MESSAGE -->
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show">
+                <div>
 
-            <i class="fa-solid fa-circle-check"></i>
+                    <strong>
+                        Updated successfully
+                    </strong>
 
-            @TempData["Success"]
+                    <span>
+                        @TempData["Success"]
+                    </span>
 
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-
-        </div>
-    }
+                </div>
 
 
-    <!-- FILTERS -->
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close">
+                </button>
 
-    <div class="card shadow-sm border-0 mb-4">
+            </div>
+        }
 
-        <div class="card-body">
+
+        <!-- =====================================================
+             SUMMARY
+             ===================================================== -->
+
+        <section class="booking-summary">
+
+            <div class="summary-main">
+
+                <div class="summary-icon">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        APPOINTMENT OVERVIEW
+                    </span>
+
+                    <h2>
+                        Booking Activity
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-stats">
+
+                <div>
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <strong>
+                        @totalBookings
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        PENDING
+                    </span>
+
+                    <strong>
+                        @pendingBookings
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        CONFIRMED
+                    </span>
+
+                    <strong>
+                        @confirmedBookings
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        COMPLETED
+                    </span>
+
+                    <strong>
+                        @completedBookings
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div>
+
+                    <span>
+                        CANCELLED
+                    </span>
+
+                    <strong>
+                        @cancelledBookings
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FILTERS
+             ===================================================== -->
+
+        <section class="filter-card">
+
+            <div class="filter-heading">
+
+                <div>
+
+                    <span>
+                        FIND APPOINTMENTS
+                    </span>
+
+                    <h2>
+                        Search & Filter
+                    </h2>
+
+                </div>
+
+
+                <div class="filter-heading-icon">
+
+                    <i class="fa-solid fa-sliders"></i>
+
+                </div>
+
+            </div>
+
 
             <div class="row g-3">
 
-                <div class="col-md-5">
+                <!-- SEARCH -->
 
-                    <input type="text"
-                           id="bookingSearch"
-                           class="form-control"
-                           placeholder="🔍 Search customer, astrologer or service">
+                <div class="col-xl-5 col-lg-5">
 
-                </div>
+                    <label class="filter-label"
+                           for="bookingSearch">
+
+                        Search
+                    </label>
 
 
-                <div class="col-md-3">
+                    <div class="filter-input">
 
-                    <select id="statusFilter"
-                            class="form-select">
+                        <i class="fa-solid fa-magnifying-glass"></i>
 
-                        <option value="">
-                            All Status
-                        </option>
+                        <input type="text"
+                               id="bookingSearch"
+                               class="form-control"
+                               placeholder="Customer, astrologer or service" />
 
-                        <option value="Pending">
-                            Pending
-                        </option>
-
-                        <option value="Confirmed">
-                            Confirmed
-                        </option>
-
-                        <option value="Completed">
-                            Completed
-                        </option>
-
-                        <option value="Cancelled">
-                            Cancelled
-                        </option>
-
-                    </select>
+                    </div>
 
                 </div>
 
 
-                <div class="col-md-2">
+                <!-- STATUS -->
 
-                    <input type="date"
-                           id="dateFilter"
-                           class="form-control">
+                <div class="col-xl-3 col-lg-3 col-md-5">
+
+                    <label class="filter-label"
+                           for="statusFilter">
+
+                        Status
+                    </label>
+
+
+                    <div class="filter-input">
+
+                        <i class="fa-solid fa-circle-half-stroke"></i>
+
+                        <select id="statusFilter"
+                                class="form-select">
+
+                            <option value="">
+                                All Status
+                            </option>
+
+                            <option value="Pending">
+                                Pending
+                            </option>
+
+                            <option value="Confirmed">
+                                Confirmed
+                            </option>
+
+                            <option value="Completed">
+                                Completed
+                            </option>
+
+                            <option value="Cancelled">
+                                Cancelled
+                            </option>
+
+                        </select>
+
+                    </div>
 
                 </div>
 
 
-                <div class="col-md-2 d-grid">
+                <!-- DATE -->
 
-                    <button id="clearFilters"
-                            class="btn btn-outline-secondary">
+                <div class="col-xl-2 col-lg-2 col-md-4">
+
+                    <label class="filter-label"
+                           for="dateFilter">
+
+                        Date
+                    </label>
+
+
+                    <div class="filter-input">
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        <input type="date"
+                               id="dateFilter"
+                               class="form-control" />
+
+                    </div>
+
+                </div>
+
+
+                <!-- CLEAR -->
+
+                <div class="col-xl-2 col-lg-2 col-md-3 d-flex align-items-end">
+
+                    <button type="button"
+                            id="clearFilters"
+                            class="clear-filter-btn">
 
                         <i class="fa-solid fa-filter-circle-xmark"></i>
+
                         Clear
 
                     </button>
@@ -121,517 +360,2514 @@
 
             </div>
 
-        </div>
-
-    </div>
+        </section>
 
 
-    <!-- BOOKINGS -->
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info">
+        <!-- =====================================================
+             EMPTY DATABASE
+             ===================================================== -->
+        @if (Model == null || !Model.Any())
+        {
+            <section class="empty-state">
 
-            <i class="fa-solid fa-circle-info"></i>
+                <div class="empty-icon">
 
-            No bookings found.
+                    <i class="fa-solid fa-calendar-xmark"></i>
 
-        </div>
-    }
-    else
-    {
-        <div class="card shadow-sm border-0">
+                </div>
 
-            <div class="card-body">
+                <span>
+                    APPOINTMENT RECORDS
+                </span>
 
-                <div class="table-responsive">
+                <h2>
+                    No bookings found.
+                </h2>
 
-                    <table class="table table-hover align-middle"
-                           id="bookingTable">
-
-                        <thead class="table-dark">
-
-                            <tr>
-
-                                <th>#</th>
-
-                                <th>
-                                    Customer
-                                </th>
-
-                                <th>
-                                    Astrologer
-                                </th>
-
-                                <th>
-                                    Service
-                                </th>
-
-                                <th>
-                                    Date
-                                </th>
-
-                                <th>
-                                    Time
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                                <th class="text-center">
-                                    Actions
-                                </th>
-
-                            </tr>
-
-                        </thead>
+                <p>
+                    Create the first customer appointment to begin
+                    managing consultations.
+                </p>
 
 
-                        <tbody>
+                <a asp-action="Create"
+                   class="empty-create-btn">
 
-                            @foreach (var booking in Model)
-                            {
+                    <i class="fa-solid fa-calendar-plus"></i>
+
+                    Create Booking
+
+                </a>
+
+            </section>
+        }
+        else
+        {
+            <!-- =================================================
+                 BOOKINGS CARD
+                 ================================================= -->
+
+            <section class="bookings-card">
+
+                <div class="bookings-card-header">
+
+                    <div class="bookings-heading">
+
+                        <div class="bookings-heading-icon">
+
+                            <i class="fa-solid fa-calendar-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                APPOINTMENT RECORDS
+                            </span>
+
+                            <h2>
+                                All Bookings
+                            </h2>
+
+                            <p>
+                                Review booking information and manage appointment status.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="record-count">
+
+                        <strong id="visibleBookingCount">
+                            @totalBookings
+                        </strong>
+
+                        <span>
+                            bookings
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     DESKTOP TABLE
+                     ================================================= -->
+
+                <div class="desktop-bookings">
+
+                    <div class="table-responsive">
+
+                        <table class="table booking-table align-middle"
+                               id="bookingTable">
+
+                            <thead>
+
                                 <tr>
 
-                                    <!-- SL NO -->
+                                    <th>
+                                        #
+                                    </th>
 
-                                    <td>
-                                        @slNo
-                                    </td>
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Astrologer
+                                    </th>
+
+                                    <th>
+                                        Service
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Time
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th class="text-end">
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
 
 
-                                    <!-- CUSTOMER -->
+                            <tbody>
 
-                                    <td>
+                                @foreach (var booking in Model)
+                                {
+                                    <tr data-status="@booking.Status"
+                                        data-date="@booking.BookingDate.ToString("yyyy-MM-dd")">
+
+                                        <!-- NUMBER -->
+
+                                        <td>
+
+                                            <span class="serial-number">
+                                                @slNo
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- CUSTOMER -->
+
+                                        <td>
+
+                                            <div class="person-cell">
+
+                                                <div class="person-avatar">
+
+                                                    <i class="fa-solid fa-user"></i>
+
+                                                </div>
+
+                                                <div>
+
+                                                    <span>
+                                                        CUSTOMER
+                                                    </span>
+
+                                                    <strong>
+                                                        @(booking.Customer?.FullName ?? "N/A")
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- ASTROLOGER -->
+
+                                        <td>
+
+                                            <div class="person-cell">
+
+                                                <div class="person-avatar astrologer-avatar">
+
+                                                    <i class="fa-solid fa-star"></i>
+
+                                                </div>
+
+                                                <div>
+
+                                                    <span>
+                                                        ASTROLOGER
+                                                    </span>
+
+                                                    <strong>
+                                                        @(booking.Astrologer?.FullName ?? "N/A")
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- SERVICE -->
+
+                                        <td>
+
+                                            <div class="service-cell">
+
+                                                <i class="fa-solid fa-moon"></i>
+
+                                                <span>
+                                                    @(booking.Service?.Name ?? "N/A")
+                                                </span>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- DATE -->
+
+                                        <td>
+
+                                            <div class="date-cell">
+
+                                                <i class="fa-regular fa-calendar"></i>
+
+                                                <span>
+                                                    @booking.BookingDate.ToString("dd MMM yyyy")
+                                                </span>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- TIME -->
+
+                                        <td>
+
+                                            <div class="time-cell">
+
+                                                <i class="fa-regular fa-clock"></i>
+
+                                                <div>
+
+                                                    <strong>
+                                                        @booking.StartTime.ToString("hh\\:mm")
+                                                    </strong>
+
+                                                    <span>
+                                                        to @booking.EndTime.ToString("hh\\:mm")
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- STATUS -->
+
+                                        <td>
+
+                                            @switch (booking.Status)
+                                            {
+                                                case BookingStatus.Pending:
+
+                                                    <span class="status-badge status-pending">
+
+                                                        <span class="status-dot"></span>
+
+                                                        Pending
+
+                                                    </span>
+
+                                                    break;
+
+
+                                                case BookingStatus.Confirmed:
+
+                                                    <span class="status-badge status-confirmed">
+
+                                                        <span class="status-dot"></span>
+
+                                                        Confirmed
+
+                                                    </span>
+
+                                                    break;
+
+
+                                                case BookingStatus.Completed:
+
+                                                    <span class="status-badge status-completed">
+
+                                                        <span class="status-dot"></span>
+
+                                                        Completed
+
+                                                    </span>
+
+                                                    break;
+
+
+                                                case BookingStatus.Cancelled:
+
+                                                    <span class="status-badge status-cancelled">
+
+                                                        <span class="status-dot"></span>
+
+                                                        Cancelled
+
+                                                    </span>
+
+                                                    break;
+
+
+                                                default:
+
+                                                    <span class="status-badge status-default">
+
+                                                        <span class="status-dot"></span>
+
+                                                        @booking.Status
+
+                                                    </span>
+
+                                                    break;
+                                            }
+
+                                        </td>
+
+
+                                        <!-- ACTIONS -->
+
+                                        <td class="text-end">
+
+                                            <div class="booking-actions">
+
+                                                <!-- DETAILS -->
+
+                                                <a asp-action="Details"
+                                                   asp-route-id="@booking.Id"
+                                                   class="action-btn details-btn"
+                                                   title="View Details">
+
+                                                    <i class="fa-solid fa-eye"></i>
+
+                                                </a>
+
+
+                                                <!-- EDIT -->
+
+                                                <a asp-action="Edit"
+                                                   asp-route-id="@booking.Id"
+                                                   class="action-btn edit-btn"
+                                                   title="Edit Booking">
+
+                                                    <i class="fa-solid fa-pen"></i>
+
+                                                </a>
+
+
+                                                <!-- CHANGE STATUS -->
+
+                                                <div class="dropdown">
+
+                                                    <button type="button"
+                                                            class="action-btn status-action-btn dropdown-toggle"
+                                                            data-bs-toggle="dropdown"
+                                                            aria-expanded="false"
+                                                            title="Change Status">
+
+                                                        <i class="fa-solid fa-rotate"></i>
+
+                                                    </button>
+
+
+                                                    <ul class="dropdown-menu dropdown-menu-end status-menu">
+
+
+                                                        @if (booking.Status != BookingStatus.Confirmed)
+                                                        {
+                                                            <li>
+
+                                                                <form asp-action="ChangeStatus"
+                                                                      method="post">
+
+                                                                    @Html.AntiForgeryToken()
+
+                                                                    <input type="hidden"
+                                                                           name="id"
+                                                                           value="@booking.Id" />
+
+                                                                    <input type="hidden"
+                                                                           name="status"
+                                                                           value="2" />
+
+
+                                                                    <button type="submit"
+                                                                            class="dropdown-item">
+
+                                                                        <span class="menu-icon menu-confirm">
+
+                                                                            <i class="fa-solid fa-check"></i>
+
+                                                                        </span>
+
+                                                                        <span>
+
+                                                                            <strong>
+                                                                                Confirm
+                                                                            </strong>
+
+                                                                            <small>
+                                                                                Mark as confirmed
+                                                                            </small>
+
+                                                                        </span>
+
+                                                                    </button>
+
+                                                                </form>
+
+                                                            </li>
+                                                        }
+
+
+                                                        @if (booking.Status != BookingStatus.Completed)
+                                                        {
+                                                            <li>
+
+                                                                <form asp-action="ChangeStatus"
+                                                                      method="post">
+
+                                                                    @Html.AntiForgeryToken()
+
+                                                                    <input type="hidden"
+                                                                           name="id"
+                                                                           value="@booking.Id" />
+
+                                                                    <input type="hidden"
+                                                                           name="status"
+                                                                           value="3" />
+
+
+                                                                    <button type="submit"
+                                                                            class="dropdown-item">
+
+                                                                        <span class="menu-icon menu-complete">
+
+                                                                            <i class="fa-solid fa-check-double"></i>
+
+                                                                        </span>
+
+                                                                        <span>
+
+                                                                            <strong>
+                                                                                Complete
+                                                                            </strong>
+
+                                                                            <small>
+                                                                                Mark consultation complete
+                                                                            </small>
+
+                                                                        </span>
+
+                                                                    </button>
+
+                                                                </form>
+
+                                                            </li>
+                                                        }
+
+
+                                                        @if (booking.Status != BookingStatus.Cancelled)
+                                                        {
+                                                            <li>
+
+                                                                <form asp-action="ChangeStatus"
+                                                                      method="post">
+
+                                                                    @Html.AntiForgeryToken()
+
+                                                                    <input type="hidden"
+                                                                           name="id"
+                                                                           value="@booking.Id" />
+
+                                                                    <input type="hidden"
+                                                                           name="status"
+                                                                           value="4" />
+
+
+                                                                    <button type="submit"
+                                                                            class="dropdown-item cancel-menu-item">
+
+                                                                        <span class="menu-icon menu-cancel">
+
+                                                                            <i class="fa-solid fa-xmark"></i>
+
+                                                                        </span>
+
+                                                                        <span>
+
+                                                                            <strong>
+                                                                                Cancel
+                                                                            </strong>
+
+                                                                            <small>
+                                                                                Cancel this appointment
+                                                                            </small>
+
+                                                                        </span>
+
+                                                                    </button>
+
+                                                                </form>
+
+                                                            </li>
+                                                        }
+
+                                                    </ul>
+
+                                                </div>
+
+
+                                                <!-- DELETE -->
+
+                                                <a asp-action="Delete"
+                                                   asp-route-id="@booking.Id"
+                                                   class="action-btn delete-btn"
+                                                   title="Delete Booking">
+
+                                                    <i class="fa-solid fa-trash"></i>
+
+                                                </a>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                    slNo++;
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     MOBILE CARDS
+                     ================================================= -->
+
+                <div class="mobile-bookings"
+                     id="mobileBookingList">
+
+                    @foreach (var booking in Model)
+                    {
+                        <article class="mobile-booking-card"
+                                 data-status="@booking.Status"
+                                 data-date="@booking.BookingDate.ToString("yyyy-MM-dd")">
+
+                            <div class="mobile-card-top">
+
+                                <div>
+
+                                    <span class="mobile-label">
+                                        CONSULTATION
+                                    </span>
+
+                                    <h3>
+                                        @(booking.Service?.Name ?? "N/A")
+                                    </h3>
+
+                                </div>
+
+
+                                @switch (booking.Status)
+                                {
+                                    case BookingStatus.Pending:
+
+                                        <span class="status-badge status-pending">
+
+                                            <span class="status-dot"></span>
+
+                                            Pending
+
+                                        </span>
+
+                                        break;
+
+
+                                    case BookingStatus.Confirmed:
+
+                                        <span class="status-badge status-confirmed">
+
+                                            <span class="status-dot"></span>
+
+                                            Confirmed
+
+                                        </span>
+
+                                        break;
+
+
+                                    case BookingStatus.Completed:
+
+                                        <span class="status-badge status-completed">
+
+                                            <span class="status-dot"></span>
+
+                                            Completed
+
+                                        </span>
+
+                                        break;
+
+
+                                    case BookingStatus.Cancelled:
+
+                                        <span class="status-badge status-cancelled">
+
+                                            <span class="status-dot"></span>
+
+                                            Cancelled
+
+                                        </span>
+
+                                        break;
+
+
+                                    default:
+
+                                        <span class="status-badge status-default">
+
+                                            <span class="status-dot"></span>
+
+                                            @booking.Status
+
+                                        </span>
+
+                                        break;
+                                }
+
+                            </div>
+
+
+                            <div class="mobile-info-grid">
+
+                                <!-- CUSTOMER -->
+
+                                <div>
+
+                                    <i class="fa-solid fa-user"></i>
+
+                                    <div>
+
+                                        <span>
+                                            Customer
+                                        </span>
 
                                         <strong>
                                             @(booking.Customer?.FullName ?? "N/A")
                                         </strong>
 
-                                    </td>
+                                    </div>
+
+                                </div>
 
 
-                                    <!-- ASTROLOGER -->
+                                <!-- ASTROLOGER -->
 
-                                    <td>
-                                        @(booking.Astrologer?.FullName ?? "N/A")
-                                    </td>
+                                <div>
 
+                                    <i class="fa-solid fa-star"></i>
 
-                                    <!-- SERVICE -->
+                                    <div>
 
-                                    <td>
-                                        @(booking.Service?.Name ?? "N/A")
-                                    </td>
+                                        <span>
+                                            Astrologer
+                                        </span>
 
+                                        <strong>
+                                            @(booking.Astrologer?.FullName ?? "N/A")
+                                        </strong>
 
-                                    <!-- DATE -->
+                                    </div>
 
-                                    <td>
-                                        @booking.BookingDate.ToString("dd-MMM-yyyy")
-                                    </td>
-
-
-                                    <!-- TIME -->
-
-                                    <td>
-
-                                        @booking.StartTime.ToString("hh\\:mm")
-
-                                        -
-
-                                        @booking.EndTime.ToString("hh\\:mm")
-
-                                    </td>
+                                </div>
 
 
-                                    <!-- STATUS -->
+                                <!-- DATE -->
 
-                                    <td>
+                                <div>
 
-                                        @switch (booking.Status)
+                                    <i class="fa-regular fa-calendar"></i>
+
+                                    <div>
+
+                                        <span>
+                                            Date
+                                        </span>
+
+                                        <strong>
+                                            @booking.BookingDate.ToString("dd MMM yyyy")
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- TIME -->
+
+                                <div>
+
+                                    <i class="fa-regular fa-clock"></i>
+
+                                    <div>
+
+                                        <span>
+                                            Time
+                                        </span>
+
+                                        <strong>
+
+                                            @booking.StartTime.ToString("hh\\:mm")
+
+                                            -
+
+                                            @booking.EndTime.ToString("hh\\:mm")
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- MOBILE ACTIONS -->
+
+                            <div class="mobile-actions">
+
+                                <a asp-action="Details"
+                                   asp-route-id="@booking.Id"
+                                   class="mobile-details-btn">
+
+                                    <i class="fa-solid fa-eye"></i>
+
+                                    Details
+
+                                </a>
+
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@booking.Id"
+                                   class="mobile-edit-btn">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                    Edit
+
+                                </a>
+
+
+                                <!-- STATUS DROPDOWN -->
+
+                                <div class="dropdown mobile-status-dropdown">
+
+                                    <button type="button"
+                                            class="mobile-status-btn dropdown-toggle"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+
+                                        <i class="fa-solid fa-rotate"></i>
+
+                                        Status
+
+                                    </button>
+
+
+                                    <ul class="dropdown-menu dropdown-menu-end status-menu">
+
+
+                                        @if (booking.Status != BookingStatus.Confirmed)
                                         {
-                                            case AstroConnect.Domain.Enums.BookingStatus.Pending:
+                                            <li>
 
-                                                <span class="badge bg-warning text-dark">
-                                                    Pending
-                                                </span>
+                                                <form asp-action="ChangeStatus"
+                                                      method="post">
 
-                                                break;
+                                                    @Html.AntiForgeryToken()
 
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@booking.Id" />
 
-                                            case AstroConnect.Domain.Enums.BookingStatus.Confirmed:
-
-                                                <span class="badge bg-success">
-                                                    Confirmed
-                                                </span>
-
-                                                break;
+                                                    <input type="hidden"
+                                                           name="status"
+                                                           value="2" />
 
 
-                                            case AstroConnect.Domain.Enums.BookingStatus.Completed:
+                                                    <button type="submit"
+                                                            class="dropdown-item">
 
-                                                <span class="badge bg-primary">
-                                                    Completed
-                                                </span>
+                                                        <span class="menu-icon menu-confirm">
 
-                                                break;
+                                                            <i class="fa-solid fa-check"></i>
 
+                                                        </span>
 
-                                            case AstroConnect.Domain.Enums.BookingStatus.Cancelled:
+                                                        Confirm
 
-                                                <span class="badge bg-danger">
-                                                    Cancelled
-                                                </span>
+                                                    </button>
 
-                                                break;
+                                                </form>
 
-
-                                            default:
-
-                                                <span class="badge bg-secondary">
-                                                    @booking.Status
-                                                </span>
-
-                                                break;
+                                            </li>
                                         }
 
-                                    </td>
 
+                                        @if (booking.Status != BookingStatus.Completed)
+                                        {
+                                            <li>
 
-                                    <!-- ACTIONS -->
+                                                <form asp-action="ChangeStatus"
+                                                      method="post">
 
-                                    <td class="text-center">
+                                                    @Html.AntiForgeryToken()
 
-                                        <!-- VIEW -->
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@booking.Id" />
 
-                                        <a asp-action="Details"
-                                           asp-route-id="@booking.Id"
-                                           class="btn btn-sm btn-info action-btn me-1"
-                                           title="View Details">
+                                                    <input type="hidden"
+                                                           name="status"
+                                                           value="3" />
 
-                                            <i class="fa-solid fa-eye"></i>
 
-                                        </a>
+                                                    <button type="submit"
+                                                            class="dropdown-item">
 
+                                                        <span class="menu-icon menu-complete">
 
-                                        <!-- EDIT -->
+                                                            <i class="fa-solid fa-check-double"></i>
 
-                                        <a asp-action="Edit"
-                                           asp-route-id="@booking.Id"
-                                           class="btn btn-sm btn-warning action-btn me-1"
-                                           title="Edit Booking">
+                                                        </span>
 
-                                            <i class="fa-solid fa-pen"></i>
+                                                        Complete
 
-                                        </a>
+                                                    </button>
 
+                                                </form>
 
-                                        <!-- CHANGE STATUS -->
+                                            </li>
+                                        }
 
-                                        <div class="dropdown d-inline-block me-1">
 
-                                            <button class="btn btn-sm btn-success action-btn dropdown-toggle"
-                                                    type="button"
-                                                    data-bs-toggle="dropdown"
-                                                    title="Change Status">
+                                        @if (booking.Status != BookingStatus.Cancelled)
+                                        {
+                                            <li>
 
-                                                <i class="fa-solid fa-rotate"></i>
+                                                <form asp-action="ChangeStatus"
+                                                      method="post">
 
-                                            </button>
+                                                    @Html.AntiForgeryToken()
 
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@booking.Id" />
 
-                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                    <input type="hidden"
+                                                           name="status"
+                                                           value="4" />
 
-                                                @if (booking.Status != AstroConnect.Domain.Enums.BookingStatus.Confirmed)
-                                                {
-                                                    <li>
 
-                                                        <form asp-action="ChangeStatus"
-                                                              method="post">
+                                                    <button type="submit"
+                                                            class="dropdown-item cancel-menu-item">
 
-                                                            @Html.AntiForgeryToken()
+                                                        <span class="menu-icon menu-cancel">
 
-                                                            <input type="hidden"
-                                                                   name="id"
-                                                                   value="@booking.Id" />
+                                                            <i class="fa-solid fa-xmark"></i>
 
-                                                            <input type="hidden"
-                                                                   name="status"
-                                                                   value="2" />
+                                                        </span>
 
-                                                            <button type="submit"
-                                                                    class="dropdown-item">
+                                                        Cancel
 
-                                                                🟢 Confirm
+                                                    </button>
 
-                                                            </button>
+                                                </form>
 
-                                                        </form>
+                                            </li>
+                                        }
 
-                                                    </li>
-                                                }
+                                    </ul>
 
+                                </div>
 
-                                                @if (booking.Status != AstroConnect.Domain.Enums.BookingStatus.Completed)
-                                                {
-                                                    <li>
 
-                                                        <form asp-action="ChangeStatus"
-                                                              method="post">
+                                <a asp-action="Delete"
+                                   asp-route-id="@booking.Id"
+                                   class="mobile-delete-btn">
 
-                                                            @Html.AntiForgeryToken()
+                                    <i class="fa-solid fa-trash"></i>
 
-                                                            <input type="hidden"
-                                                                   name="id"
-                                                                   value="@booking.Id" />
+                                </a>
 
-                                                            <input type="hidden"
-                                                                   name="status"
-                                                                   value="3" />
+                            </div>
 
-                                                            <button type="submit"
-                                                                    class="dropdown-item">
-
-                                                                🔵 Complete
-
-                                                            </button>
-
-                                                        </form>
-
-                                                    </li>
-                                                }
-
-
-                                                @if (booking.Status != AstroConnect.Domain.Enums.BookingStatus.Cancelled)
-                                                {
-                                                    <li>
-
-                                                        <form asp-action="ChangeStatus"
-                                                              method="post">
-
-                                                            @Html.AntiForgeryToken()
-
-                                                            <input type="hidden"
-                                                                   name="id"
-                                                                   value="@booking.Id" />
-
-                                                            <input type="hidden"
-                                                                   name="status"
-                                                                   value="4" />
-
-                                                            <button type="submit"
-                                                                    class="dropdown-item text-danger">
-
-                                                                🔴 Cancel
-
-                                                            </button>
-
-                                                        </form>
-
-                                                    </li>
-                                                }
-
-                                            </ul>
-
-                                        </div>
-
-
-                                        <!-- DELETE -->
-
-                                        <a asp-action="Delete"
-                                           asp-route-id="@booking.Id"
-                                           class="btn btn-sm btn-danger action-btn"
-                                           title="Delete Booking">
-
-                                            <i class="fa-solid fa-trash"></i>
-
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-
-                                slNo++;
-                            }
-
-                        </tbody>
-
-                    </table>
+                        </article>
+                    }
 
                 </div>
 
-            </div>
 
-        </div>
-    }
+                <!-- =================================================
+                     FILTER EMPTY STATE
+                     ================================================= -->
 
-</div>
+                <div id="bookingFilterEmpty"
+                     class="filter-empty"
+                     style="display:none;">
+
+                    <div class="filter-empty-icon">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                    </div>
+
+                    <span>
+                        NO MATCHES
+                    </span>
+
+                    <h3>
+                        No matching bookings.
+                    </h3>
+
+                    <p>
+                        Try changing your search, status or appointment date.
+                    </p>
+
+
+                    <button type="button"
+                            id="emptyClearFilters"
+                            class="empty-clear-btn">
+
+                        Clear Filters
+
+                    </button>
+
+                </div>
+
+            </section>
+        }
+
+
+        <!-- =====================================================
+             FOOTER
+             ===================================================== -->
+        @if (Model != null && Model.Any())
+        {
+            <section class="booking-footer">
+
+                <div>
+
+                    <div class="footer-icon">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            BOOKING MANAGEMENT
+                        </span>
+
+                        <h3>
+                            Keep appointment records organised.
+                        </h3>
+
+                        <p>
+                            Review schedules and maintain accurate booking statuses.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a asp-action="Create"
+                   class="footer-create-btn">
+
+                    New Booking
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </section>
+        }
+
+    </div>
+
+</section>
 
 
 <style>
 
-    .action-btn {
-        width: 38px;
-        height: 38px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        transition: .25s;
+    /* =====================================================
+           PAGE
+           ===================================================== */
+
+    .booking-management-page {
+        min-height: 100vh;
+        padding: 45px 0 80px;
+        background: #f8f5ec;
     }
 
-        .action-btn:hover {
-            transform: scale(1.12);
+    .booking-container {
+        max-width: 1500px;
+        padding-left: 28px;
+        padding-right: 28px;
+    }
+
+
+    /* =====================================================
+           HEADER
+           ===================================================== */
+
+    .page-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 28px;
+    }
+
+    .section-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #987918;
+        font-size: .63rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
+
+    .page-header h1 {
+        margin-bottom: 8px;
+        color: #181710;
+        font-family: 'DM Serif Display', serif;
+        font-size: clamp(2.5rem, 4vw, 3.8rem);
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .page-header p {
+        max-width: 650px;
+        margin: 0;
+        color: #817b70;
+        font-size: .8rem;
+        line-height: 1.7;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 9px;
+        flex-shrink: 0;
+    }
+
+    .back-btn,
+    .new-booking-btn {
+        min-height: 43px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 16px;
+        border-radius: 9px;
+        font-size: .67rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+    .back-btn {
+        border: 1px solid #ccc2af;
+        background: transparent;
+        color: #181710;
+    }
+
+        .back-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: white;
         }
+
+    .new-booking-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+        .new-booking-btn:hover {
+            border-color: #e1bf4a;
+            background: #e1bf4a;
+            color: #181710;
+        }
+
+
+    /* =====================================================
+           SUCCESS
+           ===================================================== */
+
+    .success-message {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 18px;
+        padding: 13px 45px 13px 15px;
+        border: 1px solid #cedfce;
+        border-radius: 12px;
+        background: #edf5ed;
+        color: #49644d;
+        font-size: .68rem;
+    }
+
+        .success-message strong,
+        .success-message span {
+            display: block;
+        }
+
+        .success-message strong {
+            margin-bottom: 1px;
+        }
+
+    .success-icon {
+        font-size: .9rem;
+        color: #59815e;
+    }
+
+    .success-message .btn-close {
+        position: absolute;
+        right: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: .58rem;
+    }
+
+
+    /* =====================================================
+           SUMMARY
+           ===================================================== */
+
+    .booking-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 18px;
+        padding: 23px 27px;
+        border-radius: 18px;
+        background: #181710;
+        color: white;
+    }
+
+    .summary-main {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .summary-icon {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .75rem;
+    }
+
+    .summary-main span {
+        display: block;
+        margin-bottom: 2px;
+        color: #e1bf4a;
+        font-size: .49rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .summary-main h2 {
+        margin: 0;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
+
+    .summary-stats {
+        display: flex;
+        align-items: center;
+        gap: 17px;
+    }
+
+        .summary-stats > div:not(.summary-divider) {
+            min-width: 55px;
+            text-align: center;
+        }
+
+        .summary-stats span,
+        .summary-stats strong {
+            display: block;
+        }
+
+        .summary-stats span {
+            margin-bottom: 2px;
+            color: rgba(255,255,255,.37);
+            font-size: .43rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+        }
+
+        .summary-stats strong {
+            color: #e1bf4a;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.45rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+    .summary-divider {
+        width: 1px;
+        height: 30px;
+        background: rgba(255,255,255,.11);
+    }
+
+
+    /* =====================================================
+           FILTER
+           ===================================================== */
+
+    .filter-card {
+        margin-bottom: 18px;
+        padding: 23px 25px;
+        border: 1px solid #e1d9ca;
+        border-radius: 17px;
+        background: #fffdf8;
+    }
+
+    .filter-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 17px;
+    }
+
+        .filter-heading span {
+            display: block;
+            margin-bottom: 2px;
+            color: #987918;
+            font-size: .49rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+        }
+
+        .filter-heading h2 {
+            margin: 0;
+            color: #29251f;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+        }
+
+    .filter-heading-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f1eadc;
+        color: #8d7626;
+        font-size: .61rem;
+    }
+
+    .filter-label {
+        display: block;
+        margin-bottom: 6px;
+        color: #514b41;
+        font-size: .6rem;
+        font-weight: 800;
+    }
+
+    .filter-input {
+        position: relative;
+    }
+
+        .filter-input > i {
+            position: absolute;
+            z-index: 2;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9d9588;
+            font-size: .61rem;
+            pointer-events: none;
+        }
+
+        .filter-input .form-control,
+        .filter-input .form-select {
+            min-height: 43px;
+            padding-left: 39px;
+            border: 1px solid #ddd5c6;
+            border-radius: 10px;
+            background: #faf7ef;
+            color: #38342c;
+            font-size: .68rem;
+        }
+
+        .filter-input .form-select {
+            padding-right: 35px;
+        }
+
+            .filter-input .form-control:focus,
+            .filter-input .form-select:focus {
+                border-color: #c5a943;
+                background: white;
+                box-shadow: 0 0 0 .18rem rgba(225,191,74,.11);
+            }
+
+    .clear-filter-btn {
+        width: 100%;
+        min-height: 43px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border: 1px solid #cec5b4;
+        border-radius: 10px;
+        background: transparent;
+        color: #514b41;
+        font-size: .63rem;
+        font-weight: 700;
+        transition: all .2s ease;
+    }
+
+        .clear-filter-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: white;
+        }
+
+
+    /* =====================================================
+           BOOKINGS CARD
+           ===================================================== */
+
+    .bookings-card {
+        overflow: hidden;
+        border: 1px solid #e1d9ca;
+        border-radius: 19px;
+        background: #fffdf8;
+    }
+
+    .bookings-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        padding: 26px 27px 21px;
+    }
+
+    .bookings-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .bookings-heading-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .68rem;
+    }
+
+    .bookings-heading span {
+        display: block;
+        margin-bottom: 2px;
+        color: #987918;
+        font-size: .49rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+    }
+
+    .bookings-heading h2 {
+        margin-bottom: 2px;
+        color: #29251f;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.45rem;
+        font-weight: 400;
+    }
+
+    .bookings-heading p {
+        margin: 0;
+        color: #958d80;
+        font-size: .59rem;
+    }
+
+    .record-count {
+        flex-shrink: 0;
+        text-align: center;
+    }
+
+        .record-count strong,
+        .record-count span {
+            display: block;
+        }
+
+        .record-count strong {
+            color: #181710;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.65rem;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .record-count span {
+            margin-top: 2px;
+            color: #958d80;
+            font-size: .48rem;
+            font-weight: 700;
+        }
+
+
+    /* =====================================================
+           TABLE
+           ===================================================== */
+
+    .booking-table {
+        margin: 0;
+    }
+
+        .booking-table thead th {
+            padding: 12px 13px;
+            border-top: 1px solid #e7dfd2;
+            border-bottom: 1px solid #ded5c6;
+            background: #faf7ef;
+            color: #8d8578;
+            font-size: .49rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .booking-table tbody td {
+            padding: 15px 13px;
+            border-bottom: 1px solid #eee7dc;
+            color: #554f46;
+            font-size: .62rem;
+        }
+
+        .booking-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .booking-table tbody tr:hover {
+            background: #fbf8f1;
+        }
+
+    .serial-number {
+        width: 27px;
+        height: 27px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f0eadf;
+        color: #776f62;
+        font-family: 'DM Serif Display', serif;
+        font-size: .64rem;
+    }
+
+
+    /* PEOPLE */
+
+    .person-cell {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .person-avatar {
+        width: 33px;
+        height: 33px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #181710;
+        color: #e1bf4a;
+        font-size: .55rem;
+    }
+
+    .astrologer-avatar {
+        background: #fff0ad;
+        color: #6d5811;
+    }
+
+    .person-cell span,
+    .person-cell strong {
+        display: block;
+    }
+
+    .person-cell span {
+        margin-bottom: 1px;
+        color: #a0998d;
+        font-size: .41rem;
+        font-weight: 800;
+        letter-spacing: .06em;
+    }
+
+    .person-cell strong {
+        color: #373229;
+        font-size: .62rem;
+        white-space: nowrap;
+    }
+
+
+    /* SERVICE / DATE / TIME */
+
+    .service-cell,
+    .date-cell,
+    .time-cell {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+        .service-cell i,
+        .date-cell i,
+        .time-cell > i {
+            width: 13px;
+            color: #9a8129;
+            text-align: center;
+            font-size: .53rem;
+        }
+
+        .service-cell span {
+            color: #474138;
+            font-weight: 700;
+        }
+
+        .time-cell strong,
+        .time-cell span {
+            display: block;
+        }
+
+        .time-cell strong {
+            color: #373229;
+            font-size: .61rem;
+        }
+
+        .time-cell span {
+            margin-top: 1px;
+            color: #9a9285;
+            font-size: .49rem;
+        }
+
+
+    /* =====================================================
+           STATUS
+           ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        font-size: .51rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .status-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+    }
+
+    .status-pending {
+        background: #fff1c8;
+        color: #745d12;
+    }
+
+        .status-pending .status-dot {
+            background: #c49a1b;
+        }
+
+    .status-confirmed {
+        background: #dfeddf;
+        color: #45694b;
+    }
+
+        .status-confirmed .status-dot {
+            background: #5a9765;
+        }
+
+    .status-completed {
+        background: #e1e9ed;
+        color: #4c6671;
+    }
+
+        .status-completed .status-dot {
+            background: #688996;
+        }
+
+    .status-cancelled {
+        background: #f3dddd;
+        color: #8d4d47;
+    }
+
+        .status-cancelled .status-dot {
+            background: #b76159;
+        }
+
+    .status-default {
+        background: #ece8e0;
+        color: #655f55;
+    }
+
+        .status-default .status-dot {
+            background: #827a6d;
+        }
+
+
+    /* =====================================================
+           ACTIONS
+           ===================================================== */
+
+    .booking-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+        white-space: nowrap;
+    }
+
+    .action-btn {
+        width: 31px;
+        height: 31px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border-radius: 8px;
+        background: transparent;
+        font-size: .54rem;
+        text-decoration: none;
+        transition: all .18s ease;
+    }
+
+        .action-btn.dropdown-toggle::after {
+            display: none;
+        }
+
+    .details-btn {
+        border: 1px solid #c8c0af;
+        color: #716858;
+    }
+
+        .details-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: #e1bf4a;
+        }
+
+    .edit-btn {
+        border: 1px solid #c9bc87;
+        color: #826d22;
+    }
+
+        .edit-btn:hover {
+            border-color: #181710;
+            background: #181710;
+            color: #e1bf4a;
+        }
+
+    .status-action-btn {
+        border: 1px solid #b9cfbb;
+        color: #527259;
+    }
+
+        .status-action-btn:hover,
+        .status-action-btn.show {
+            border-color: #527259;
+            background: #527259;
+            color: white;
+        }
+
+    .delete-btn {
+        border: 1px solid #dfc1bd;
+        color: #a45c54;
+    }
+
+        .delete-btn:hover {
+            border-color: #a45c54;
+            background: #a45c54;
+            color: white;
+        }
+
+
+    /* =====================================================
+           STATUS DROPDOWN
+           ===================================================== */
+
+    .status-menu {
+        min-width: 220px;
+        overflow: hidden;
+        padding: 6px;
+        border: 1px solid #ded5c6;
+        border-radius: 12px;
+        background: #fffdf8;
+        box-shadow: 0 15px 40px rgba(39,33,21,.12);
+    }
+
+        .status-menu form {
+            margin: 0;
+        }
+
+        .status-menu .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 10px;
+            border-radius: 8px;
+            color: #453f36;
+            font-size: .6rem;
+        }
+
+            .status-menu .dropdown-item:hover {
+                background: #f7f3e9;
+                color: #181710;
+            }
+
+    .menu-icon {
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        font-size: .5rem;
+    }
+
+    .menu-confirm {
+        background: #dfeddf;
+        color: #45694b;
+    }
+
+    .menu-complete {
+        background: #e1e9ed;
+        color: #4c6671;
+    }
+
+    .menu-cancel {
+        background: #f3dddd;
+        color: #8d4d47;
+    }
+
+    .status-menu strong,
+    .status-menu small {
+        display: block;
+    }
+
+    .status-menu strong {
+        font-size: .59rem;
+    }
+
+    .status-menu small {
+        margin-top: 1px;
+        color: #999184;
+        font-size: .47rem;
+    }
+
+    .cancel-menu-item strong {
+        color: #9b554e;
+    }
+
+
+    /* =====================================================
+           MOBILE
+           ===================================================== */
+
+    .mobile-bookings {
+        display: none;
+        padding: 0 20px 20px;
+    }
+
+    .mobile-booking-card {
+        margin-bottom: 12px;
+        padding: 19px;
+        border: 1px solid #e4dccf;
+        border-radius: 15px;
+        background: #faf7ef;
+    }
+
+        .mobile-booking-card:last-child {
+            margin-bottom: 0;
+        }
+
+    .mobile-card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    .mobile-label {
+        display: block;
+        margin-bottom: 3px;
+        color: #987918;
+        font-size: .47rem;
+        font-weight: 800;
+        letter-spacing: .1em;
+    }
+
+    .mobile-card-top h3 {
+        margin: 0;
+        color: #28241e;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.27rem;
+        font-weight: 400;
+    }
+
+    .mobile-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+
+        .mobile-info-grid > div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #e7dfd2;
+            border-radius: 9px;
+            background: #fffdf8;
+        }
+
+            .mobile-info-grid > div > i {
+                width: 16px;
+                color: #967e29;
+                text-align: center;
+                font-size: .55rem;
+            }
+
+        .mobile-info-grid span,
+        .mobile-info-grid strong {
+            display: block;
+        }
+
+        .mobile-info-grid span {
+            margin-bottom: 1px;
+            color: #9b9386;
+            font-size: .44rem;
+            text-transform: uppercase;
+        }
+
+        .mobile-info-grid strong {
+            color: #39342c;
+            font-size: .58rem;
+        }
+
+    .mobile-actions {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .mobile-details-btn,
+    .mobile-edit-btn,
+    .mobile-status-btn,
+    .mobile-delete-btn {
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 7px 10px;
+        border-radius: 8px;
+        font-size: .55rem;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .mobile-details-btn {
+        border: 1px solid #181710;
+        background: #181710;
+        color: white;
+    }
+
+    .mobile-edit-btn {
+        border: 1px solid #c9bc87;
+        color: #826d22;
+    }
+
+    .mobile-status-dropdown {
+        flex: 1;
+    }
+
+    .mobile-status-btn {
+        width: 100%;
+        border: 1px solid #b9cfbb;
+        background: transparent;
+        color: #527259;
+    }
+
+        .mobile-status-btn.dropdown-toggle::after {
+            margin-left: 2px;
+        }
+
+    .mobile-delete-btn {
+        width: 36px;
+        padding: 0;
+        border: 1px solid #d8b6b1;
+        color: #9d554e;
+    }
+
+
+    /* =====================================================
+           EMPTY
+           ===================================================== */
+
+    .empty-state,
+    .filter-empty {
+        text-align: center;
+    }
+
+    .empty-state {
+        padding: 65px 20px;
+        border-radius: 20px;
+        background: #181710;
+        color: white;
+    }
+
+    .empty-icon,
+    .filter-empty-icon {
+        width: 59px;
+        height: 59px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .95rem;
+    }
+
+    .empty-state > span,
+    .filter-empty > span {
+        display: block;
+        margin-bottom: 5px;
+        font-size: .5rem;
+        font-weight: 800;
+        letter-spacing: .13em;
+    }
+
+    .empty-state > span {
+        color: #e1bf4a;
+    }
+
+    .filter-empty > span {
+        color: #987918;
+    }
+
+    .empty-state h2,
+    .filter-empty h3 {
+        margin-bottom: 7px;
+        font-family: 'DM Serif Display', serif;
+        font-weight: 400;
+    }
+
+    .empty-state h2 {
+        font-size: 2rem;
+    }
+
+    .filter-empty h3 {
+        color: #29251f;
+        font-size: 1.4rem;
+    }
+
+    .empty-state p,
+    .filter-empty p {
+        margin-bottom: 17px;
+        font-size: .63rem;
+    }
+
+    .empty-state p {
+        color: rgba(255,255,255,.45);
+    }
+
+    .filter-empty p {
+        color: #91897c;
+    }
+
+    .empty-create-btn,
+    .empty-clear-btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1px solid #e1bf4a;
+        border-radius: 9px;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .6rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .empty-clear-btn {
+        border-color: #181710;
+        background: #181710;
+        color: white;
+    }
+
+    .filter-empty {
+        padding: 50px 20px;
+        border-top: 1px solid #e7dfd2;
+    }
+
+
+    /* =====================================================
+           FOOTER
+           ===================================================== */
+
+    .booking-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        margin-top: 18px;
+        padding: 24px 27px;
+        border-radius: 17px;
+        background: #24221c;
+        color: white;
+    }
+
+        .booking-footer > div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+    .footer-icon {
+        width: 41px;
+        height: 41px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .7rem;
+    }
+
+    .booking-footer span {
+        display: block;
+        margin-bottom: 2px;
+        color: #e1bf4a;
+        font-size: .48rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+    }
+
+    .booking-footer h3 {
+        margin-bottom: 2px;
+        font-family: 'DM Serif Display', serif;
+        font-size: 1.15rem;
+        font-weight: 400;
+    }
+
+    .booking-footer p {
+        margin: 0;
+        color: rgba(255,255,255,.42);
+        font-size: .58rem;
+    }
+
+    .footer-create-btn {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex-shrink: 0;
+        padding: 8px 13px;
+        border: 1px solid #e1bf4a;
+        border-radius: 9px;
+        background: #e1bf4a;
+        color: #181710;
+        font-size: .6rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+
+    /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+    @@media (max-width: 1100px) {
+
+        .booking-summary {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .summary-stats {
+            width: 100%;
+            justify-content: space-around;
+        }
+    }
+
+
+    @@media (max-width: 991px) {
+
+        .page-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .desktop-bookings {
+            display: none;
+        }
+
+        .mobile-bookings {
+            display: block;
+        }
+
+        .booking-footer {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+
+    @@media (max-width: 767px) {
+
+        .booking-management-page {
+            padding-top: 30px;
+        }
+
+        .booking-container {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .header-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .back-btn,
+        .new-booking-btn {
+            width: 100%;
+        }
+
+        .filter-card {
+            padding: 20px;
+        }
+
+        .bookings-card-header {
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 22px 20px 18px;
+        }
+
+        .record-count {
+            text-align: left;
+        }
+
+        .booking-footer {
+            padding: 22px 20px;
+        }
+
+        .footer-create-btn {
+            width: 100%;
+        }
+    }
+
+
+    @@media (max-width: 520px) {
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .summary-divider {
+            display: none;
+        }
+
+        .mobile-card-top {
+            flex-direction: column;
+        }
+
+        .mobile-info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .mobile-actions {
+            flex-direction: column;
+        }
+
+        .mobile-details-btn,
+        .mobile-edit-btn,
+        .mobile-status-dropdown,
+        .mobile-delete-btn {
+            width: 100%;
+        }
+
+        .mobile-delete-btn {
+            min-height: 36px;
+        }
+    }
 
 </style>
 
 
-@section Scripts {
-
+@section Scripts
+{
     <script>
 
-        function filterBookings() {
+        document.addEventListener("DOMContentLoaded", function () {
 
-            let search =
-                document.getElementById("bookingSearch")
-                    .value
-                    .toLowerCase();
+            const bookingSearch =
+                document.getElementById("bookingSearch");
 
-            let status =
-                document.getElementById("statusFilter")
-                    .value
-                    .toLowerCase();
+            const statusFilter =
+                document.getElementById("statusFilter");
 
-            let date =
-                document.getElementById("dateFilter")
-                    .value;
+            const dateFilter =
+                document.getElementById("dateFilter");
 
-            let rows =
-                document.querySelectorAll(
-                    "#bookingTable tbody tr"
+            const clearFilters =
+                document.getElementById("clearFilters");
+
+            const emptyClearFilters =
+                document.getElementById("emptyClearFilters");
+
+            const visibleCount =
+                document.getElementById("visibleBookingCount");
+
+            const filterEmpty =
+                document.getElementById("bookingFilterEmpty");
+
+
+            function filterBookings() {
+
+                const search =
+                    bookingSearch
+                        .value
+                        .toLowerCase()
+                        .trim();
+
+                const status =
+                    statusFilter.value;
+
+                const date =
+                    dateFilter.value;
+
+                let count = 0;
+
+
+                // =============================================
+                // DESKTOP
+                // =============================================
+
+                document
+                    .querySelectorAll("#bookingTable tbody tr")
+                    .forEach(function (row) {
+
+                        const text =
+                            row.innerText.toLowerCase();
+
+                        const rowStatus =
+                            row.dataset.status;
+
+                        const rowDate =
+                            row.dataset.date;
+
+                        let show = true;
+
+
+                        if (search !== "" &&
+                            !text.includes(search)) {
+
+                            show = false;
+
+                        }
+
+
+                        if (status !== "" &&
+                            rowStatus !== status) {
+
+                            show = false;
+
+                        }
+
+
+                        if (date !== "" &&
+                            rowDate !== date) {
+
+                            show = false;
+
+                        }
+
+
+                        row.style.display =
+                            show ? "" : "none";
+
+
+                        if (show) {
+
+                            count++;
+
+                        }
+
+                    });
+
+
+                // =============================================
+                // MOBILE
+                // =============================================
+
+                document
+                    .querySelectorAll("#mobileBookingList .mobile-booking-card")
+                    .forEach(function (card) {
+
+                        const text =
+                            card.innerText.toLowerCase();
+
+                        const cardStatus =
+                            card.dataset.status;
+
+                        const cardDate =
+                            card.dataset.date;
+
+                        let show = true;
+
+
+                        if (search !== "" &&
+                            !text.includes(search)) {
+
+                            show = false;
+
+                        }
+
+
+                        if (status !== "" &&
+                            cardStatus !== status) {
+
+                            show = false;
+
+                        }
+
+
+                        if (date !== "" &&
+                            cardDate !== date) {
+
+                            show = false;
+
+                        }
+
+
+                        card.style.display =
+                            show ? "" : "none";
+
+                    });
+
+
+                // =============================================
+                // COUNT + EMPTY STATE
+                // =============================================
+
+                if (visibleCount) {
+
+                    visibleCount.textContent = count;
+
+                }
+
+
+                if (filterEmpty) {
+
+                    filterEmpty.style.display =
+                        count === 0
+                            ? "block"
+                            : "none";
+
+                }
+
+            }
+
+
+            function resetFilters() {
+
+                bookingSearch.value = "";
+
+                statusFilter.value = "";
+
+                dateFilter.value = "";
+
+                filterBookings();
+
+            }
+
+
+            bookingSearch
+                .addEventListener(
+                    "keyup",
+                    filterBookings
                 );
 
 
-            rows.forEach(function (row) {
-
-                let text =
-                    row.innerText.toLowerCase();
-
-                let statusCell =
-                    row.cells[6]
-                        .innerText
-                        .toLowerCase();
-
-                let dateCell =
-                    row.cells[4].innerText;
+            statusFilter
+                .addEventListener(
+                    "change",
+                    filterBookings
+                );
 
 
-                let show = true;
+            dateFilter
+                .addEventListener(
+                    "change",
+                    filterBookings
+                );
 
 
-                // SEARCH
-
-                if (search !== "" &&
-                    !text.includes(search)) {
-
-                    show = false;
-
-                }
+            clearFilters
+                .addEventListener(
+                    "click",
+                    resetFilters
+                );
 
 
-                // STATUS
+            if (emptyClearFilters) {
 
-                if (status !== "" &&
-                    !statusCell.includes(status)) {
+                emptyClearFilters
+                    .addEventListener(
+                        "click",
+                        resetFilters
+                    );
 
-                    show = false;
+            }
 
-                }
-
-
-                // DATE
-
-                if (date !== "") {
-
-                    let d = new Date(date);
-
-                    let formatted =
-                        d.toLocaleDateString(
-                            "en-GB",
-                            {
-                                day: "2-digit",
-                                month: "short",
-                                year: "numeric"
-                            }
-                        )
-                        .replace(/ /g, "-");
-
-
-                    if (dateCell !== formatted) {
-
-                        show = false;
-
-                    }
-
-                }
-
-
-                row.style.display =
-                    show ? "" : "none";
-
-            });
-
-        }
-
-
-        document
-            .getElementById("bookingSearch")
-            .addEventListener(
-                "keyup",
-                filterBookings
-            );
-
-
-        document
-            .getElementById("statusFilter")
-            .addEventListener(
-                "change",
-                filterBookings
-            );
-
-
-        document
-            .getElementById("dateFilter")
-            .addEventListener(
-                "change",
-                filterBookings
-            );
-
-
-        document
-            .getElementById("clearFilters")
-            .addEventListener(
-                "click",
-                function () {
-
-                    document
-                        .getElementById("bookingSearch")
-                        .value = "";
-
-                    document
-                        .getElementById("statusFilter")
-                        .value = "";
-
-                    document
-                        .getElementById("dateFilter")
-                        .value = "";
-
-                    filterBookings();
-
-                });
+        });
 
     </script>
-
 }
