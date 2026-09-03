@@ -1,8 +1,24 @@
 # 🔮 AstroConnect
 
-AstroConnect is a role-based astrology appointment booking and management system built with **ASP.NET Core MVC**, **Entity Framework Core**, **SQL Server**, and **ASP.NET Core Identity**.
+AstroConnect is a full-stack, role-based astrology appointment booking and management system built with **ASP.NET Core MVC**, **.NET 9**, **Entity Framework Core**, **SQL Server**, and **ASP.NET Core Identity**.
 
-The application provides a complete workflow for customers to book astrology consultations while allowing receptionists and administrators to manage appointments, customers, services, astrologers, and users through dedicated portals.
+The application provides a complete workflow for customers to book astrology consultations while allowing receptionists and administrators to manage appointments, customers, services, astrologers, and users through dedicated role-based portals.
+
+AstroConnect is deployed on **AWS** with the web application hosted using **AWS Elastic Beanstalk** and the production SQL Server database hosted privately using **Amazon RDS**.
+
+---
+
+## 🌐 Live Demo
+
+AstroConnect is deployed on AWS and is publicly accessible.
+
+### 🔗 Live Application
+
+http://astroconnect.ap-south-1.elasticbeanstalk.com
+
+> The current portfolio deployment uses HTTP on a single-instance AWS Elastic Beanstalk environment to keep infrastructure costs minimal.
+
+The deployed application has been tested successfully on both desktop and mobile devices.
 
 ---
 
@@ -96,7 +112,7 @@ The booking system includes server-side validation for:
 
 - C#
 - ASP.NET Core MVC
-- .NET
+- .NET 9
 - Entity Framework Core
 - ASP.NET Core Identity
 
@@ -112,7 +128,18 @@ The booking system includes server-side validation for:
 ### Database
 
 - Microsoft SQL Server
+- Entity Framework Core Code First
 - Entity Framework Core Migrations
+- Amazon RDS for SQL Server Express
+
+### Cloud & Deployment
+
+- AWS Elastic Beanstalk
+- Amazon EC2
+- Amazon RDS
+- AWS Secrets Manager
+- Amazon Linux 2023
+- AWS Security Groups
 
 ### Development Tools
 
@@ -139,20 +166,80 @@ AstroConnect
 │   └── Interfaces
 │       └── Repositories
 │
+├── AstroConnect.Infrastructure
+│
 ├── AstroConnect.Persistence
 │   ├── Context
 │   ├── Identity
 │   ├── Migrations
 │   └── Repositories
 │
-└── AstroConnect.Web
-    ├── Controllers
-    ├── ViewModels
-    ├── Views
-    └── wwwroot
+├── AstroConnect.Web
+│   ├── Controllers
+│   ├── ViewModels
+│   ├── Views
+│   └── wwwroot
+│
+└── AstroConnect.Tests
 ```
 
-This separates business/domain models, application contracts, data access, Identity, and presentation concerns.
+This architecture separates domain models, application contracts, infrastructure, data access, Identity, and presentation concerns.
+
+The project also uses the **Repository Pattern** to separate data-access logic from the presentation layer.
+
+---
+
+## ☁️ AWS Production Architecture
+
+The production version of AstroConnect is deployed using AWS cloud services.
+
+```text
+Desktop / Mobile Browser
+          │
+          ▼
+     HTTP Request
+          │
+          ▼
+AWS Elastic Beanstalk
+          │
+          ▼
+Amazon EC2
+.NET 9 / Amazon Linux 2023
+          │
+          ▼
+ASP.NET Core MVC Application
+          │
+          ▼
+Entity Framework Core
+          │
+          ▼
+Amazon RDS
+SQL Server Express
+```
+
+### Production Infrastructure
+
+**AWS Elastic Beanstalk**
+
+Hosts and manages the ASP.NET Core web application.
+
+**Amazon EC2**
+
+Runs the deployed .NET 9 application using Amazon Linux 2023.
+
+**Amazon RDS**
+
+Hosts the production Microsoft SQL Server Express database.
+
+**AWS Secrets Manager**
+
+Stores the production database connection string outside the application source code.
+
+**AWS Security Groups**
+
+Control communication between the web application and the private database.
+
+The RDS database is not publicly accessible and accepts SQL Server traffic from the application's AWS security group.
 
 ---
 
@@ -161,12 +248,33 @@ This separates business/domain models, application contracts, data access, Ident
 AstroConnect uses role-based authorization with three primary roles.
 
 | Role | Main Responsibilities |
-|------|------------------------|
+| --- | --- |
 | Admin | Manages users, services, astrologers, customers and bookings |
 | Receptionist | Manages appointment workflow and views customer information |
 | Customer | Creates bookings, manages profile and tracks appointments |
 
 Sensitive management actions are protected using ASP.NET Core role-based authorization.
+
+---
+
+## 🔐 Authentication & Authorization
+
+AstroConnect uses **ASP.NET Core Identity** for authentication and user management.
+
+The authentication system includes:
+
+- Customer registration
+- Secure login and logout
+- Password hashing through ASP.NET Core Identity
+- Role-based access control
+- Admin authorization
+- Receptionist authorization
+- Customer authorization
+- Account lockout protection
+- Unique email configuration
+- Customer-specific resource protection
+
+Users are redirected to functionality appropriate to their assigned role.
 
 ---
 
@@ -186,14 +294,18 @@ The application includes several security measures:
 - Production exception handling
 - Development configuration excluded from Git
 - No database passwords stored in the repository
+- Production database hosted privately on Amazon RDS
+- AWS security-group-based database access
+- Production connection string managed through AWS Secrets Manager
+- Production secrets excluded from source control
 
 ---
 
 ## 🗃️ Database
 
-The application uses **SQL Server** with **Entity Framework Core Code First migrations**.
+The application uses **Microsoft SQL Server** with **Entity Framework Core Code First migrations**.
 
-Main entities include:
+### Main Entities
 
 - Customer
 - Astrologer
@@ -204,6 +316,18 @@ Main entities include:
 
 Soft deletion is used for important business records where applicable.
 
+### Local Development
+
+SQL Server Express can be used for local development.
+
+### Production
+
+The deployed application uses:
+
+**Amazon RDS for Microsoft SQL Server Express**
+
+Entity Framework Core migrations are used to maintain the production database schema.
+
 ---
 
 ## 🚀 Getting Started
@@ -212,10 +336,11 @@ Soft deletion is used for important business records where applicable.
 
 Install:
 
-- .NET SDK
+- .NET 9 SDK
 - Visual Studio 2022 or another compatible IDE
 - SQL Server / SQL Server Express
 - Entity Framework Core CLI tools
+- Git
 
 ---
 
@@ -225,6 +350,8 @@ Install:
 git clone <your-repository-url>
 cd AstroConnect
 ```
+
+> Replace `<your-repository-url>` with the URL of this GitHub repository.
 
 ---
 
@@ -248,9 +375,9 @@ Example:
 }
 ```
 
-Replace `YOUR_SERVER` with your SQL Server instance.
+Replace `YOUR_SERVER` with your local SQL Server instance.
 
-> Do not commit credentials or production connection strings to GitHub.
+> Never commit database credentials, passwords, AWS secrets, or production connection strings to GitHub.
 
 ---
 
@@ -274,31 +401,64 @@ Open the local URL displayed in the terminal.
 
 ---
 
+## 🚀 Production Deployment
+
+AstroConnect has been successfully deployed to AWS.
+
+### Deployment Process
+
+The production deployment includes:
+
+1. Building the application using the Release configuration
+2. Publishing the ASP.NET Core application
+3. Deploying the published application to AWS Elastic Beanstalk
+4. Running the application using .NET 9 on Amazon Linux 2023
+5. Hosting the production database on Amazon RDS
+6. Managing the database connection string through AWS Secrets Manager
+7. Restricting RDS access using AWS Security Groups
+8. Applying Entity Framework Core migrations to the production database
+9. Verifying registration, login and database persistence in production
+
+### Live Environment
+
+```text
+AWS Region:
+Asia Pacific (Mumbai)
+
+Application Platform:
+.NET 9 on Amazon Linux 2023
+
+Database:
+Amazon RDS - Microsoft SQL Server Express
+```
+
+---
+
 ## 📸 Screenshots
 
 ### Customer Dashboard
 
-![Customer Dashboard](screenshots/customer-dashboard.png)
+
 
 ### Create Booking
 
-![Create Booking](screenshots/create-booking.png)
+
 
 ### Booking History
 
-![Booking History](screenshots/booking-history.png)
+
 
 ### Receptionist Dashboard
 
-![Receptionist Dashboard](screenshots/receptionist-dashboard.png)
+
 
 ### Receptionist Calendar
 
-![Receptionist Calendar](screenshots/receptionist-calendar.png)
+
 
 ### Admin Dashboard
 
-![Admin Dashboard](screenshots/admin-dashboard.png)
+
 
 ---
 
@@ -311,6 +471,8 @@ AstroConnect provides a responsive interface designed for:
 - Mobile
 
 Bootstrap and custom responsive styling are used throughout the Customer, Receptionist, and Admin portals.
+
+The deployed application has also been tested from a mobile device through the public AWS environment.
 
 ---
 
@@ -326,6 +488,39 @@ The application includes:
 - Soft deletion
 - EF Core migration management
 - Central production exception handling
+- Production database persistence
+- Structured application logging
+
+---
+
+## ✅ Production Verification
+
+The AWS production deployment has been tested for:
+
+- Public application access
+- Desktop browser access
+- Mobile browser access
+- Customer registration
+- Customer login
+- ASP.NET Core Identity persistence
+- Production database connectivity
+- Entity Framework Core database operations
+- Responsive UI rendering
+- Static CSS and JavaScript resources
+
+This verifies the complete production flow:
+
+```text
+User
+  ↓
+AWS Elastic Beanstalk
+  ↓
+ASP.NET Core MVC
+  ↓
+Entity Framework Core
+  ↓
+Amazon RDS SQL Server
+```
 
 ---
 
@@ -340,16 +535,34 @@ Potential future enhancements include:
 - Advanced appointment scheduling
 - Customer reviews and ratings
 - Reports and analytics
-- Cloud deployment
-- Automated testing
+- Custom domain and HTTPS
+- CI/CD deployment pipeline
+- Expanded automated testing
 
 ---
 
 ## 📄 Project Status
 
-AstroConnect is currently in the final testing and deployment-preparation stage.
+**AstroConnect is deployed and running in an AWS production environment.**
 
-Core booking functionality, role-based portals, security hardening, responsive UI, database migrations, and appointment lifecycle management are implemented.
+The application currently includes:
+
+- Complete customer booking workflow
+- Customer, Receptionist, and Admin portals
+- ASP.NET Core Identity authentication
+- Role-based authorization
+- Booking and appointment lifecycle management
+- Responsive desktop and mobile interface
+- Production SQL Server database on Amazon RDS
+- Application hosting with AWS Elastic Beanstalk
+- Production secret management with AWS Secrets Manager
+- Entity Framework Core production migrations
+
+Customer registration, authentication, database persistence, desktop access, and mobile access have been verified in the deployed AWS environment.
+
+### 🌐 Live Application
+
+http://astroconnect.ap-south-1.elasticbeanstalk.com
 
 ---
 
@@ -357,14 +570,22 @@ Core booking functionality, role-based portals, security hardening, responsive U
 
 Developed as a full-stack ASP.NET Core MVC project demonstrating:
 
-- Clean Architecture
+- C# / .NET 9
 - ASP.NET Core MVC
+- Clean Architecture
 - Entity Framework Core
-- SQL Server
+- Microsoft SQL Server
 - ASP.NET Core Identity
 - Repository Pattern
 - Role-Based Authorization
 - Responsive Web Development
+- AWS Elastic Beanstalk
+- Amazon EC2
+- Amazon RDS
+- AWS Secrets Manager
+- Cloud Database Configuration
+- Production Application Deployment
+- Git & GitHub
 
 ---
 
